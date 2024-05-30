@@ -20,3 +20,16 @@
     right: 20px;
     cursor: pointer;
 }
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.text-decoration-none {
+    text-decoration: none;
+}
+
+.show-password-login {
+    top: 29% !important;
+    right: 15px !important;
+}

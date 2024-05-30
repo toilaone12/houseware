@@ -1,8 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-@php
-   use Illuminate\Support\Facades\Session;
-@endphp
 
 @include('admin.head')
 
