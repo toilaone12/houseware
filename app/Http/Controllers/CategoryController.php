@@ -31,7 +31,7 @@ class CategoryController extends Controller
         ],
         [
             'name.unique' => 'Tên danh mục đã tồn tại',
-        ]);
+        ])->validate();
         $insert = Category::create([
             'name' => $data['name'],
             'id_parent' => $data['id_parent'],
@@ -50,15 +50,9 @@ class CategoryController extends Controller
         $listParent = Category::where('id_parent',0)->get();
         return view('category.update',compact('title','listParent','one'));
     }
-    //them danh muc
+    //sua danh muc
     function edit(Request $request){
         $data = $request->all();
-        Validator::make($data,[
-            'name' => ['unique:category,name'], //kiem tra tinh duy nhat trong bang category va truong du lieu name
-        ],
-        [
-            'name.unique' => 'Tên danh mục đã tồn tại',
-        ]);
         $one = Category::find($data['id']);
         $one->name = $data['name'];
         $one->id_parent = $data['id_parent'];

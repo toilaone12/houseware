@@ -16,13 +16,16 @@
             <div class="card w-100 bg-card">
                 <div class="d-flex align-items-center mx-2">
                     <div class="col-5 mt-3">
-                        <div class="form-group">
+                        <div class="h-100px">
                             <label for="name">Tên danh mục (<span class="text-danger">*</span>)</label>
                             <input type="text" required name="name" id="" class="form-control border-0">
+                            @error('name')
+                            <span class="text-danger small mt-1">{{$message}}</span>
+                            @enderror
                         </div>
                     </div>
                     <div class="col-5 mt-3">
-                        <div class="form-group">
+                        <div class="h-100px">
                             <label for="name">Thuộc danh mục</label>
                             <select name="id_parent" required id="" class="form-control">
                                 <option value="0">Danh mục gốc</option>

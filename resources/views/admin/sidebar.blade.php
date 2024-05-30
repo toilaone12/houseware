@@ -20,6 +20,30 @@
 
     <!-- Heading -->
     <div class="sidebar-heading">
+        Phần tài khoản
+    </div>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAccount"
+            aria-expanded="true" aria-controls="collapseAccount">
+            <i class="fa-solid fa-user"></i>
+            <span>Tài khoản</span>
+        </a>
+        <div id="collapseAccount" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Chức năng chính:</h6>
+                <a class="collapse-item" href="{{route('account.list')}}">Danh sách</a>
+                <a class="collapse-item" href="{{route('account.formInsert')}}">Đăng ký</a>
+            </div>
+        </div>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
         Phần danh mục
     </div>
 
@@ -39,21 +63,26 @@
         </div>
     </li>
 
-    <!-- Nav Item - Utilities Collapse Menu -->
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Phần chức vụ
+    </div>
+
+    <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-            aria-expanded="true" aria-controls="collapseUtilities">
-            <i class="fas fa-fw fa-wrench"></i>
-            <span>Utilities</span>
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseRole"
+            aria-expanded="true" aria-controls="collapseRole">
+            <i class="fa-solid fa-user-tie"></i>
+            <span>Chức vụ</span>
         </a>
-        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-            data-parent="#accordionSidebar">
+        <div id="collapseRole" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Custom Utilities:</h6>
-                <a class="collapse-item" href="utilities-color.html">Colors</a>
-                <a class="collapse-item" href="utilities-border.html">Borders</a>
-                <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                <a class="collapse-item" href="utilities-other.html">Other</a>
+                <h6 class="collapse-header">Chức năng chính:</h6>
+                <a class="collapse-item" href="{{route('role.list')}}">Danh sách</a>
+                <a class="collapse-item" href="{{route('role.formInsert')}}">Thêm</a>
             </div>
         </div>
     </li>
@@ -63,8 +92,24 @@
 
     <!-- Heading -->
     <div class="sidebar-heading">
-        Addons
+        Phần màu
     </div>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseColor"
+            aria-expanded="true" aria-controls="collapseColor">
+            <i class="fa-solid fa-droplet"></i>
+            <span>Màu</span>
+        </a>
+        <div id="collapseColor" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Chức năng chính:</h6>
+                <a class="collapse-item" href="{{route('color.list')}}">Danh sách</a>
+                <a class="collapse-item" href="{{route('color.formInsert')}}">Thêm</a>
+            </div>
+        </div>
+    </li>
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
@@ -109,11 +154,5 @@
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
     </div>
 
-    <!-- Sidebar Message -->
-    <div class="sidebar-card d-none d-lg-flex">
-        <img class="sidebar-card-illustration mb-2" src="img/undraw_rocket.svg" alt="...">
-        <p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components, and more!</p>
-        <a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to Pro!</a>
-    </div>
 
 </ul>

@@ -1,6 +1,7 @@
 $(function(){
     $('#myTable').DataTable({
         "responsive": true,
+        "pageLength": 5,
         "language": {
             "sProcessing":   "Đang xử lý...",
             "sLengthMenu":   "Xem _MENU_ mục",
@@ -19,4 +20,16 @@ $(function(){
             }
         }
     });
+    //hien va an password
+    $('.show-password').on('click',function(e){
+        e.preventDefault();
+        let type = $('#password').attr('type')
+        if(type == 'password'){
+            $('#password').attr('type','text')
+            $(this).html('<i class="fa-solid fa-eye-slash"></i>');
+        }else{
+            $('#password').attr('type','password')
+            $(this).html('<i class="fa-solid fa-eye"></i>');
+        }
+    })
 })

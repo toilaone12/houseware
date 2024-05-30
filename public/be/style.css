@@ -9,3 +9,14 @@
 .mx-20 {
     margin: 0 20px;
 }
+
+.h-100px {
+    height: 100px !important;
+}
+
+.show-password {
+    position: absolute;
+    top: 40%;
+    right: 20px;
+    cursor: pointer;
+}

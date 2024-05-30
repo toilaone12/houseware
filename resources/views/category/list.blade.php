@@ -42,7 +42,7 @@
                                     @endif
                                     <td align="center">
                                         <a href="{{route('category.formUpdate',['id' => $one->id_category])}}" class="btn btn-primary d-md-block d-lg-inline-block d-xl-inline-block mb-md-2 mb-lg-0 mb-xl-0"><i class="fa-solid fa-pen-to-square"></i></a>
-                                        <a class="btn btn-danger delete-category" data-id="{{$one->id_category}}"><i class="fa-solid fa-trash-can"></i></a>
+                                        <a class="btn btn-danger delete-category" data-id="{{$one->id_category}}" data-name="{{$one->name}}"><i class="fa-solid fa-trash-can"></i></a>
                                     </td>
                                 </tr>
                                 @endforeach
