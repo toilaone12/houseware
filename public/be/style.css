@@ -33,3 +33,13 @@
     top: 29% !important;
     right: 15px !important;
 }
+
+.form-range::-webkit-slider-runnable-track {
+    background: #5a6f85; /* Blue track */
+    border-radius: 5px; /* Rounded track */
+}
+
+.form-range::-moz-range-track {
+    background: #007bff; /* Blue track */
+    border-radius: 5px; /* Rounded track */
+}

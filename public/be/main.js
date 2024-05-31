@@ -32,4 +32,33 @@ $(function(){
             $(this).html('<i class="fa-solid fa-eye"></i>');
         }
     })
+    //hien thi khoang cach phi van chuyen
+    $('.range-radius').on('input',function(e){
+        let value = $(this).val();
+        $('.radius-fee').text(value);
+    })
+    //chon hinh anh
+    let selectedFile;
+    $('.choose-image').on('change', function(e){
+        selectedFile = $(this)[0].files[0];
+    })
+    //day hinh anh
+    $('.push-image').on('click', function(e){
+        e.preventDefault();
+        if (selectedFile) {
+            // Only display a preview if the file is an image
+            if (selectedFile.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    $('.file-intro').text(`(${selectedFile.name})`);
+                    $('.image-intro').attr('src',`${e.target.result}`).removeClass('d-none');
+                };
+                reader.readAsDataURL(selectedFile);
+            } else {
+                SwalNoti('Thông báo đẩy ảnh','Đấy không phải ảnh','warning','Đồng ý',function(alert){});
+            }
+        } else {
+            SwalNoti('Thông báo đẩy ảnh','Hiện k có ảnh để đẩy','warning','Đồng ý',function(alert){});
+        }
+    })
 })

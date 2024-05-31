@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\FeeController;
 use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 
@@ -59,6 +61,24 @@ Route::prefix('admin')->group(function(){
             Route::post('/edit',[AccountController::class,'edit'])->name('account.edit');
             Route::get('/delete',[AccountController::class,'delete'])->name('account.delete');
             Route::get('/assign',[AccountController::class,'assign'])->name('account.assign');
+        });
+        //phi van chuyen
+        Route::prefix('fee')->group(function(){
+            Route::get('/',[FeeController::class,'list'])->name('fee.list');
+            Route::get('/insert',[FeeController::class,'formInsert'])->name('fee.formInsert');
+            Route::post('/add',[FeeController::class,'add'])->name('fee.add');
+            Route::get('/update',[FeeController::class,'formUpdate'])->name('fee.formUpdate');
+            Route::post('/edit',[FeeController::class,'edit'])->name('fee.edit');
+            Route::get('/delete',[FeeController::class,'delete'])->name('fee.delete');
+        });
+        //quang cao
+        Route::prefix('banner')->group(function(){
+            Route::get('/',[BannerController::class,'list'])->name('banner.list');
+            Route::get('/insert',[BannerController::class,'formInsert'])->name('banner.formInsert');
+            Route::post('/add',[BannerController::class,'add'])->name('banner.add');
+            Route::get('/update',[BannerController::class,'formUpdate'])->name('banner.formUpdate');
+            Route::post('/edit',[BannerController::class,'edit'])->name('banner.edit');
+            Route::get('/delete',[BannerController::class,'delete'])->name('banner.delete');
         });
     });
 });
