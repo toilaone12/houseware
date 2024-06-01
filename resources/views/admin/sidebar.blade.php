@@ -159,6 +159,48 @@
         </div>
     </li>
 
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Phần mã giảm giá
+    </div>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCoupon"
+            aria-expanded="true" aria-controls="collapseCoupon">
+            <i class="fa-solid fa-percent"></i>
+            <span>Mã giảm giá</span>
+        </a>
+        <div id="collapseCoupon" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Chức năng chính:</h6>
+                <a class="collapse-item" href="{{route('coupon.list')}}">Danh sách</a>
+                <a class="collapse-item" href="{{route('coupon.formInsert')}}">Thêm</a>
+            </div>
+        </div>
+    </li>
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Phần đồ gia dụng
+    </div>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProduct"
+            aria-expanded="true" aria-controls="collapseProduct">
+            <i class="fa-solid fa-tv"></i>
+            <span>Đồ gia dụng</span>
+        </a>
+        <div id="collapseProduct" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Chức năng chính:</h6>
+                <a class="collapse-item" href="{{route('product.list')}}">Danh sách</a>
+                <a class="collapse-item" href="{{route('product.formInsert')}}">Thêm</a>
+            </div>
+        </div>
+    </li>
+
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
 

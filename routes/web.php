@@ -5,7 +5,9 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\CouponController;
 use App\Http\Controllers\FeeController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 
@@ -79,6 +81,24 @@ Route::prefix('admin')->group(function(){
             Route::get('/update',[BannerController::class,'formUpdate'])->name('banner.formUpdate');
             Route::post('/edit',[BannerController::class,'edit'])->name('banner.edit');
             Route::get('/delete',[BannerController::class,'delete'])->name('banner.delete');
+        });
+        //ma khuyen mai
+        Route::prefix('coupon')->group(function(){
+            Route::get('/',[CouponController::class,'list'])->name('coupon.list');
+            Route::get('/insert',[CouponController::class,'formInsert'])->name('coupon.formInsert');
+            Route::post('/add',[CouponController::class,'add'])->name('coupon.add');
+            Route::get('/update',[CouponController::class,'formUpdate'])->name('coupon.formUpdate');
+            Route::post('/edit',[CouponController::class,'edit'])->name('coupon.edit');
+            Route::get('/delete',[CouponController::class,'delete'])->name('coupon.delete');
+        });
+        //san pham
+        Route::prefix('product')->group(function(){
+            Route::get('/',[ProductController::class,'list'])->name('product.list');
+            Route::get('/insert',[ProductController::class,'formInsert'])->name('product.formInsert');
+            Route::post('/add',[ProductController::class,'add'])->name('product.add');
+            Route::get('/update',[ProductController::class,'formUpdate'])->name('product.formUpdate');
+            Route::post('/edit',[ProductController::class,'edit'])->name('product.edit');
+            Route::get('/delete',[ProductController::class,'delete'])->name('product.delete');
         });
     });
 });

@@ -55,10 +55,22 @@ $(function(){
                 };
                 reader.readAsDataURL(selectedFile);
             } else {
-                SwalNoti('Thông báo đẩy ảnh','Đấy không phải ảnh','warning','Đồng ý',function(alert){});
+                swalNoti('Thông báo đẩy ảnh','Đấy không phải ảnh','warning','Đồng ý',function(alert){});
             }
         } else {
-            SwalNoti('Thông báo đẩy ảnh','Hiện k có ảnh để đẩy','warning','Đồng ý',function(alert){});
+            swalNoti('Thông báo đẩy ảnh','Hiện k có ảnh để đẩy','warning','Đồng ý',function(alert){});
         }
     })
+    // chon loai gia
+    $('.choose-type').on('change', function(e){
+        e.preventDefault();
+        let type = $(this).val();
+        priceAutoNumeric.clear();
+        $('.price-coupon').val('');
+        if (type === '1') {
+            priceAutoNumeric.update({ maximumValue: '100' });
+        } else {
+            priceAutoNumeric.update({ maximumValue: '999999999999' });
+        }
+    });
 })

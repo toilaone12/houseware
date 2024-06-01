@@ -29,13 +29,13 @@ class BannerController extends Controller
         $extension = pathinfo($image->getClientOriginalName(),PATHINFO_EXTENSION);
         $filename = $filename.'-'.time().'.'.$extension;
         Validator::make($data, [
-            'image' => ['required', 'file', 'image', 'mimes:jpeg,png,jpg,gif'],
+            'image' => ['required', 'file', 'image', 'mimes:jpeg,png,jpg,gif,webp'],
         ], [
             'image.required' => 'Vui lòng chọn ít nhất một tệp ảnh.',
             'image.required' => 'Vui lòng chọn một tệp ảnh.',
             'image.file' => 'Không thể xử lý tệp đã chọn.',
             'image.image' => 'Tệp phải là hình ảnh.',
-            'image.mimes' => 'Định dạng tệp không hợp lệ. Chấp nhận định dạng jpeg, png, jpg, gif.',
+            'image.mimes' => 'Định dạng tệp không hợp lệ. Chấp nhận định dạng jpeg, png, jpg, gif, webp.',
         ])->validate();
 
         if (!file_exists($uploads)) { //truong hop chua co file do
