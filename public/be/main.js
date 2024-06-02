@@ -61,6 +61,32 @@ $(function(){
             swalNoti('Thông báo đẩy ảnh','Hiện k có ảnh để đẩy','warning','Đồng ý',function(alert){});
         }
     })
+    //chon nhieu hinh anh
+    let selectedMoreFiles = [];
+    $('.choose-more-image').on('change', function(e){
+        selectedMoreFiles = $(this)[0].files;
+    });
+    //day nhieu hinh anh
+    $('.push-more-image').on('click', function(e){
+        e.preventDefault();
+        if (selectedMoreFiles.length > 0) {
+            $('.image-container').empty(); // Clear existing images
+            Array.from(selectedMoreFiles).forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = $('<img>').attr('src', e.target.result).attr('height',150).attr('width',200).addClass('mb-2 mr-2 object-fit-cover');
+                        $('.image-container').append(img);
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    swalNoti('Thông báo đẩy ảnh', 'Đấy không phải ảnh', 'warning', 'Đồng ý', function(alert){});
+                }
+            });
+        } else {
+            swalNoti('Thông báo đẩy ảnh', 'Hiện k có ảnh để đẩy', 'warning', 'Đồng ý', function(alert){});
+        }
+    })
     // chon loai gia
     $('.choose-type').on('change', function(e){
         e.preventDefault();

@@ -47,3 +47,7 @@
     background: #007bff; /* Blue track */
     border-radius: 5px; /* Rounded track */
 }
+
+.object-fit-cover {
+    object-fit: cover;
+}

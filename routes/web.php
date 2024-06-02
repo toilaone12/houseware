@@ -99,6 +99,14 @@ Route::prefix('admin')->group(function(){
             Route::get('/update',[ProductController::class,'formUpdate'])->name('product.formUpdate');
             Route::post('/edit',[ProductController::class,'edit'])->name('product.edit');
             Route::get('/delete',[ProductController::class,'delete'])->name('product.delete');
+            Route::get('/color',[ProductController::class,'formColor'])->name('product.formColor');
+            Route::post('/insertColor',[ProductController::class,'insertColor'])->name('product.insertColor');
+            Route::post('/updateColor',[ProductController::class,'updateColor'])->name('product.updateColor');
+            Route::get('/deleteColor',[ProductController::class,'deleteColor'])->name('product.deleteColor');
+            Route::get('/thumbnails',[ProductController::class,'formThumbnails'])->name('product.formThumbnails');
+            Route::post('/insertThumbnails',[ProductController::class,'insertThumbnails'])->name('product.insertThumbnails');
+            Route::post('/updateThumbnails',[ProductController::class,'updateThumbnails'])->name('product.updateThumbnails');
+            Route::get('/deleteThumbnails',[ProductController::class,'deleteThumbnails'])->name('product.deleteThumbnails');
         });
     });
 });

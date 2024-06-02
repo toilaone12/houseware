@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 01, 2024 lúc 08:52 PM
+-- Thời gian đã tạo: Th6 02, 2024 lúc 07:25 PM
 -- Phiên bản máy phục vụ: 10.4.22-MariaDB
 -- Phiên bản PHP: 7.3.33
 
@@ -221,7 +221,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (9, '2024_05_31_151900_create_fee', 4),
 (10, '2024_05_31_161520_create_banner', 5),
 (11, '2024_06_01_090314_create_coupon', 6),
-(12, '2024_06_01_153231_create_product', 7);
+(12, '2024_06_01_153231_create_product', 7),
+(13, '2024_06_02_091149_create_product_color', 8);
 
 -- --------------------------------------------------------
 
@@ -279,7 +280,28 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id_product`, `id_category`, `image`, `name`, `quantity`, `discount`, `price`, `thumbnail_path`, `description`, `technical`, `created_at`, `updated_at`) VALUES
-(1, 6, 'be/img/product/sp8-1-1717264168.png', 'Bếp ba từ BOSCH PUJ631BB2E', 100, 35, 22800000, NULL, '<p><strong>Thông số Chi tiết</strong><br />\r\nMã sản phẩm (Model): PUJ631BB2E<br />\r\nHãng: Bosch<br />\r\nLoại sản phẩm: Bếp 03 từ, lắp âm<br />\r\nSố bếp nấu: 03 bếp, khổ bếp 60cm<br />\r\nĐường kính vùng nấu 1: 145 mm, công suất 1400 W<br />\r\nĐường kính vùng nấu 2: 210 mm, công suất 2200 W<br />\r\nĐường kính vùng nấu 3: 280 mm, công suất 2600 W<br />\r\nBảng điều khiển: Direct Control dạng phím cộng trừ<br />\r\nChế độ hẹn giờ độc lập cho từng bếp: Hẹn giờ tới 99 phút<br />\r\nKhóa an toàn trẻ em Child lock: Có<br />\r\nCông suất tổng: 4600W<br />\r\nSô công suất nấu: 17 mức công suất nấu<br />\r\nTrọng lượng tịnh: 11 kg<br />\r\nTổng trọng lượng: 13 kg<br />\r\nTự động tắt bếp khi không có nồi : Có<br />\r\nBooster: Có<br />\r\nĐiện áp: 220V / 50Hz<br />\r\nBáo nhiệt dư: Có<br />\r\nChức năng báo quá nhiệt quá áp: Có<br />\r\nTiếp kiệm điện: Có<br />\r\nMàu sắc: Đen<br />\r\nĐiều khiển độc lập cho từng vùng nấu: Có<br />\r\nKích thước bề mặt: 51 x 592 x 522 mm<br />\r\nKích thước khoét đá: 51 x 560 x 490-500 mm<br />\r\nBảo hành : 02 năm</p>', '<h2><strong>Bếp ba từ BOSCH PUJ631BB2E – Thiết kế cao cấp, vùng nấu rộng cho nồi cỡ lớn<br />\r\nTăng thêm trải nghiệm thú vị trong nghệ thuật nấu nướng</strong></h2>\r\n\r\n<p><strong>Bếp ba từ Bosch PUJ631BB2E</strong>&nbsp;được thiết kế cách điệu vùng nấu hình dấu cộng ưu điểm là diện tích sử dụng sẽ lớn hơn và bao quát nhiều hơn. Có 1 vùng nấu ăn rộng có đường kính 28 cm với điều khiển DirectControl truy cập trực tiếp đến 17 cấp độ nấu ăn.</p>\r\n\r\n<h2><strong>Tính năng chính của bếp Bosch&nbsp;PUJ631BB2E</strong></h2>\r\n\r\n<p><strong>Bếp ba&nbsp;BOSCH PUJ631BB2E</strong>&nbsp;nhập khẩu trực tiếp Tây Ban Nha, gồm 3 vùng nấu cảm ứng với Sprint giảm thời gian làm nóng lên đến 50%<br />\r\n–&nbsp; 1 vùng bếp khổng lồ kích thước lên tới 28 cm, công suất bếp 2,6kW.<br />\r\n–&nbsp; 1 vùng bếp kích thước 21 cm, công suất bếp 2,2kW.<br />\r\n–&nbsp; 1 vùng bếp kích thước 14,5 cm, công suất 1,4kW.</p>\r\n\r\n<ul>\r\n	<li>Bảng điều khiển TouchSelect dạng phím cộng trừ giúp điều chỉnh tăng giảm nhiệt dễ dàng tiện lợi với 17 cấp độ nhiệt được chia nhỏ phù hợp cho nhiều món ăn nấu khác nhau.</li>\r\n	<li>Mặt kính của bếp được thiết kế màu đen sang trọng SCHOTT CERAN sản xuất tại Mainz – Đức, một loại gốm kính cao cấp được làm từ gốm sứ thủy tinh đặc biệt có khả năng chịu lực, chịu nhiệt và khả năng va đập tốt, chống lại những cú sốc nhiệt đột ngột lên đến 750°C và đặc biệt không chứa các kim loại nặng độc hại asen và antimon rất thân thiện với môi trường.</li>\r\n</ul>\r\n\r\n<h2><strong>Bếp ba từ Bosch PUJ631BB2E trang bị các chức năng</strong></h2>\r\n\r\n<ul>\r\n	<li>Chức năng Booster tăng công suất lên mức tối đa, tăng tốc thời gian đun nấu</li>\r\n	<li>Chức năng bộ nhớ : bếp sẽ ghi nhớ mức công suất đang nấu và các tính năng cài đặt trên bếp nếu bếp vô tình bị tắt thì khi bật lại , bếp hoạt động trở lại với cài đặt trước đó.</li>\r\n	<li>Chức năng Auto Start (nhận diện vùng nấu): khi đặt nồi từ trên bếp, sau đó bật bếp lên thì vùng nấu có nồi sẽ tự động được chọn, Bạn chỉ cần chọn công suất để nấu.</li>\r\n</ul>\r\n\r\n<p>– Lập trình thời gian nấu cho từng bếp và có báo âm thanh<br />\r\n– Hạn chế tổng công suất nấu của cả bếp<br />\r\n– Khóa trẻ em an toàn tự động hoặc bằng tay ngăn ngừa sự vô tình bật bếp đảm bảo an toàn cho trẻ em<br />\r\n– Có cảnh báo nhiệt dư hai cấp độ (H/h)</p>\r\n\r\n<h2><strong>Về thương hiệu Bosch</strong></h2>\r\n\r\n<p>Bosch là tập đoàn công nghiệp đình đám hàng đầu Châu Âu, với các lĩnh vực sản xuất đa dạng, trong đó có thiết bị nhà bếp. Bếp từ Bosch dù đặt nhà máy sản xuất ở đâu đều được bảo đảm về chất lượng. Khách hàng sử dụng bếp từ Bosch 100% đều hài lòng về sự tiện dụng, độ tiết kiệm và bền bỉ của sản phẩm. “90% bếp từ Bosch trong vòng 4 năm không cần bảo hành bất cứ vấn đề gì”.</p>', '2024-06-01 10:49:28', '2024-06-01 10:49:28');
+(1, 6, 'be/img/product/sp8-1-1717264168.png', 'Bếp ba từ BOSCH PUJ631BB2E', 50, 35, 22800000, '|sp8-1-1717348977.png|sp8-1-1717349069.png|sam-sung-galaxy-zflip4-vang-hong-1-1717341160.jpg|apple-airpods-pro-2-usb-c_7_-1717341160.webp|apple-airpods-pro-2-usb-c_8_-1717341160.webp|', '<p><strong>Thông số Chi tiết</strong><br />\r\nMã sản phẩm (Model): PUJ631BB2E<br />\r\nHãng: Bosch<br />\r\nLoại sản phẩm: Bếp 03 từ, lắp âm<br />\r\nSố bếp nấu: 03 bếp, khổ bếp 60cm<br />\r\nĐường kính vùng nấu 1: 145 mm, công suất 1400 W<br />\r\nĐường kính vùng nấu 2: 210 mm, công suất 2200 W<br />\r\nĐường kính vùng nấu 3: 280 mm, công suất 2600 W<br />\r\nBảng điều khiển: Direct Control dạng phím cộng trừ<br />\r\nChế độ hẹn giờ độc lập cho từng bếp: Hẹn giờ tới 99 phút<br />\r\nKhóa an toàn trẻ em Child lock: Có<br />\r\nCông suất tổng: 4600W<br />\r\nSô công suất nấu: 17 mức công suất nấu<br />\r\nTrọng lượng tịnh: 11 kg<br />\r\nTổng trọng lượng: 13 kg<br />\r\nTự động tắt bếp khi không có nồi : Có<br />\r\nBooster: Có<br />\r\nĐiện áp: 220V / 50Hz<br />\r\nBáo nhiệt dư: Có<br />\r\nChức năng báo quá nhiệt quá áp: Có<br />\r\nTiếp kiệm điện: Có<br />\r\nMàu sắc: Đen<br />\r\nĐiều khiển độc lập cho từng vùng nấu: Có<br />\r\nKích thước bề mặt: 51 x 592 x 522 mm<br />\r\nKích thước khoét đá: 51 x 560 x 490-500 mm<br />\r\nBảo hành : 02 năm</p>', '<h2><strong>Bếp ba từ BOSCH PUJ631BB2E – Thiết kế cao cấp, vùng nấu rộng cho nồi cỡ lớn<br />\r\nTăng thêm trải nghiệm thú vị trong nghệ thuật nấu nướng</strong></h2>\r\n\r\n<p><strong>Bếp ba từ Bosch PUJ631BB2E</strong>&nbsp;được thiết kế cách điệu vùng nấu hình dấu cộng ưu điểm là diện tích sử dụng sẽ lớn hơn và bao quát nhiều hơn. Có 1 vùng nấu ăn rộng có đường kính 28 cm với điều khiển DirectControl truy cập trực tiếp đến 17 cấp độ nấu ăn.</p>\r\n\r\n<h2><strong>Tính năng chính của bếp Bosch&nbsp;PUJ631BB2E</strong></h2>\r\n\r\n<p><strong>Bếp ba&nbsp;BOSCH PUJ631BB2E</strong>&nbsp;nhập khẩu trực tiếp Tây Ban Nha, gồm 3 vùng nấu cảm ứng với Sprint giảm thời gian làm nóng lên đến 50%<br />\r\n–&nbsp; 1 vùng bếp khổng lồ kích thước lên tới 28 cm, công suất bếp 2,6kW.<br />\r\n–&nbsp; 1 vùng bếp kích thước 21 cm, công suất bếp 2,2kW.<br />\r\n–&nbsp; 1 vùng bếp kích thước 14,5 cm, công suất 1,4kW.</p>\r\n\r\n<ul>\r\n	<li>Bảng điều khiển TouchSelect dạng phím cộng trừ giúp điều chỉnh tăng giảm nhiệt dễ dàng tiện lợi với 17 cấp độ nhiệt được chia nhỏ phù hợp cho nhiều món ăn nấu khác nhau.</li>\r\n	<li>Mặt kính của bếp được thiết kế màu đen sang trọng SCHOTT CERAN sản xuất tại Mainz – Đức, một loại gốm kính cao cấp được làm từ gốm sứ thủy tinh đặc biệt có khả năng chịu lực, chịu nhiệt và khả năng va đập tốt, chống lại những cú sốc nhiệt đột ngột lên đến 750°C và đặc biệt không chứa các kim loại nặng độc hại asen và antimon rất thân thiện với môi trường.</li>\r\n</ul>\r\n\r\n<h2><strong>Bếp ba từ Bosch PUJ631BB2E trang bị các chức năng</strong></h2>\r\n\r\n<ul>\r\n	<li>Chức năng Booster tăng công suất lên mức tối đa, tăng tốc thời gian đun nấu</li>\r\n	<li>Chức năng bộ nhớ : bếp sẽ ghi nhớ mức công suất đang nấu và các tính năng cài đặt trên bếp nếu bếp vô tình bị tắt thì khi bật lại , bếp hoạt động trở lại với cài đặt trước đó.</li>\r\n	<li>Chức năng Auto Start (nhận diện vùng nấu): khi đặt nồi từ trên bếp, sau đó bật bếp lên thì vùng nấu có nồi sẽ tự động được chọn, Bạn chỉ cần chọn công suất để nấu.</li>\r\n</ul>\r\n\r\n<p>– Lập trình thời gian nấu cho từng bếp và có báo âm thanh<br />\r\n– Hạn chế tổng công suất nấu của cả bếp<br />\r\n– Khóa trẻ em an toàn tự động hoặc bằng tay ngăn ngừa sự vô tình bật bếp đảm bảo an toàn cho trẻ em<br />\r\n– Có cảnh báo nhiệt dư hai cấp độ (H/h)</p>\r\n\r\n<h2><strong>Về thương hiệu Bosch</strong></h2>\r\n\r\n<p>Bosch là tập đoàn công nghiệp đình đám hàng đầu Châu Âu, với các lĩnh vực sản xuất đa dạng, trong đó có thiết bị nhà bếp. Bếp từ Bosch dù đặt nhà máy sản xuất ở đâu đều được bảo đảm về chất lượng. Khách hàng sử dụng bếp từ Bosch 100% đều hài lòng về sự tiện dụng, độ tiết kiệm và bền bỉ của sản phẩm. “90% bếp từ Bosch trong vòng 4 năm không cần bảo hành bất cứ vấn đề gì”.</p>', '2024-06-01 03:49:28', '2024-06-02 10:24:29');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `product_color`
+--
+
+CREATE TABLE `product_color` (
+  `id` int(11) NOT NULL,
+  `id_product` int(11) NOT NULL,
+  `color_path` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `product_color`
+--
+
+INSERT INTO `product_color` (`id`, `id_product`, `color_path`, `created_at`, `updated_at`) VALUES
+(12, 1, '[{\"id_color\":1,\"quantity\":\"50\"}]', '2024-06-02 04:12:46', '2024-06-02 04:15:05');
 
 -- --------------------------------------------------------
 
@@ -396,6 +418,12 @@ ALTER TABLE `product`
   ADD PRIMARY KEY (`id_product`);
 
 --
+-- Chỉ mục cho bảng `product_color`
+--
+ALTER TABLE `product_color`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Chỉ mục cho bảng `role`
 --
 ALTER TABLE `role`
@@ -458,7 +486,7 @@ ALTER TABLE `fee`
 -- AUTO_INCREMENT cho bảng `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT cho bảng `personal_access_tokens`
@@ -471,6 +499,12 @@ ALTER TABLE `personal_access_tokens`
 --
 ALTER TABLE `product`
   MODIFY `id_product` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT cho bảng `product_color`
+--
+ALTER TABLE `product_color`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT cho bảng `role`

@@ -198,6 +198,27 @@
             let name = $(this).attr('data-name');
             let url = "{{route('product.delete')}}";
             let data = {id: id};
+            swalInfo('Xóa màu!', `Bạn có muốn xóa màu ${name} cho sản phẩm này không?`, function(alert){
+                if(alert){
+                    getAjax(url, data,
+                        function(data){
+                            swalNoti(data.title,data.text,data.icon,'Tải lại trang',function(noti){ if(noti) location.reload()})
+                        },
+                        function(err){
+
+                        }
+                    )
+                }
+            })
+        })
+        //xoa mau cua san pham
+        $('#myTable').on('click','.delete-product-color',function(e){
+            e.preventDefault();
+            let id = $(this).attr('data-id');
+            let name = $(this).attr('data-name');
+            let color = $(this).attr('data-color');
+            let url = "{{route('product.deleteColor')}}";
+            let data = {id: id, id_color: color};
             swalInfo('Xóa sản phẩm!', `Bạn có muốn xóa sản phẩm ${name} này không?`, function(alert){
                 if(alert){
                     getAjax(url, data,
@@ -209,6 +230,71 @@
                         }
                     )
                 }
+            })
+        })
+         $('#myTable').on('click','.delete-product-color',function(e){
+            e.preventDefault();
+            let id = $(this).attr('data-id');
+            let name = $(this).attr('data-name');
+            let color = $(this).attr('data-color');
+            let url = "{{route('product.deleteColor')}}";
+            let data = {id: id, id_color: color};
+            swalInfo('Xóa sản phẩm!', `Bạn có muốn xóa sản phẩm ${name} này không?`, function(alert){
+                if(alert){
+                    getAjax(url, data,
+                        function(data){
+                            swalNoti(data.title,data.text,data.icon,'Tải lại trang',function(noti){ if(noti) location.reload()})
+                        },
+                        function(err){
+
+                        }
+                    )
+                }
+            })
+        })
+        //sua anh
+        $('#myTable').on('click','.choose-update-thumbnails',function(e){
+            e.preventDefault();
+            $(this).siblings('.update-thumbnails').click();
+        })
+        $('#myTable').off('change', '.update-thumbnails').on('change','.update-thumbnails',function(e){
+            e.preventDefault();
+            let formData = new FormData();
+            let file = $(this)[0].files[0];
+            let thumbnails = $(this).attr('data-thumbnails');
+            let id = $(this).attr('data-id');
+            let url = "{{route('product.updateThumbnails')}}";
+            formData.append('id',id);
+            formData.append('image-old',thumbnails);
+            formData.append('image',file);
+            postAjax(url, formData,
+                function(data){
+                    swalNoti(data.title,data.text,data.icon,'Tải lại trang',function(noti){ if(noti) location.reload()})
+                },
+                function(err){
+
+                }
+            ,'json',1)
+        })
+        $('#myTable').on('draw.dt', function() {
+            $('#myTable').off('change', '.update-thumbnails').on('change','.update-thumbnails',function(e){
+                e.preventDefault();
+                let formData = new FormData();
+                let file = $(this)[0].files[0];
+                let thumbnails = $(this).attr('data-thumbnails');
+                let id = $(this).attr('data-id');
+                let url = "{{route('product.updateThumbnails')}}";
+                formData.append('id',id);
+                formData.append('image-old',thumbnails);
+                formData.append('image',file);
+                postAjax(url, formData,
+                    function(data){
+                        swalNoti(data.title,data.text,data.icon,'Tải lại trang',function(noti){ if(noti) location.reload()})
+                    },
+                    function(err){
+
+                    }
+                ,'json',1)
             })
         })
     })
