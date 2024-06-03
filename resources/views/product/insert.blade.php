@@ -79,7 +79,7 @@
                     <div class="col-lg-3 mt-3">
                         <div class="h-100px">
                             <label for="discount">Giảm giá (<span class="text-danger">*</span>)</label>
-                            <input type="number" required name="discount" min="0" max="100" id="discount" class="form-control border-0">
+                            <input type="number" required name="discount" min="0" max="100" id="discount" class="form-control border-0 limit-discount">
                             @error('discount')
                             <span class="text-danger small mt-1">{{$message}}</span>
                             @enderror

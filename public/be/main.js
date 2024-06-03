@@ -99,4 +99,11 @@ $(function(){
             priceAutoNumeric.update({ maximumValue: '999999999999' });
         }
     });
+    // dieu chinh gioi han phan tram
+    $('.limit-discount').on('change',function(e){
+        let val = $(this).val();
+        if(val > 100){
+            $(this).val(100);
+        }
+    })
 })

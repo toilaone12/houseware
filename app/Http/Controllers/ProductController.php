@@ -158,7 +158,7 @@ class ProductController extends Controller
                 }
             }
         }
-        if($quantityProduct > 0){ // ktra so luong vuot qua trong kho
+        if($quantityProduct >= 0){ // ktra so luong vuot qua trong kho
             $one->quantity = $quantityProduct;
             $update = $one->save();
             $jsonArray = json_encode($array);
@@ -198,7 +198,7 @@ class ProductController extends Controller
                 $colorPathArr[$key]['quantity'] = $data['quantity'];
             }
         }
-        if($quantityProduct > 0){ // ktra so luong vuot qua trong kho
+        if($quantityProduct >= 0){ // ktra so luong vuot qua trong kho
             $one->quantity = $quantityProduct;
             $update = $one->save();
             $jsonArray = json_encode($colorPathArr);
@@ -244,41 +244,63 @@ class ProductController extends Controller
         $type = isset($type) ? $type : '';
         $title = 'Chọn ảnh sản phẩm';
         $one = Product::find($id);
-        $thumbnails = explode('|',trim($one->thumbnail_path,'|'));
-        return view('product.thumbnails',compact('title','one','type','thumbnails'));
+        if($one->thumbnail_path){
+            $thumbnails = explode('|',trim($one->thumbnail_path,'|'));
+            $count = count($thumbnails);
+        }else{
+            $thumbnails = '';
+            $count = 0;
+        }
+        return view('product.thumbnails',compact('title','one','type','thumbnails','count'));
     }
     //them anh
     function insertThumbnails(Request $request){
         $data = $request->all();
         $files = $request->file('image');
         Validator::make($data, [
-            'image' => ['array'],
+            'image' => ['array', 'max:5'],
             'image.*' => ['file', 'image', 'mimes:jpeg,png,jpg,gif,webp'],
         ], [
+            'image.max' => 'Tối đa chỉ được 5 ảnh thôi',
             'image.*.file' => 'Không thể xử lý tệp đã chọn.',
             'image.*.image' => 'Tệp phải là hình ảnh.',
             'image.*.mimes' => 'Định dạng tệp không hợp lệ. Chấp nhận định dạng jpeg, png, jpg, gif, webp.',
         ])->validate();
         $one = Product::find($data['id']);
         $thumbnailsPath = '|';
+        $fileArr = [];
         foreach($files as $key => $file){
             $uploads = public_path('be/img/thumbnails/');
             $filename = pathinfo($file->getClientOriginalName(),PATHINFO_FILENAME);
             $extension = pathinfo($file->getClientOriginalName(),PATHINFO_EXTENSION);
             $filename = $filename.'-'.time().'.'.$extension;
-            $thumbnailsPath .= $filename.'|';
+            $fileArr[] = $filename;
             if (!file_exists($uploads)) { //truong hop chua co file do
                 mkdir($uploads, 0777, true); // Create the directory if it does not exist
             }
             $file->move($uploads,$filename); // nem anh vao
         }
-        // dd($thumbnailsPath);
-        $one->thumbnail_path = $thumbnailsPath;
-        $update = $one->save();
-        if($update){
-            return redirect()->route('product.formThumbnails')->with('message','<p class="text-success small">Thêm nhiều ảnh cho sản phẩm '.mb_strtolower($one->name,'UTF-8').' thành công</p>');
+        if($one->thumbnail_path){
+            $thumbnailsPath .= implode('|',$fileArr).$one->thumbnail_path;
         }else{
-            return redirect()->route('product.formThumbnails')->with('message','<p class="text-danger small">Lỗi truy vấn</p>');
+            $thumbnailsPath .= implode('|',$fileArr);
+            $thumbnailsPath .= '|';
+        }
+        $countThumbnails = count(explode('|',trim($thumbnailsPath,'|')));
+        if($countThumbnails <= 5){
+            $one->thumbnail_path = $thumbnailsPath;
+            $update = $one->save();
+            if($update){
+                return redirect()->route('product.formThumbnails',['id' => $data['id']])->with('message','<p class="text-success small">Thêm nhiều ảnh cho sản phẩm '.mb_strtolower($one->name,'UTF-8').' thành công</p>');
+            }else{
+                return redirect()->route('product.formThumbnails',['id' => $data['id']])->with('message','<p class="text-danger small">Lỗi truy vấn</p>');
+            }
+        }else{
+            foreach($fileArr as $key => $file){
+                $uploads = public_path('be/img/thumbnails/');
+                unlink($uploads.$file);
+            }
+            return redirect()->route('product.formThumbnails',['id' => $data['id']])->with('message','<p class="text-danger small">Một sản phẩm chỉ tối đa 5 ảnh</p>');
         }
     }
     //sua anh
@@ -305,6 +327,26 @@ class ProductController extends Controller
             return json_encode(['res' => 'success', 'title' => 'Sửa ảnh cho sản phẩm', 'text' => 'Sửa ảnh sản phẩm thành công', 'icon' => 'success']);
         }else{
             return json_encode(['res' => 'error', 'title' => 'Sửa ảnh cho sản phẩm', 'text' => 'Lỗi truy vấn', 'icon' => 'error']);
+        }
+    }
+    //xoa anh
+    function deleteThumbnails(Request $request){
+        $data = $request->all();
+        $one = Product::find($data['id']);
+        $thumbnails = explode('|',trim($one->thumbnail_path,'|'));
+        foreach($thumbnails as $key => $thumbnail){
+            if($data['thumbnails'] == $thumbnail){
+                $uploads = public_path('be/img/thumbnails/');
+                unlink($uploads.$thumbnails[$key]);
+                unset($thumbnails[$key]);
+            }
+        }
+        $one->thumbnail_path = '|'.implode('|',$thumbnails).'|';
+        $update = $one->save();
+        if($update){
+            return json_encode(['res' => 'success', 'title' => 'Xóa ảnh cho sản phẩm', 'text' => 'Xóa ảnh sản phẩm thành công', 'icon' => 'success']);
+        }else{
+            return json_encode(['res' => 'error', 'title' => 'Xóa ảnh cho sản phẩm', 'text' => 'Lỗi truy vấn', 'icon' => 'error']);
         }
     }
 }

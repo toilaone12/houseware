@@ -3,7 +3,7 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h3 mb-0 text-gray-800">Thêm tài khoản</h1>
+        <h1 class="h3 mb-0 text-gray-800">Thêm mã giảm giá</h1>
     </div>
     @php
         $mess = Session::get('message');

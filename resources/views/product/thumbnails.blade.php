@@ -3,6 +3,7 @@
     {{-- form them voi danh sach --}}
     <div class="container-fluid">
         <!-- Page Heading -->
+        @if ($count < 5)
         <div class="d-sm-flex align-items-center justify-content-between mb-2">
             <h1 class="h3 mb-0 text-gray-800">Thêm ảnh cho {{$one->name}}</h1>
         </div>
@@ -42,15 +43,16 @@
                 </div>
             </div>
         </form>
+        @endif
     </div>
-    <div class="d-flex flex-column container-fluid mt-5 pt-5">
+    <div class="d-flex flex-column container-fluid {{$count < 5 ? 'mt-5 pt-5' : ''}}">
         <!-- Main Content -->
         <div id="content">
             <div class="row">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Danh sách màu của sản phẩm {{$one->name}}</h3>
+                            <h3 class="card-title">Danh sách ảnh của sản phẩm {{$one->name}}</h3>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -63,6 +65,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @if (!empty($thumbnails))
                                     @foreach($thumbnails as $key => $thumbnail)
                                     <tr>
                                         <td>{{$key + 1}}</td>
@@ -71,10 +74,11 @@
                                             <input type="file" class="mt-3 d-none update-thumbnails" data-id="{{$one->id_product}}" data-thumbnails="{{$thumbnail}}">
                                         </td>
                                         <td align="center">
-                                            <a class="btn btn-danger delete-product-color" data-id="{{$one->id_product}}" data-name=""><i class="fa-solid fa-trash-can"></i></a>
+                                            <a class="btn btn-danger delete-thumbnails" data-id="{{$one->id_product}}" data-thumbnails="{{$thumbnail}}"><i class="fa-solid fa-trash-can"></i></a>
                                         </td>
                                     </tr>
                                     @endforeach
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
