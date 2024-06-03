@@ -471,12 +471,13 @@ textarea.input {
 
 .header-search form .input-select {
   margin-right: -4px;
-  border-radius: 40px 0px 0px 40px;
 }
 
 .header-search form .input {
-  width: calc(100% - 260px);
-  margin-right: -4px;
+    width: calc(100% - 150px);
+    margin-right: -4px;
+    border-radius: 40px 0px 0px 40px;
+    outline: none;
 }
 
 .header-search form .search-btn {
@@ -914,7 +915,7 @@ textarea.input {
 
 .product .product-body .product-name {
   text-transform: uppercase;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .product .product-body .product-name>a {
@@ -927,7 +928,7 @@ textarea.input {
 
 .product .product-body .product-price {
   color: #D10024;
-  font-size: 18px;
+  font-size: 20px;
 }
 
 .product .product-body .product-price .product-old-price {
@@ -2131,6 +2132,20 @@ textarea.input {
   margin: 15px 0px;
 }
 
+.font-lalezar {
+    font-family: "Lalezar", system-ui;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.object-fit-cover {
+    object-fit: cover;
+}
+
+.h-50px {
+    height: 50px;
+}
+
 /*=========================================================
 	13 -> RESPONSIVE
 ===========================================================*/
@@ -2186,5 +2201,8 @@ textarea.input {
   .store-pagination {
     float: none;
     margin-top: 10px;
+  }
+  .header-search {
+    margin-left: 50px;
   }
 }

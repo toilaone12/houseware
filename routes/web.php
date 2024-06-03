@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\FeeController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
@@ -21,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+//quan tri
 Route::prefix('admin')->group(function(){
     Route::get('/', [AdminController::class,'login'])->name('admin.login');
     Route::get('/signIn', [AdminController::class,'signIn'])->name('admin.signIn');
@@ -109,4 +110,8 @@ Route::prefix('admin')->group(function(){
             Route::get('/deleteThumbnails',[ProductController::class,'deleteThumbnails'])->name('product.deleteThumbnails');
         });
     });
+});
+//nguoi dung
+Route::prefix('home')->group(function(){
+    Route::get('/', [HomeController::class,'dashboard'])->name('home.dashboard');
 });
