@@ -369,286 +369,45 @@
     <div class="container">
         <!-- row -->
         <div class="row">
+            @foreach ($listsCategory as $key => $category)
             <div class="col-md-4 col-xs-6">
                 <div class="section-title">
-                    <h4 class="title">Top selling</h4>
+                    <h4 class="title">{{$category['name']}}</h4>
                     <div class="section-nav">
-                        <div id="slick-nav-3" class="products-slick-nav"></div>
+                        <div id="slick-nav-1{{$key}}" class="products-slick-nav"></div>
                     </div>
                 </div>
 
-                <div class="products-widget-slick" data-nav="#slick-nav-3">
+                <div class="products-widget-slick" data-nav="#slick-nav-1{{$key}}">
+                    @for($i = 0; $i <= 1 ; $i++)
                     <div>
-                        <!-- product widget -->
+                        @foreach ($category['products'] as $key => $product)
+                        @php
+                            unset($category['products'][$key]);
+                            $priceAfter = intval($product['price']) - (intval($product['price']) * intval($product['discount'] / 100));
+                        @endphp
                         <div class="product-widget">
                             <div class="product-img">
-                                <img src="{{asset('fe/img/product07.png')}}" alt="">
+                                <img src="{{asset($product['image'])}}" alt="">
                             </div>
-                            <div class="product-body">
-                                <p class="product-category">Category</p>
-                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                            </div>
-                        </div>
-                        <!-- /product widget -->
-
-                        <!-- product widget -->
-                        <div class="product-widget">
-                            <div class="product-img">
-                                <img src="{{asset('fe/img/product08.png')}}" alt="">
-                            </div>
-                            <div class="product-body">
-                                <p class="product-category">Category</p>
-                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+                            <div class="product-body font-larezal">
+                                <h3 class="product-name h-50"><a href="#">{{$product['name']}}</a></h3>
+                                <h4 class="product-price">{{number_format($priceAfter,0,',','.')}} đ
+                                    @if ($product['discount'])
+                                    <del class="product-old-price">{{number_format($product["price"],0,",",".")}} đ</del>
+                                    @endif
+                                </h4>
                             </div>
                         </div>
-                        <!-- /product widget -->
-
-                        <!-- product widget -->
-                        <div class="product-widget">
-                            <div class="product-img">
-                                <img src="{{asset('fe/img/product09.png')}}" alt="">
-                            </div>
-                            <div class="product-body">
-                                <p class="product-category">Category</p>
-                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                            </div>
-                        </div>
-                        <!-- product widget -->
+                        @php
+                            if($key == 2) break;
+                        @endphp
+                        @endforeach
                     </div>
-
-                    <div>
-                        <!-- product widget -->
-                        <div class="product-widget">
-                            <div class="product-img">
-                                <img src="{{asset('fe/img/product01.png')}}" alt="">
-                            </div>
-                            <div class="product-body">
-                                <p class="product-category">Category</p>
-                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                            </div>
-                        </div>
-                        <!-- /product widget -->
-
-                        <!-- product widget -->
-                        <div class="product-widget">
-                            <div class="product-img">
-                                <img src="{{asset('fe/img/product02.png')}}" alt="">
-                            </div>
-                            <div class="product-body">
-                                <p class="product-category">Category</p>
-                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                            </div>
-                        </div>
-                        <!-- /product widget -->
-
-                        <!-- product widget -->
-                        <div class="product-widget">
-                            <div class="product-img">
-                                <img src="{{asset('fe/img/product03.png')}}" alt="">
-                            </div>
-                            <div class="product-body">
-                                <p class="product-category">Category</p>
-                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                            </div>
-                        </div>
-                        <!-- product widget -->
-                    </div>
+                    @endfor
                 </div>
             </div>
-
-            <div class="col-md-4 col-xs-6">
-                <div class="section-title">
-                    <h4 class="title">Top selling</h4>
-                    <div class="section-nav">
-                        <div id="slick-nav-4" class="products-slick-nav"></div>
-                    </div>
-                </div>
-
-                <div class="products-widget-slick" data-nav="#slick-nav-4">
-                    <div>
-                        <!-- product widget -->
-                        <div class="product-widget">
-                            <div class="product-img">
-                                <img src="{{asset('fe/img/product04.png')}}" alt="">
-                            </div>
-                            <div class="product-body">
-                                <p class="product-category">Category</p>
-                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                            </div>
-                        </div>
-                        <!-- /product widget -->
-
-                        <!-- product widget -->
-                        <div class="product-widget">
-                            <div class="product-img">
-                                <img src="{{asset('fe/img/product05.png')}}" alt="">
-                            </div>
-                            <div class="product-body">
-                                <p class="product-category">Category</p>
-                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                            </div>
-                        </div>
-                        <!-- /product widget -->
-
-                        <!-- product widget -->
-                        <div class="product-widget">
-                            <div class="product-img">
-                                <img src="{{asset('fe/img/product06.png')}}" alt="">
-                            </div>
-                            <div class="product-body">
-                                <p class="product-category">Category</p>
-                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                            </div>
-                        </div>
-                        <!-- product widget -->
-                    </div>
-
-                    <div>
-                        <!-- product widget -->
-                        <div class="product-widget">
-                            <div class="product-img">
-                                <img src="{{asset('fe/img/product07.png')}}" alt="">
-                            </div>
-                            <div class="product-body">
-                                <p class="product-category">Category</p>
-                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                            </div>
-                        </div>
-                        <!-- /product widget -->
-
-                        <!-- product widget -->
-                        <div class="product-widget">
-                            <div class="product-img">
-                                <img src="{{asset('fe/img/product08.png')}}" alt="">
-                            </div>
-                            <div class="product-body">
-                                <p class="product-category">Category</p>
-                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                            </div>
-                        </div>
-                        <!-- /product widget -->
-
-                        <!-- product widget -->
-                        <div class="product-widget">
-                            <div class="product-img">
-                                <img src="{{asset('fe/img/product09.png')}}" alt="">
-                            </div>
-                            <div class="product-body">
-                                <p class="product-category">Category</p>
-                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                            </div>
-                        </div>
-                        <!-- product widget -->
-                    </div>
-                </div>
-            </div>
-
-            <div class="clearfix visible-sm visible-xs"></div>
-
-            <div class="col-md-4 col-xs-6">
-                <div class="section-title">
-                    <h4 class="title">Top selling</h4>
-                    <div class="section-nav">
-                        <div id="slick-nav-5" class="products-slick-nav"></div>
-                    </div>
-                </div>
-
-                <div class="products-widget-slick" data-nav="#slick-nav-5">
-                    <div>
-                        <!-- product widget -->
-                        <div class="product-widget">
-                            <div class="product-img">
-                                <img src="{{asset('fe/img/product01.png')}}" alt="">
-                            </div>
-                            <div class="product-body">
-                                <p class="product-category">Category</p>
-                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                            </div>
-                        </div>
-                        <!-- /product widget -->
-
-                        <!-- product widget -->
-                        <div class="product-widget">
-                            <div class="product-img">
-                                <img src="{{asset('fe/img/product02.png')}}" alt="">
-                            </div>
-                            <div class="product-body">
-                                <p class="product-category">Category</p>
-                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                            </div>
-                        </div>
-                        <!-- /product widget -->
-
-                        <!-- product widget -->
-                        <div class="product-widget">
-                            <div class="product-img">
-                                <img src="{{asset('fe/img/product03.png')}}" alt="">
-                            </div>
-                            <div class="product-body">
-                                <p class="product-category">Category</p>
-                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                            </div>
-                        </div>
-                        <!-- product widget -->
-                    </div>
-
-                    <div>
-                        <!-- product widget -->
-                        <div class="product-widget">
-                            <div class="product-img">
-                                <img src="{{asset('fe/img/product04.png')}}" alt="">
-                            </div>
-                            <div class="product-body">
-                                <p class="product-category">Category</p>
-                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                            </div>
-                        </div>
-                        <!-- /product widget -->
-
-                        <!-- product widget -->
-                        <div class="product-widget">
-                            <div class="product-img">
-                                <img src="{{asset('fe/img/product05.png')}}" alt="">
-                            </div>
-                            <div class="product-body">
-                                <p class="product-category">Category</p>
-                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                            </div>
-                        </div>
-                        <!-- /product widget -->
-
-                        <!-- product widget -->
-                        <div class="product-widget">
-                            <div class="product-img">
-                                <img src="{{asset('fe/img/product06.png')}}" alt="">
-                            </div>
-                            <div class="product-body">
-                                <p class="product-category">Category</p>
-                                <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                            </div>
-                        </div>
-                        <!-- product widget -->
-                    </div>
-                </div>
-            </div>
+            @endforeach
 
         </div>
         <!-- /row -->
@@ -657,39 +416,4 @@
 </div>
 <!-- /SECTION -->
 
-<!-- NEWSLETTER -->
-<div id="newsletter" class="section">
-    <!-- container -->
-    <div class="container">
-        <!-- row -->
-        <div class="row">
-            <div class="col-md-12">
-                <div class="newsletter">
-                    <p>Sign Up for the <strong>NEWSLETTER</strong></p>
-                    <form>
-                        <input class="input" type="email" placeholder="Enter Your Email">
-                        <button class="newsletter-btn"><i class="fa fa-envelope"></i> Subscribe</button>
-                    </form>
-                    <ul class="newsletter-follow">
-                        <li>
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-instagram"></i></a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-pinterest"></i></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <!-- /row -->
-    </div>
-    <!-- /container -->
-</div>
-<!-- /NEWSLETTER -->
 @endsection

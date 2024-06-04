@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
@@ -72,5 +74,68 @@ class CategoryController extends Controller
         }else{
             return json_encode(['res' => 'error', 'title' => 'Xoá danh mục', 'text' => 'Lỗi truy vấn', 'icon' => 'error']);
         }
+    }
+    //home
+    //danh sach danh muc
+    function home(Request $request){
+        $data = $request->all();
+        $desc = intval($request->get('desc'));
+        $asc = intval($request->get('asc'));
+        $one = Category::find($data['id']);
+        $title = $one->name;
+        $listParentCate = Category::where('id_parent',0)->get();
+        $listChild = Category::where('id_parent',$one->id_category)->get();
+        $listChildAll = Category::where('id_parent','!=',0)->get();
+        $arrChild = [];
+        if(count($listChild)){
+            foreach($listChild as $child){
+                $childDatas[] = $child->id_category;
+            }
+            $listProduct = Product::whereIn('id_category',$childDatas);
+            if($asc){
+                $listProduct = $listProduct->orderBy('id_product','asc');
+            }else if($desc){
+                $listProduct = $listProduct->orderBy('id_product','desc');
+            }
+            $listProduct = $listProduct->paginate(9);
+            $countProduct = Product::whereIn('id_category',$childDatas)->get();
+        }else{
+            $listProduct = Product::where('id_category',$one->id_category);
+            if($asc){
+                $listProduct = $listProduct->orderBy('id_product','asc');
+            }else if($desc){
+                $listProduct = $listProduct->orderBy('id_product','desc');
+            }
+            $listProduct = $listProduct->paginate(9);
+            $countProduct = Product::where('id_category',$one->id_category)->get();
+        }
+        //phan danh muc
+        foreach($listParentCate as $key => $parent){
+            $listChild = Category::where('id_parent',$parent->id_category)->get();
+            if($parent->id_category != $one->id_category){
+                if(count($listChild)){
+                    $parentDatas = [
+                        'id' => $parent->id_category,
+                        'name' => $parent->name,
+                        'count' => 0,
+                    ];
+                    $count = 0;
+                    foreach($listChild as $child){
+                        $productChild = Product::where('id_category',$child->id_category)->get();
+                        $count += count($productChild);
+                        $parentDatas['count'] = $count;
+                    }
+                }else{
+                    $productParent = Product::where('id_category',$parent->id_category)->get();
+                    $parentDatas = [
+                        'id' => $parent->id_category,
+                        'name' => $parent->name,
+                        'count' => count($productParent)
+                    ];
+                }
+                $arrChild[] = $parentDatas;
+            }
+        }
+        return view('category.home',compact('one','title','listProduct','listParentCate','countProduct','arrChild'));
     }
 }

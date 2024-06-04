@@ -45,7 +45,7 @@
                                     <td>{{number_format($one->price,0,',','.')}}đ</td>
                                     <td>{{$one->discount}}%</td>
                                     <td>{{number_format(intval($one->price) - $discount,0,',','.')}}đ</td>
-                                    <td align="center">
+                                    <td align="center" width="130">
                                         <a href="{{route('product.formUpdate',['id' => $one->id_product])}}" class="btn btn-primary d-md-block d-lg-inline-block d-xl-inline-block mb-md-2 mb-lg-2 mb-xl-2"><i class="fa-solid fa-pen-to-square"></i></a>
                                         <a title="Chọn màu sản phẩm" href="{{route('product.formColor',['id' => $one->id_product])}}" class="btn btn-warning d-md-block d-lg-inline-block d-xl-inline-block mb-md-2 mb-lg-2 mb-xl-2"><i class="fa-solid fa-palette"></i></a>
                                         <a title="Chọn ảnh" href="{{route('product.formThumbnails',['id' => $one->id_product])}}" class="btn btn-info d-md-block d-lg-inline-block d-xl-inline-block"><i class="fa-solid fa-photo-film"></i></a>

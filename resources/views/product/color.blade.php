@@ -75,7 +75,7 @@
                                     <div class="col-lg-4">
                                         <div class="form-group">
                                             <label for="quantity">Số lượng màu {{$color->name}}</label>
-                                            <input type="number" name="quantity[{{$color->id_color}}]" placeholder="Số lượng" id="quantity" class="form-control">
+                                            <input type="number" name="quantity[{{$color->id_color}}]" min="0" placeholder="Số lượng" id="quantity" class="form-control">
                                         </div>
                                     </div>
                                 @endif
@@ -95,7 +95,7 @@
         <!-- Main Content -->
         <div id="content">
             <div class="row">
-                <div class="col-12">
+                <div class="col-9">
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Danh sách màu của sản phẩm {{$one->name}}</h3>
@@ -140,6 +140,13 @@
                             </table>
                         </div>
                         <!-- /.card-body -->
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="card bg-light p-3">
+                        <h5>Chức năng thêm</h5>
+                        <a href="{{route('product.formInsert')}}" class="btn btn-primary my-3">Thêm sản phẩm</a>
+                        <a href="{{route('product.formThumbnails',['id' => $one->id_product])}}" class="btn btn-info">Thêm ảnh sản phẩm</a>
                     </div>
                 </div>
             </div>

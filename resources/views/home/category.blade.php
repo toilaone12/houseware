@@ -8,7 +8,7 @@
             <ul class="main-nav nav navbar-nav">
                 <li class="active"><a href="{{route('home.dashboard')}}">Trang chủ</a></li>
                 @foreach ($listParentCate as $parent)
-                <li><a href="">{{$parent->name}}</a></li>
+                <li><a href="{{route('category.home',['id' => $parent->id_category])}}">{{$parent->name}}</a></li>
                 @endforeach
             </ul>
             <!-- /NAV -->

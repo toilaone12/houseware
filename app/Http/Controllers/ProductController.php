@@ -59,9 +59,9 @@ class ProductController extends Controller
             'technical' => $data['technical'],
         ]);
         if($insert){
-            return redirect()->route('product.formInsert')->with('message','<p class="text-success small">Thêm sản phẩm '.mb_strtolower($data['name'],'UTF-8').' thành công</p>');
+            return redirect()->route('product.formInsert',['id' => $insert->id_product])->with('message','<p class="text-success small">Thêm sản phẩm '.mb_strtolower($data['name'],'UTF-8').' thành công</p>');
         }else{
-            return redirect()->route('product.formInsert')->with('message','<p class="text-danger small">Lỗi truy vấn</p>');
+            return redirect()->route('product.formInsert',['id' => $insert->id_product])->with('message','<p class="text-danger small">Lỗi truy vấn</p>');
         }
     }
     //form sua san pham
