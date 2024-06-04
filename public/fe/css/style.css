@@ -2151,6 +2151,22 @@ textarea.input {
     color: #fff;
 }
 
+.btn-filter-price {
+    margin-top: 15px;
+    width: 100%;
+    background-color: #D10024;
+    outline: none;
+}
+
+.btn-filter-price:focus {
+    outline: none !important;
+}
+
+.btn-filter-price:hover {
+    background-color: #fa2c4f;
+    color: #fff !important;
+}
+
 /*=========================================================
 	13 -> RESPONSIVE
 ===========================================================*/

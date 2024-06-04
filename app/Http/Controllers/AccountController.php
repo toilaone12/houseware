@@ -41,7 +41,7 @@ class AccountController extends Controller
         $email = $data['email'];
         $titleMail = 'Tạo tài khoản thành công';
         Validator::make($data,[
-            'username' => ['unique:Account,username'], //kiem tra tinh duy nhat trong bang Account va truong du lieu name
+            'username' => ['unique:account,username'], //kiem tra tinh duy nhat trong bang Account va truong du lieu name
             'fullname' => ['regex: /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơĂƯăưẠ-ỹ ]+$/u'],
             'password' => ['min:6','max:32'],
         ],

@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductColor;
+use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
 {
-    //
+    //trang chu
     function dashboard(){
         $title = 'Trang chủ';
         $listParentCate = Category::where('id_parent',0)->get();
@@ -133,5 +138,88 @@ class HomeController extends Controller
         }
         // dd($listsCategory);
         return view('home.content',compact('title','listParentCate','listsHot','listsCategory','listProduct'));
+    }
+    //form dang nhap & dang ky
+    function login(){
+        return view('home.login');
+    }
+    //dang nhap
+    function signIn(Request $request){
+        $data = $request->all();
+        $isRemember = isset($data['is_remember']) ? 1 : 0;
+        if($isRemember){
+            $arrRemember = [
+                'username' => $data['username'],
+                'password' => $data['password'],
+                'remember' => $isRemember,
+            ];
+            $jsonRemember = json_encode($arrRemember);
+            Cookie::queue('json_remember', $jsonRemember, 2628000);
+        }else{
+            $jsonRemember = Cookie::get('json_remember');
+            if (isset($jsonRemember)) {
+                Cookie::queue(Cookie::forget('json_remember'));
+            }
+        }
+        Validator::make($data, [
+            'password' => ['min:6', 'max:32'],
+        ], [
+            'password.min' => 'Mật khẩu phải từ 6 đến 32 ký tự',
+            'password.max' => 'Mật khẩu phải từ 6 đến 32 ký tự',
+        ])->validate();
+        $login = Account::where('username', $data['username'])->where('password', md5($data['password']))->first();
+        if($login){
+            $account = Account::find($login->id_account);
+            $account->is_online = 1;
+            $online = $account->save();
+            if($online){
+                Cookie::queue('id_customer',$login->id_account, 2628000);
+                return redirect()->route('home.dashboard');
+            }
+        } else {
+            return redirect()->route('home.login')->with('message','Tài khoản hoặc mật khẩu sai hoặc không tồn tại');
+        }
+    }
+    //dang ky
+    function signUp(Request $request){
+        $data = $request->all();
+        $email = $data['email'];
+        $titleMail = 'Tạo tài khoản thành công';
+        Validator::make($data,[
+            'fullname' => ['regex: /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơĂƯăưẠ-ỹ ]+$/u'],
+            'password' => ['min:6','max:32'],
+        ],
+        [
+            'fullname.regex' => 'Họ tên phải là chữ cái',
+            'password.min' => 'Mật khẩu phải từ 6 đến 32 ký tự',
+        ])->validate();
+        $idRoleCustomer = Role::where('is_admin',0)->select('id_role')->first();
+        $account = Account::where('id_role',$idRoleCustomer)->where('username',$data['username'])->first();
+        if(empty($account)){
+            $insert = Account::create([
+                'username' => $data['username'],
+                'fullname' => $data['fullname'],
+                'email' => $data['email'],
+                'password' => md5($data['password']),
+                'id_role' => $idRoleCustomer->id_role,
+                'is_online' => 0,
+            ]);
+            if($insert){
+                $dataMail = [
+                    'name' => $data['fullname'],
+                    'username' => $data['username'],
+                    'password' => $data['password'],
+                ];
+                $mail = Mail::send('mail.register',$dataMail,function($message) use ($titleMail,$email){
+                    $message->to($email)->subject($titleMail);
+                    $message->from($email,$titleMail);
+                });
+                return redirect()->route('home.login')->with('signUp','<p class="text-success small">Tạo tài khoản thành công, vui lòng kiểm tra email</p>');
+            }else{
+                return redirect()->route('home.login')->with('signUp','<p class="text-danger small">Lỗi truy vấn</p>');
+            }
+        }else{
+            return redirect()->route('home.login')->with('signUp','<p class="text-danger small">Tài khoản đã tồn tại</p>');
+        }
     }
 }

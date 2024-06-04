@@ -152,11 +152,11 @@
     // Price Slider
     if (priceSlider) {
         noUiSlider.create(priceSlider, {
-            start: [0, 100000000],
+            start: [500000, 100000000],
             connect: true,
             step: 100000,
             range: {
-                'min': 0,
+                'min': 500000,
                 'max': 100000000
             },
 

@@ -81,12 +81,15 @@ class CategoryController extends Controller
         $data = $request->all();
         $desc = intval($request->get('desc'));
         $asc = intval($request->get('asc'));
+        $min = intval($request->get('min'));
+        $max = intval($request->get('max'));
         $one = Category::find($data['id']);
         $title = $one->name;
         $listParentCate = Category::where('id_parent',0)->get();
         $listChild = Category::where('id_parent',$one->id_category)->get();
         $listChildAll = Category::where('id_parent','!=',0)->get();
         $arrChild = [];
+        //phan san pham
         if(count($listChild)){
             foreach($listChild as $child){
                 $childDatas[] = $child->id_category;
@@ -96,6 +99,9 @@ class CategoryController extends Controller
                 $listProduct = $listProduct->orderBy('id_product','asc');
             }else if($desc){
                 $listProduct = $listProduct->orderBy('id_product','desc');
+            }
+            if($min && $max){
+                $listProduct = $listProduct->whereBetween('price',[$min,$max]);
             }
             $listProduct = $listProduct->paginate(9);
             $countProduct = Product::whereIn('id_category',$childDatas)->get();

@@ -18,8 +18,12 @@
             e.preventDefault();
             let filter = $(this).val();
             let id = $(this).attr('data-id');
-            let url = "{{route('category.home')}}";
-            location.href = url+'?id='+id+'&'+filter+'=1';
+            let min = "{{isset($_GET['min']) && $_GET['min'] ? intval($_GET['min']) : ''}}";
+            let max = "{{isset($_GET['max']) && $_GET['max'] ? intval($_GET['max']) : ''}}";
+            let url = "{{route('category.home')}}"+'?id='+id+'&'+filter+'=1';
+            if(min) url += '&min='+min;
+            if(max) url += '&max='+max;
+            location.href = url;
         })
     })
 </script>

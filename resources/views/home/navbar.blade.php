@@ -8,7 +8,7 @@
         </ul>
         <ul class="header-links pull-right">
             <li><a href="#"><i class="fa fa-dong-sign"></i> VND</a></li>
-            <li><a href="#"><i class="fa fa-user-o"></i> Đăng nhập</a></li>
+            <li><a href="{{route('home.login')}}"><i class="fa fa-user-o"></i> Đăng nhập</a></li>
         </ul>
     </div>
 </div>

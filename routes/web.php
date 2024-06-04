@@ -114,6 +114,9 @@ Route::prefix('admin')->group(function(){
 //nguoi dung
 Route::prefix('home')->group(function(){
     Route::get('/', [HomeController::class,'dashboard'])->name('home.dashboard');
+    Route::get('/login', [HomeController::class,'login'])->name('home.login');
+    Route::post('/signUp', [HomeController::class,'signUp'])->name('home.signUp');
+    Route::post('/signIn', [HomeController::class,'signIn'])->name('home.signIn');
     Route::prefix('category')->group(function(){
         Route::get('/',[CategoryController::class,'home'])->name('category.home');
     });
