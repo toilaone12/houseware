@@ -3,11 +3,13 @@
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\FeeController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ModalController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
@@ -117,7 +119,20 @@ Route::prefix('home')->group(function(){
     Route::get('/login', [HomeController::class,'login'])->name('home.login');
     Route::post('/signUp', [HomeController::class,'signUp'])->name('home.signUp');
     Route::post('/signIn', [HomeController::class,'signIn'])->name('home.signIn');
+    // danh muc
     Route::prefix('category')->group(function(){
         Route::get('/',[CategoryController::class,'home'])->name('category.home');
+    });
+    // gio hang
+    Route::prefix('cart')->group(function(){
+        Route::post('/',[CartController::class,'add'])->name('cart.add');
+    });
+    // modal
+    Route::prefix('modal')->group(function(){
+        Route::get('/color',[ModalController::class,'modalColorProduct'])->name('modal.color');
+    });
+    // san pham
+    Route::prefix('product')->group(function(){
+        Route::get('/detail',[ProductController::class,'detail'])->name('product.detail');
     });
 });

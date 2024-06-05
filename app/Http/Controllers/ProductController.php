@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Color;
 use App\Models\Product;
 use App\Models\ProductColor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
@@ -348,5 +350,35 @@ class ProductController extends Controller
         }else{
             return json_encode(['res' => 'error', 'title' => 'Xóa ảnh cho sản phẩm', 'text' => 'Lỗi truy vấn', 'icon' => 'error']);
         }
+    }
+    //trang chu
+    //chi tiet san pham
+    function detail(Request $request){
+        $id = $request->get('product');
+        $product = Product::find($id);
+        $title = $product->name;
+        $productColor = ProductColor::where('id_product',$id)->first();
+        $listParentCate = Category::where('id_parent',0)->get();
+        //hien thi gio hang
+        $idCustomer = Cookie::get('id_customer');
+        $carts = [];
+        $count = 0;
+        if(isset($idCustomer) && $idCustomer){
+            $carts = Cart::where('id_account',$idCustomer)->get();
+            $count = count($carts->toArray());
+        }
+        //hien thi danh sach mau cua san pham dang co
+        $productColor = json_decode($productColor->color_path,true);
+        $arrColor = [];
+        foreach($productColor as $key => $color){
+            $oneItem = Color::find($color['id_color']);
+            $arrColor[] = [
+                'id' => $color['id_color'],
+                'name' => $oneItem->name,
+                'quantity' => $color['quantity'],
+            ];
+        }
+        $idCate = $product->id_category;
+        return view('product.detail',compact('product','productColor','title','count','carts','listParentCate','arrColor','idCate'));
     }
 }

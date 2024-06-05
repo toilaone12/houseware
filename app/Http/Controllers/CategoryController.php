@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -142,6 +144,15 @@ class CategoryController extends Controller
                 $arrChild[] = $parentDatas;
             }
         }
-        return view('category.home',compact('one','title','listProduct','listParentCate','countProduct','arrChild'));
+        //hien thi gio hang
+        $idCustomer = Cookie::get('id_customer');
+        $carts = [];
+        $count = 0;
+        if(isset($idCustomer) && $idCustomer){
+            $carts = Cart::where('id_account',$idCustomer)->get();
+            $count = count($carts->toArray());
+        }
+        $idCate = $_GET['id'];
+        return view('category.home',compact('one','title','listProduct','listParentCate','countProduct','arrChild','count','carts','idCate'));
     }
 }

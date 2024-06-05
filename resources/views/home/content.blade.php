@@ -92,9 +92,9 @@
                             <div class="products-slick" data-nav="#slick-nav-{{$key+1}}">
                                 @foreach ($hot['products'] as $product)
                                     @php
-                                        $priceAfter = intval($product['price']) - (intval($product['price']) * intval($product['discount'] / 100));
+                                        $priceAfter = intval($product['price']) - (intval($product['price']) * intval($product['discount']) / 100);
                                     @endphp
-                                    <div class="product">
+                                    <div class="product" data-id="{{$product['id']}}">
                                         <div class="product-img">
                                             <img src="{{asset($product['image'])}}" loading="lazy" width="263" height="263" class="img-fluid object-fit-cover" alt="">
                                             <div class="product-label">
@@ -113,11 +113,12 @@
                                             </h4>
                                             <div class="product-btns">
                                                 <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">yêu thích</span></button>
-                                                <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">Xem chi tiết</span></button>
+                                                <button class="quick-view" data-id="{{$product['id']}}"><i class="fa fa-eye"></i><span class="tooltipp">Xem chi tiết</span></button>
                                             </div>
                                         </div>
                                         <div class="add-to-cart">
-                                            <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</button>
+                                            <button class="add-to-cart-btn btn-open-modal" data-href="{{route('modal.color',['id' => $product['id']])}}"
+                                                data-bs-toggle="modal" data-bs-target="#modal_all_box"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</button>
                                         </div>
                                     </div>
                                 @endforeach
@@ -384,14 +385,14 @@
                         @foreach ($category['products'] as $key => $product)
                         @php
                             unset($category['products'][$key]);
-                            $priceAfter = intval($product['price']) - (intval($product['price']) * intval($product['discount'] / 100));
+                            $priceAfter = intval($product['price']) - (intval($product['price']) * intval($product['discount']) / 100);
                         @endphp
                         <div class="product-widget">
                             <div class="product-img">
                                 <img src="{{asset($product['image'])}}" alt="">
                             </div>
                             <div class="product-body font-larezal">
-                                <h3 class="product-name h-50"><a href="#">{{$product['name']}}</a></h3>
+                                <h3 class="product-name h-50"><a href="{{route('product.detail',['product' => $product['id']])}}">{{$product['name']}}</a></h3>
                                 <h4 class="product-price">{{number_format($priceAfter,0,',','.')}} đ
                                     @if ($product['discount'])
                                     <del class="product-old-price">{{number_format($product["price"],0,",",".")}} đ</del>
@@ -415,5 +416,4 @@
     <!-- /container -->
 </div>
 <!-- /SECTION -->
-
 @endsection

@@ -4,11 +4,25 @@
         <ul class="header-links pull-left">
             <li><a href="#"><i class="fa fa-phone"></i> +021-95-51-84</a></li>
             <li><a href="#"><i class="fa fa-envelope-o"></i> quan@gmail.com</a></li>
-            <li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
+            <li><a href="#"><i class="fa fa-map-marker"></i> Thái Nguyên</a></li>
         </ul>
         <ul class="header-links pull-right">
             <li><a href="#"><i class="fa fa-dong-sign"></i> VND</a></li>
-            <li><a href="{{route('home.login')}}"><i class="fa fa-user-o"></i> Đăng nhập</a></li>
+            <li>
+                @php
+                    use App\Models\Account;
+                    use App\Models\Color;
+                    $cookie = Cookie::get('id_customer');
+                @endphp
+                @if(isset($cookie) && $cookie)
+                @php
+                $account = Account::find($cookie);
+                @endphp
+                <a href=""><i class="fa fa-user-o"></i> {{$account->fullname}}</a>
+                @else
+                <a href="{{route('home.login')}}"><i class="fa fa-user-o"></i> Đăng nhập</a>
+                @endif
+            </li>
         </ul>
     </div>
 </div>
@@ -44,59 +58,65 @@
             <!-- ACCOUNT -->
             <div class="col-md-3 clearfix">
                 <div class="header-ctn">
+                    @if(isset($cookie) && $cookie)
                     <!-- Wishlist -->
                     <div>
                         <a href="#">
                             <i class="fa fa-heart-o"></i>
                             <span>Yêu thích</span>
-                            <div class="qty">2</div>
+                            <div class="qty qty-whitelist">2</div>
                         </a>
                     </div>
                     <!-- /Wishlist -->
 
                     <!-- Cart -->
                     <div class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                        <a class="dropdown-toggle dropdown-cart" data-toggle="dropdown" aria-expanded="true">
                             <i class="fa fa-shopping-cart"></i>
                             <span>Giỏ hàng</span>
-                            <div class="qty">3</div>
+                            @if ($count)
+                            <div class="qty qty-cart">{{$count}}</div>
+                            @endif
                         </a>
                         <div class="cart-dropdown">
                             <div class="cart-list">
+                                @if ($count)
+                                @php
+                                    $total = 0;
+                                @endphp
+                                @foreach ($carts as $cart)
+                                @php
+                                    $color = Color::find($cart['id_color'])['name'];
+                                    $subtotal = $cart->price * $cart->quantity;
+                                    $total += $subtotal;
+                                @endphp
                                 <div class="product-widget">
                                     <div class="product-img">
-                                        <img src="{{asset('fe/img/product01.png')}}" alt="">
+                                        <img src="{{asset($cart->image)}}" alt="">
                                     </div>
                                     <div class="product-body">
-                                        <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                        <h4 class="product-price"><span class="qty">1x</span>$980.00</h4>
+                                        <h3 class="product-name"><a href="#">{{$cart->name}}</a></h3>
+                                        <h4 class="product-price"><span class="qty">{{$cart->quantity}}x</span><span class="qty fw-bolder">{{$color}}</span>{{number_format($subtotal,0,',','.')}} đ</h4>
                                     </div>
-                                    <button class="delete"><i class="fa fa-close"></i></button>
+                                    <button class="delete delete-cart" data-id="{{$cart->id_cart}}"><i class="fa fa-close"></i></button>
                                 </div>
-
-                                <div class="product-widget">
-                                    <div class="product-img">
-                                        <img src="{{asset('fe/img/product02.png')}}" alt="">
-                                    </div>
-                                    <div class="product-body">
-                                        <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                        <h4 class="product-price"><span class="qty">3x</span>$980.00</h4>
-                                    </div>
-                                    <button class="delete"><i class="fa fa-close"></i></button>
-                                </div>
+                                @endforeach
+                                @endif
                             </div>
+                            @if ($count)
                             <div class="cart-summary">
-                                <small>3 Item(s) selected</small>
-                                <h5>SUBTOTAL: $2940.00</h5>
+                                <small class="count-cart">Đã có {{$count}} sản phẩm</small>
+                                <h5 class="total-cart">Tổng tiền: {{number_format($total,0,',','.')}} đ</h5>
                             </div>
-                            <div class="cart-btns">
-                                <a href="#">View Cart</a>
-                                <a href="#">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
+                            <div class="cart-btns font-lalezar">
+                                <a href="#">Xem giỏ hàng</a>
+                                <a href="#">Mua hàng <i class="fa fa-arrow-circle-right"></i></a>
                             </div>
+                            @endif
                         </div>
                     </div>
                     <!-- /Cart -->
-
+                    @endif
                     <!-- Menu Toogle -->
                     <div class="menu-toggle">
                         <a href="#">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductColor;
@@ -19,6 +20,14 @@ class HomeController extends Controller
     function dashboard(){
         $title = 'Trang chủ';
         $listParentCate = Category::where('id_parent',0)->get();
+        //hien thi gio hang
+        $idCustomer = Cookie::get('id_customer');
+        $carts = [];
+        $count = 0;
+        if(isset($idCustomer) && $idCustomer){
+            $carts = Cart::where('id_account',$idCustomer)->get();
+            $count = count($carts->toArray());
+        }
         //san pham moi nhat
         $listsHot = [];
         $randomParent = [];
@@ -53,6 +62,7 @@ class HomeController extends Controller
                                 'name' => $product->name,
                                 'price' => $product->price,
                                 'discount' => $product->discount,
+                                'color' => json_decode($listProductColor['color_path'],true)
                             ];
                             $productCount++;
                             if ($productCount >= 5) break 2; // Dừng khi đã có đủ 5 sản phẩm //break 2; la thoat khoi 2 vong lap long nhau
@@ -71,6 +81,7 @@ class HomeController extends Controller
                             'name' => $product->name,
                             'price' => $product->price,
                             'discount' => $product->discount,
+                            'color' => json_decode($listProductColor['color_path'],true)
                         ];
                         $productCount++;
                         if ($productCount >= 5) break; // Dừng khi đã có đủ 5 sản phẩm
@@ -137,7 +148,7 @@ class HomeController extends Controller
             if($key == 2) break;
         }
         // dd($listsCategory);
-        return view('home.content',compact('title','listParentCate','listsHot','listsCategory','listProduct'));
+        return view('home.content',compact('title','listParentCate','listsHot','listsCategory','listProduct','count','carts'));
     }
     //form dang nhap & dang ky
     function login(){
@@ -167,7 +178,8 @@ class HomeController extends Controller
             'password.min' => 'Mật khẩu phải từ 6 đến 32 ký tự',
             'password.max' => 'Mật khẩu phải từ 6 đến 32 ký tự',
         ])->validate();
-        $login = Account::where('username', $data['username'])->where('password', md5($data['password']))->first();
+        $idRole = Role::where('is_admin',0)->select('id_role')->first();
+        $login = Account::where('username', $data['username'])->where('password', md5($data['password']))->where('id_role',$idRole->id_role)->first();
         if($login){
             $account = Account::find($login->id_account);
             $account->is_online = 1;
@@ -177,7 +189,7 @@ class HomeController extends Controller
                 return redirect()->route('home.dashboard');
             }
         } else {
-            return redirect()->route('home.login')->with('message','Tài khoản hoặc mật khẩu sai hoặc không tồn tại');
+            return redirect()->route('home.login')->with('message','<p class="text-danger small">Tài khoản hoặc mật khẩu sai hoặc không tồn tại</p>');
         }
     }
     //dang ky

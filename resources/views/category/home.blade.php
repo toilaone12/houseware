@@ -88,7 +88,7 @@
                 <div class="row">
                     @foreach ($listProduct as $product)
                     @php
-                        $priceAfter = intval($product['price']) - (intval($product['price']) * intval($product['discount'] / 100));
+                        $priceAfter = intval($product['price']) - (intval($product['price']) * intval($product['discount']) / 100);
                     @endphp
                     <div class="col-md-4 col-xs-6">
                         <div class="product">
@@ -102,19 +102,20 @@
                                 </div>
                             </div>
                             <div class="product-body font-lalezar">
-                                <h3 class="product-name h-50px"><a href="#">{{$product['name']}}</a></h3>
+                                <h3 class="product-name h-50px"><a href="#">{{$product->name}}</a></h3>
                                 <h4 class="product-price">{{number_format($priceAfter,0,',','.')}} đ
-                                    @if ($product['discount'])
-                                    <del class="product-old-price">{{number_format($product["price"],0,",",".")}} đ</del>
+                                    @if ($product->discount)
+                                    <del class="product-old-price">{{number_format($product->price,0,",",".")}} đ</del>
                                     @endif
                                 </h4>
                                 <div class="product-btns">
                                     <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">yêu thích</span></button>
-                                    <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">Xem chi tiết</span></button>
+                                    <button class="quick-view" data-id="{{$product->id_product}}"><i class="fa fa-eye"></i><span class="tooltipp">Xem chi tiết</span></button>
                                 </div>
                             </div>
                             <div class="add-to-cart">
-                                <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</button>
+                                <button class="add-to-cart-btn btn-open-modal" data-href="{{route('modal.color',['id' => $product->id_product])}}"
+                                    data-bs-toggle="modal" data-bs-target="#modal_all_box"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</button>
                             </div>
                         </div>
                     </div>

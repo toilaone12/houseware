@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 04, 2024 lúc 07:34 PM
+-- Thời gian đã tạo: Th6 05, 2024 lúc 06:31 PM
 -- Phiên bản máy phục vụ: 10.4.22-MariaDB
 -- Phiên bản PHP: 7.3.33
 
@@ -49,7 +49,7 @@ INSERT INTO `account` (`id_account`, `id_role`, `username`, `fullname`, `email`,
 (1, 1, 'quan', 'Quân', 'bokazem69@gmail.com', NULL, NULL, 'e10adc3949ba59abbe56e057f20f883e', 1, '2024-05-30 01:34:06', '2024-05-30 09:15:20'),
 (2, 3, 'dung', 'Dung', 'toilaone12@gmail.com', NULL, NULL, 'd0fda0cf702231b3963aedb610256146', 0, '2024-05-30 01:40:04', '2024-05-30 02:51:49'),
 (3, 1, 'dung123', 'ChinChin', 'toilaone12@gmail.com', NULL, NULL, 'e10adc3949ba59abbe56e057f20f883e', 0, '2024-05-30 01:41:38', '2024-05-30 01:41:38'),
-(4, 2, 'quan', 'Nguyễn Đình Minh Quân', 'bokazem69@gmail.com', NULL, NULL, 'e10adc3949ba59abbe56e057f20f883e', 0, '2024-06-04 10:30:15', '2024-06-04 10:30:15');
+(4, 2, 'quan', 'Nguyễn Đình Minh Quân', 'bokazem69@gmail.com', NULL, NULL, 'e10adc3949ba59abbe56e057f20f883e', 1, '2024-06-04 10:30:15', '2024-06-05 01:34:22');
 
 -- --------------------------------------------------------
 
@@ -70,6 +70,36 @@ CREATE TABLE `banner` (
 
 INSERT INTO `banner` (`id_banner`, `image`, `created_at`, `updated_at`) VALUES
 (1, 'be/img/banner/sam-sung-galaxy-zflip4-vang-hong-1-1717176595.jpg', '2024-05-31 10:16:06', '2024-05-31 10:29:55');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `cart`
+--
+
+CREATE TABLE `cart` (
+  `id_cart` int(10) UNSIGNED NOT NULL,
+  `id_account` int(11) NOT NULL,
+  `id_product` int(11) NOT NULL,
+  `image` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id_color` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `price` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `cart`
+--
+
+INSERT INTO `cart` (`id_cart`, `id_account`, `id_product`, `image`, `name`, `id_color`, `quantity`, `price`, `created_at`, `updated_at`) VALUES
+(12, 4, 5, 'be/img/product/PKF645E14E-1717403453.jpg', 'Bếp Điện Bosch PKF645E14E', 1, 3, 17143000, '2024-06-05 08:13:03', '2024-06-05 08:32:40'),
+(13, 4, 3, 'be/img/product/EH-IH566-anh-chinh-1717402950.png', 'Bếp ba từ Chefs EH-IH566', 1, 2, 22015000, '2024-06-05 08:13:45', '2024-06-05 08:25:37'),
+(14, 4, 12, 'be/img/product/sp94-1-1717409258.jpg', 'Hút mùi Canzy CZ 3470', 2, 1, 4000000, '2024-06-05 08:24:24', '2024-06-05 08:24:24'),
+(15, 4, 13, 'be/img/product/DWB07W651-anh-chinh-1717476313.jpg', 'Hút Mùi Treo Tường BOSCH DWB07W651', 2, 2, 13166500, '2024-06-05 08:24:55', '2024-06-05 08:25:08'),
+(16, 4, 10, 'be/img/product/3-1717408860.png', 'BẾP ĐÔI TỪ KẾT HỢP HỒNG NGOẠI KV 03 CỠ NHỎ', 1, 1, 3800000, '2024-06-05 09:31:00', '2024-06-05 09:31:00');
 
 -- --------------------------------------------------------
 
@@ -223,7 +253,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (10, '2024_05_31_161520_create_banner', 5),
 (11, '2024_06_01_090314_create_coupon', 6),
 (12, '2024_06_01_153231_create_product', 7),
-(13, '2024_06_02_091149_create_product_color', 8);
+(13, '2024_06_02_091149_create_product_color', 8),
+(14, '2024_06_05_084637_create_cart', 9);
 
 -- --------------------------------------------------------
 
@@ -415,6 +446,12 @@ ALTER TABLE `banner`
   ADD PRIMARY KEY (`id_banner`);
 
 --
+-- Chỉ mục cho bảng `cart`
+--
+ALTER TABLE `cart`
+  ADD PRIMARY KEY (`id_cart`);
+
+--
 -- Chỉ mục cho bảng `category`
 --
 ALTER TABLE `category`
@@ -507,6 +544,12 @@ ALTER TABLE `banner`
   MODIFY `id_banner` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT cho bảng `cart`
+--
+ALTER TABLE `cart`
+  MODIFY `id_cart` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
 -- AUTO_INCREMENT cho bảng `category`
 --
 ALTER TABLE `category`
@@ -540,7 +583,7 @@ ALTER TABLE `fee`
 -- AUTO_INCREMENT cho bảng `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT cho bảng `personal_access_tokens`

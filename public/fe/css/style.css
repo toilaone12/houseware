@@ -145,7 +145,7 @@ textarea.input {
   width: 100%;
   border: 1px solid #E4E7ED;
   background-color: #FFF;
-  padding: 0px 35px 0px 15px;
+  padding: 0px 20px 0px 15px;
 }
 
 .input-number .qty-up, .input-number .qty-down {
@@ -545,7 +545,7 @@ textarea.input {
 
 .cart-dropdown {
   position: absolute;
-  width: 300px;
+  width: 350px;
   background: #FFF;
   padding: 15px;
   -webkit-box-shadow: 0px 0px 0px 2px #E4E7ED;
@@ -562,9 +562,38 @@ textarea.input {
 }
 
 .cart-dropdown .cart-list {
-  max-height: 180px;
+  max-height: 230px;
   overflow-y: scroll;
   margin-bottom: 15px;
+}
+
+/* Style for WebKit browsers (e.g., Chrome, Safari) */
+.cart-dropdown .cart-list::-webkit-scrollbar {
+    width: 5px; /* Change the width of the scrollbar */
+}
+
+.cart-dropdown .cart-list::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Color of the scrollbar track */
+}
+
+.cart-dropdown .cart-list::-webkit-scrollbar-thumb {
+    background: #888; /* Color of the scrollbar handle */
+    border-radius: 3px; /* Rounded corners of the scrollbar handle */
+}
+
+.cart-dropdown .cart-list::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Color of the scrollbar handle when hovered */
+}
+
+/* Style for Firefox */
+.cart-dropdown .cart-list {
+    scrollbar-width: thin; /* Change the width of the scrollbar */
+    scrollbar-color: #888 #f1f1f1; /* Color of the scrollbar handle and track */
+}
+
+/* Style for Internet Explorer and Edge */
+.cart-dropdown .cart-list {
+    -ms-overflow-style: -ms-autohiding-scrollbar; /* Hides scrollbar when not in use */
 }
 
 .cart-dropdown .cart-list .product-widget {
@@ -1508,7 +1537,10 @@ textarea.input {
   text-transform: uppercase;
   font-weight: 700;
   margin-left: 30px;
-  color: #D10024;
+  color: #fff;
+  background-color: #D10024;
+  padding: 11px 7px;
+  border-radius: 50%;
 }
 
 .product-details .product-options {
@@ -1525,7 +1557,7 @@ textarea.input {
 }
 
 .product-details .product-options .input-select {
-  width: 90px;
+  width: 110px;
 }
 
 .product-details .add-to-cart {
@@ -2165,6 +2197,26 @@ textarea.input {
 .btn-filter-price:hover {
     background-color: #fa2c4f;
     color: #fff !important;
+}
+
+.btn:focus {
+    outline: none !important;
+}
+
+.fw-bolder {
+    font-weight: bolder !important;
+}
+
+.ml-5 {
+    margin-left: 5px;
+}
+
+.mt-15 {
+    margin-top: 15px;
+}
+
+.mr-10 {
+    margin-right: 10px;
 }
 
 /*=========================================================

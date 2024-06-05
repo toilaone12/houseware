@@ -6,9 +6,9 @@
         <div id="responsive-nav">
             <!-- NAV -->
             <ul class="main-nav nav navbar-nav">
-                <li class="active"><a href="{{route('home.dashboard')}}">Trang chủ</a></li>
+                <li class="{{request()->is('home') ? 'active' : ''}}"><a href="{{route('home.dashboard')}}">Trang chủ</a></li>
                 @foreach ($listParentCate as $parent)
-                <li><a href="{{route('category.home',['id' => $parent->id_category])}}">{{$parent->name}}</a></li>
+                <li class="{{isset($idCate) && $idCate == $parent->id_category ? 'active' : ''}}"><a href="{{route('category.home',['id' => $parent->id_category])}}">{{$parent->name}}</a></li>
                 @endforeach
             </ul>
             <!-- /NAV -->

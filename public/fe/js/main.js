@@ -1,6 +1,5 @@
 (function ($) {
     "use strict"
-
     // Mobile Nav toggle
     $('.menu-toggle > a').on('click', function (e) {
         e.preventDefault();
@@ -75,7 +74,7 @@
 
     // Product imgs Slick
     $('#product-imgs').slick({
-        slidesToShow: 3,
+        slidesToShow: 2,
         slidesToScroll: 1,
         arrows: true,
         centerMode: true,
