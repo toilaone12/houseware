@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Account;
 use App\Models\Cart;
 use App\Models\Category;
+use App\Models\Favourite;
 use App\Models\Product;
 use App\Models\ProductColor;
 use App\Models\Role;
@@ -27,6 +28,14 @@ class HomeController extends Controller
         if(isset($idCustomer) && $idCustomer){
             $carts = Cart::where('id_account',$idCustomer)->get();
             $count = count($carts->toArray());
+        }
+        //hien thi yeu thich
+        $countWhiteList = 0;
+        if(isset($idCustomer) && $idCustomer){
+            $whitelists = Favourite::where('id_account',$idCustomer)->first();
+            if(!empty($whitelists->product_path)){
+                $countWhiteList = count(explode('|',trim($whitelists->product_path,'|')));
+            }
         }
         //san pham moi nhat
         $listsHot = [];
@@ -110,7 +119,7 @@ class HomeController extends Controller
             if (count($listChildCate)) {
                 foreach ($listChildCate as $child) {
                     // Lấy danh sách các sản phẩm của danh mục con
-                    $listProduct = Product::where('id_category', $child->id_category)->orderBy('updated_at')->get();
+                    $listProduct = Product::where('id_category', $child->id_category)->orderBy('updated_at','desc')->get();
                     foreach ($listProduct as $product) {
                         $listProductColor = ProductColor::where('id_product', $product->id_product)->first();
                         if (!empty($listProductColor)) { // neu san pham phai co mau thi moi dc hien
@@ -128,7 +137,7 @@ class HomeController extends Controller
                 }
             }else {
                 // Nếu không có danh mục con, lấy sản phẩm từ chính danh mục cha
-                $listProduct = Product::where('id_category', $parent['id'])->orderBy('updated_at')->get();
+                $listProduct = Product::where('id_category', $parent['id'])->orderBy('updated_at','desc')->get();
                 foreach ($listProduct as $product) {
                     $listProductColor = ProductColor::where('id_product', $product->id_product)->first();
                     if (!empty($listProductColor)) { // neu san pham phai co mau thi moi dc hien
@@ -148,7 +157,7 @@ class HomeController extends Controller
             if($key == 2) break;
         }
         // dd($listsCategory);
-        return view('home.content',compact('title','listParentCate','listsHot','listsCategory','listProduct','count','carts'));
+        return view('home.content',compact('title','listParentCate','listsHot','listsCategory','listProduct','count','carts','countWhiteList'));
     }
     //form dang nhap & dang ky
     function login(){

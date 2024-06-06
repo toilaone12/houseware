@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Category;
+use App\Models\Favourite;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
@@ -86,73 +87,85 @@ class CategoryController extends Controller
         $min = intval($request->get('min'));
         $max = intval($request->get('max'));
         $one = Category::find($data['id']);
-        $title = $one->name;
-        $listParentCate = Category::where('id_parent',0)->get();
-        $listChild = Category::where('id_parent',$one->id_category)->get();
-        $listChildAll = Category::where('id_parent','!=',0)->get();
-        $arrChild = [];
-        //phan san pham
-        if(count($listChild)){
-            foreach($listChild as $child){
-                $childDatas[] = $child->id_category;
-            }
-            $listProduct = Product::whereIn('id_category',$childDatas);
-            if($asc){
-                $listProduct = $listProduct->orderBy('id_product','asc');
-            }else if($desc){
-                $listProduct = $listProduct->orderBy('id_product','desc');
-            }
-            if($min && $max){
-                $listProduct = $listProduct->whereBetween('price',[$min,$max]);
-            }
-            $listProduct = $listProduct->paginate(9);
-            $countProduct = Product::whereIn('id_category',$childDatas)->get();
-        }else{
-            $listProduct = Product::where('id_category',$one->id_category);
-            if($asc){
-                $listProduct = $listProduct->orderBy('id_product','asc');
-            }else if($desc){
-                $listProduct = $listProduct->orderBy('id_product','desc');
-            }
-            $listProduct = $listProduct->paginate(9);
-            $countProduct = Product::where('id_category',$one->id_category)->get();
-        }
-        //phan danh muc
-        foreach($listParentCate as $key => $parent){
-            $listChild = Category::where('id_parent',$parent->id_category)->get();
-            if($parent->id_category != $one->id_category){
-                if(count($listChild)){
-                    $parentDatas = [
-                        'id' => $parent->id_category,
-                        'name' => $parent->name,
-                        'count' => 0,
-                    ];
-                    $count = 0;
-                    foreach($listChild as $child){
-                        $productChild = Product::where('id_category',$child->id_category)->get();
-                        $count += count($productChild);
-                        $parentDatas['count'] = $count;
-                    }
-                }else{
-                    $productParent = Product::where('id_category',$parent->id_category)->get();
-                    $parentDatas = [
-                        'id' => $parent->id_category,
-                        'name' => $parent->name,
-                        'count' => count($productParent)
-                    ];
+        if($one){
+            $title = $one->name;
+            $listParentCate = Category::where('id_parent',0)->get();
+            $listChild = Category::where('id_parent',$one->id_category)->get();
+            $listChildAll = Category::where('id_parent','!=',0)->get();
+            $arrChild = [];
+            //phan san pham
+            if(count($listChild)){
+                foreach($listChild as $child){
+                    $childDatas[] = $child->id_category;
                 }
-                $arrChild[] = $parentDatas;
+                $listProduct = Product::whereIn('id_category',$childDatas);
+                if($asc){
+                    $listProduct = $listProduct->orderBy('id_product','asc');
+                }else if($desc){
+                    $listProduct = $listProduct->orderBy('id_product','desc');
+                }
+                if($min && $max){
+                    $listProduct = $listProduct->whereBetween('price',[$min,$max]);
+                }
+                $listProduct = $listProduct->paginate(9);
+                $countProduct = Product::whereIn('id_category',$childDatas)->get();
+            }else{
+                $listProduct = Product::where('id_category',$one->id_category);
+                if($asc){
+                    $listProduct = $listProduct->orderBy('id_product','asc');
+                }else if($desc){
+                    $listProduct = $listProduct->orderBy('id_product','desc');
+                }
+                $listProduct = $listProduct->paginate(9);
+                $countProduct = Product::where('id_category',$one->id_category)->get();
             }
+            //phan danh muc
+            foreach($listParentCate as $key => $parent){
+                $listChild = Category::where('id_parent',$parent->id_category)->get();
+                if($parent->id_category != $one->id_category){
+                    if(count($listChild)){
+                        $parentDatas = [
+                            'id' => $parent->id_category,
+                            'name' => $parent->name,
+                            'count' => 0,
+                        ];
+                        $count = 0;
+                        foreach($listChild as $child){
+                            $productChild = Product::where('id_category',$child->id_category)->get();
+                            $count += count($productChild);
+                            $parentDatas['count'] = $count;
+                        }
+                    }else{
+                        $productParent = Product::where('id_category',$parent->id_category)->get();
+                        $parentDatas = [
+                            'id' => $parent->id_category,
+                            'name' => $parent->name,
+                            'count' => count($productParent)
+                        ];
+                    }
+                    $arrChild[] = $parentDatas;
+                }
+            }
+            //hien thi gio hang
+            $idCustomer = Cookie::get('id_customer');
+            $carts = [];
+            $count = 0;
+            if(isset($idCustomer) && $idCustomer){
+                $carts = Cart::where('id_account',$idCustomer)->get();
+                $count = count($carts->toArray());
+            }
+            //hien thi yeu thich
+            $countWhiteList = 0;
+            if(isset($idCustomer) && $idCustomer){
+                $whitelists = Favourite::where('id_account',$idCustomer)->first();
+                if(!empty($whitelists->product_path)){
+                    $countWhiteList = count(explode('|',trim($whitelists->product_path,'|')));
+                }
+            }
+            $idCate = $_GET['id'];
+            return view('category.home',compact('one','title','listProduct','listParentCate','countProduct','arrChild','count','carts','idCate','countWhiteList'));
+        }else{
+            return redirect()->route('home.dashboard');
         }
-        //hien thi gio hang
-        $idCustomer = Cookie::get('id_customer');
-        $carts = [];
-        $count = 0;
-        if(isset($idCustomer) && $idCustomer){
-            $carts = Cart::where('id_account',$idCustomer)->get();
-            $count = count($carts->toArray());
-        }
-        $idCate = $_GET['id'];
-        return view('category.home',compact('one','title','listProduct','listParentCate','countProduct','arrChild','count','carts','idCate'));
     }
 }

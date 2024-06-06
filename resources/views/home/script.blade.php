@@ -7,6 +7,7 @@
 <script src="{{asset('fe/js/nouislider.min.js')}}"></script>
 <script src="{{asset('fe/js/jquery.zoom.min.js')}}"></script>
 <script src="{{asset('fe/js/main.js')}}"></script>
+<script src="{{asset('fe/js/update.js')}}"></script>
 <script>
     $(function(){
         const notyf = new Notyf({
@@ -47,62 +48,76 @@
             if(max) url += '&max='+max;
             location.href = url;
         })
-        //chon mau
-        $(document).on('change','.choose-color', function(e){
-            e.preventDefault();
-            let color = $(this).val();
-            $('.add-cart').attr('data-color',color);
-        })
-        //them vao gio hang
+        //them nhanh gio hang
         $(document).on('click', '.add-cart', function(e){
             e.preventDefault();
             let id = $(this).attr('data-id');
             let url = "{{route('cart.add')}}";
             let color = $(this).attr('data-color');
+            let idCustomer = $('.fullname-login').attr('data-id');
             if(color){
-                postAjax(url,{id: id, color: color},
+                if(idCustomer){
+                    postAjax(url,{id: id, color: color},
+                        function(data){
+                            if(data.res == 'success'){
+                                formCart(data)
+                                notyf.success({message: data.text});
+                            }else{
+                                notyf.error({message: data.text});
+                            }
+                        },
+                        function(err){
+                            console.log(err);
+                        }
+                    )
+                }else{
+                    $('#modal_all_box').modal('hide');
+                    location.href = "{{route('home.login')}}"
+                }
+            }else{
+                notyf.error({message: 'Yêu cầu chọn màu sắc cho sản phẩm'});
+            }
+        })
+        //them gio hang trong chi tiet
+        $('.add-cart-detail').on('submit', function(e){
+            e.preventDefault();
+            let formData = new FormData($(this)[0]);
+            let url = "{{route('cart.add')}}";
+            let idCustomer = $('.fullname-login').attr('data-id');
+            if(idCustomer){
+                postAjax(url, formData,
                     function(data){
                         if(data.res == 'success'){
-                            let html = ``;
-                            let total = 0;
-                            data.carts.forEach(function(cart){
-                                let subtotal = cart.price * cart.quantity;
-                                total += subtotal;
-                                html +=
-                                `<div class="product-widget">
-                                    <div class="product-img">
-                                        <img src="http://127.0.0.1:8000/${cart.image}" alt="">
-                                    </div>
-                                    <div class="product-body">
-                                        <h3 class="product-name"><a href="#">${cart.name}</a></h3>
-                                        <h4 class="product-price"><span class="qty">${cart.quantity}x</span><span class="qty fw-bolder">${cart.color}</span>${formatCurrency(subtotal)}</h4>
-                                    </div>
-                                    <button class="delete delete-cart" data-id="${cart.id_cart}"><i class="fa fa-close"></i></button>
-                                </div>`;
-                            })
+                            formCart(data)
                             notyf.success({message: data.text});
-                            $('.cart-list').html(html);
-                            $('#modal_all_box').modal('hide');
-                            if(data.count == 1){
-                                if(!data.isUpdate) {
-                                    $('.dropdown-cart').append(`<div class="qty qty-cart">${data.count}</div>`)
-                                    $('.cart-dropdown').append(`<div class="cart-summary">
-                                        <small class="count-cart">Đã có ${data.count} sản phẩm</small>
-                                        <h5 class="total-cart">Tổng tiền: ${formatCurrency(total)}</h5>
-                                    </div>
-                                    <div class="cart-btns font-lalezar">
-                                        <a href="#">Xem giỏ hàng</a>
-                                        <a href="#">Mua hàng <i class="fa fa-arrow-circle-right"></i></a>
-                                    </div>`)
-                                }else{
-                                    $('.qty-cart').text(data.count);
-                                    $('.count-cart').text(`Đã có ${data.count} sản phẩm`)
-                                    $('.total-cart').text(`Tổng tiền: ${formatCurrency(total)}`)
-                                }
-                            }else{
-                                $('.qty-cart').text(data.count);
-                                $('.count-cart').text(`Đã có ${data.count} sản phẩm`)
-                                $('.total-cart').text(`Tổng tiền: ${formatCurrency(total)}`)
+                        }else{
+                            notyf.error({message: data.text});
+                        }
+                    },
+                    function(err){
+                        console.log(err);
+                    }
+                ,'json',1)
+            }else{
+                location.href = "{{route('home.login')}}"
+            }
+        })
+        //yeu thich san pham
+        $('.add-favourite').on('click', function(e){
+            e.preventDefault();
+            let id = $(this).attr('data-id');
+            let idCustomer = $('.fullname-login').attr('data-id');
+            let url = "{{route('favourite.add')}}";
+            if(idCustomer){
+                postAjax(url, {id: id, id_customer: idCustomer},
+                    function(data){
+                        if(data.res == 'success'){
+                            if(!data.isUpdate) { // them lan dau
+                                notyf.success({message: data.text});
+                                $('.dropdown-favourite').append(`<div class="qty qty-whitelist">${data.count}</div>`)
+                            }else{ //cap nhat them san pham yeu thich
+                                notyf.success({message: data.text});
+                                $('.qty-whitelist').text(data.count);
                             }
                         }else{
                             notyf.error({message: data.text});
@@ -113,7 +128,7 @@
                     }
                 )
             }else{
-                notyf.error({message: 'Yêu cầu chọn màu sắc cho sản phẩm'});
+                location.href = "{{route('home.login')}}"
             }
         })
         //xem chi tiet san pham
@@ -122,5 +137,88 @@
             let id = $(this).attr('data-id');
             location.href = "{{route('product.detail')}}?product="+id;
         })
+        //danh gia san pham
+        $('.review-form').on('submit', function(e){
+            e.preventDefault();
+            let formData = new FormData($(this)[0]);
+            let url = "{{route('review.add')}}";
+            let rating = $('.input-rating').attr('data-rating');
+            if(rating){
+                postAjax(url, formData,
+                    function(data){
+                        if(data.res == 'success'){
+                            notyf.success({message: data.text});
+                            $('.input-rating').attr('data-rating','');
+                            $('.review-form').find('input[type="text"][name="fullname"]').val('');
+                            $('.review-form').find('textarea[name="review"]').val('');
+                        }else{
+                            notyf.error({message: data.text});
+                        }
+                    },
+                    function(err){
+                        console.log(err);
+                    }
+                ,'json',1)
+            }else{
+                notyf.error({message: "Bạn chưa đánh giá số sao"});
+            }
+        })
     })
 </script>
+{{-- xu ly script cua trang san pham --}}
+@if(request()->is('home/product/detail'))
+    <script>
+        $(function(){
+            //phan trang
+            let pagination = parseInt($('.reviews-pagination').attr('data-page'));
+            $('.pagination').each(function(){
+                if($(this).attr('data-page') == pagination){
+                    $(this).addClass('active');
+                }
+            })
+            $(document).on('click','.pagination', function(){
+                let html = '';
+                let isThis = $(this);
+                let page = $(this).attr('data-page');
+                let id = "{{$_GET['product']}}";
+                let url = "{{route('review.pagination')}}";
+                let now = parseInt($('.reviews-pagination').attr('data-page'));
+                if($(this).attr('data-page') != now){
+                    getAjax(url, {page: page, id: id},
+                        function(data){
+                            if(data.res == 'success'){
+                                data.reviews.forEach(function(review){
+                                    html += `
+                                    <li class="review-items">
+                                        <div class="review-heading">
+                                            <h4 class="name">${review.fullname}</h4>
+                                            <p class="date">${review.date}</p>
+                                            <div class="review-rating">`
+                                    for ($i = 0; $i < review.rating; $i++){
+                                        html += `<i class="fa fa-star"></i>`
+                                    }
+                                    for ($i = review.rating; $i < 5; $i++){
+                                        html += `<i class="fa fa-star-o empty"></i>`
+                                    }
+                                    html += `</div>
+                                        </div>
+                                        <div class="review-body">
+                                            <p>${review.review}</p>
+                                        </div>
+                                    </li>`;
+                                })
+                                $('.reviews-pagination').attr('data-page',page);
+                                $('.pagination').removeClass('active');
+                                isThis.addClass('active');
+                                $('.reviews').html(html);
+                            }
+                        },
+                        function(err){
+                            console.log(err);
+                        }
+                    )
+                }
+            })
+        })
+    </script>
+@endif

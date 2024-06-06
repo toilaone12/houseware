@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 05, 2024 lúc 06:31 PM
--- Phiên bản máy phục vụ: 10.4.22-MariaDB
--- Phiên bản PHP: 7.3.33
+-- Thời gian đã tạo: Th6 06, 2024 lúc 12:27 PM
+-- Phiên bản máy phục vụ: 10.4.25-MariaDB
+-- Phiên bản PHP: 7.4.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -95,11 +95,10 @@ CREATE TABLE `cart` (
 --
 
 INSERT INTO `cart` (`id_cart`, `id_account`, `id_product`, `image`, `name`, `id_color`, `quantity`, `price`, `created_at`, `updated_at`) VALUES
-(12, 4, 5, 'be/img/product/PKF645E14E-1717403453.jpg', 'Bếp Điện Bosch PKF645E14E', 1, 3, 17143000, '2024-06-05 08:13:03', '2024-06-05 08:32:40'),
-(13, 4, 3, 'be/img/product/EH-IH566-anh-chinh-1717402950.png', 'Bếp ba từ Chefs EH-IH566', 1, 2, 22015000, '2024-06-05 08:13:45', '2024-06-05 08:25:37'),
-(14, 4, 12, 'be/img/product/sp94-1-1717409258.jpg', 'Hút mùi Canzy CZ 3470', 2, 1, 4000000, '2024-06-05 08:24:24', '2024-06-05 08:24:24'),
-(15, 4, 13, 'be/img/product/DWB07W651-anh-chinh-1717476313.jpg', 'Hút Mùi Treo Tường BOSCH DWB07W651', 2, 2, 13166500, '2024-06-05 08:24:55', '2024-06-05 08:25:08'),
-(16, 4, 10, 'be/img/product/3-1717408860.png', 'BẾP ĐÔI TỪ KẾT HỢP HỒNG NGOẠI KV 03 CỠ NHỎ', 1, 1, 3800000, '2024-06-05 09:31:00', '2024-06-05 09:31:00');
+(20, 4, 5, 'be/img/product/PKF645E14E-1717403453.jpg', 'Bếp Điện Bosch PKF645E14E', 1, 9, 17143000, '2024-06-06 08:54:30', '2024-06-06 08:55:15'),
+(21, 4, 8, 'be/img/product/sp125-1717404245.jpg', 'Bếp điện từ Chefs EH-MIX2000A', 1, 1, 7362300, '2024-06-06 08:55:07', '2024-06-06 08:55:07'),
+(22, 4, 12, 'be/img/product/sp94-1-1717409258.jpg', 'Hút mùi Canzy CZ 3470', 2, 2, 4000000, '2024-06-06 09:20:29', '2024-06-06 09:21:28'),
+(23, 4, 12, 'be/img/product/sp94-1-1717409258.jpg', 'Hút mùi Canzy CZ 3470', 1, 1, 4000000, '2024-06-06 09:21:46', '2024-06-06 09:21:46');
 
 -- --------------------------------------------------------
 
@@ -198,6 +197,27 @@ CREATE TABLE `failed_jobs` (
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `favourite`
+--
+
+CREATE TABLE `favourite` (
+  `id_favourite` int(10) UNSIGNED NOT NULL,
+  `id_account` int(11) NOT NULL,
+  `product_path` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `favourite`
+--
+
+INSERT INTO `favourite` (`id_favourite`, `id_account`, `product_path`, `created_at`, `updated_at`) VALUES
+(2, 4, '|1|16|15|12|', '2024-06-06 10:23:30', '2024-06-06 10:26:59');
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `fee`
 --
 
@@ -254,7 +274,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (11, '2024_06_01_090314_create_coupon', 6),
 (12, '2024_06_01_153231_create_product', 7),
 (13, '2024_06_02_091149_create_product_color', 8),
-(14, '2024_06_05_084637_create_cart', 9);
+(14, '2024_06_05_084637_create_cart', 9),
+(15, '2024_06_06_025437_create_review', 10),
+(16, '2024_06_06_164300_create_favourite', 11);
 
 -- --------------------------------------------------------
 
@@ -391,6 +413,38 @@ INSERT INTO `product_color` (`id`, `id_product`, `color_path`, `created_at`, `up
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `review`
+--
+
+CREATE TABLE `review` (
+  `id_review` int(10) UNSIGNED NOT NULL,
+  `id_product` int(11) NOT NULL,
+  `id_account` int(11) NOT NULL,
+  `fullname` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `rating` smallint(6) NOT NULL,
+  `review` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id_reply` int(11) NOT NULL,
+  `is_update` tinyint(4) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `review`
+--
+
+INSERT INTO `review` (`id_review`, `id_product`, `id_account`, `fullname`, `rating`, `review`, `id_reply`, `is_update`, `created_at`, `updated_at`) VALUES
+(1, 23, 4, 'Nguyễn Đình Minh Quân', 4, 'Đánh giá cao', 0, 0, '2024-06-05 21:11:41', '2024-06-05 21:11:41'),
+(2, 23, 4, 'Nguyễn Đình Minh Quân', 4, 'Đánh giá cao', 0, 0, '2024-06-05 21:11:50', '2024-06-05 21:11:50'),
+(3, 23, 4, 'Nguyễn Đình Tuấn', 4, 'Sử dụng rất tốt, hài lòng', 0, 0, '2024-06-05 21:14:15', '2024-06-05 21:14:15'),
+(4, 23, 4, 'Bó Quách Đạt', 5, 'Hài lòng về sản phẩm này', 0, 0, '2024-06-05 21:15:03', '2024-06-05 21:15:03'),
+(5, 23, 4, 'Nguyễn Thị Nga', 1, 'Chất lượng về sản phẩm chưa đạt đúng ý tôi', 0, 0, '2024-06-05 21:15:33', '2024-06-05 21:15:33'),
+(6, 23, 4, 'Nguyễn Đình Minh Quân', 3, 'Khá hài lòng', 0, 0, '2024-06-05 21:30:13', '2024-06-05 21:30:13'),
+(7, 23, 4, 'Trần Nam Anh', 4, 'Khá thích sản phẩm này', 0, 0, '2024-06-06 07:25:00', '2024-06-06 07:25:00');
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `role`
 --
 
@@ -477,6 +531,12 @@ ALTER TABLE `failed_jobs`
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
 
 --
+-- Chỉ mục cho bảng `favourite`
+--
+ALTER TABLE `favourite`
+  ADD PRIMARY KEY (`id_favourite`);
+
+--
 -- Chỉ mục cho bảng `fee`
 --
 ALTER TABLE `fee`
@@ -515,6 +575,12 @@ ALTER TABLE `product_color`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Chỉ mục cho bảng `review`
+--
+ALTER TABLE `review`
+  ADD PRIMARY KEY (`id_review`);
+
+--
 -- Chỉ mục cho bảng `role`
 --
 ALTER TABLE `role`
@@ -547,7 +613,7 @@ ALTER TABLE `banner`
 -- AUTO_INCREMENT cho bảng `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id_cart` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_cart` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT cho bảng `category`
@@ -574,6 +640,12 @@ ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT cho bảng `favourite`
+--
+ALTER TABLE `favourite`
+  MODIFY `id_favourite` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT cho bảng `fee`
 --
 ALTER TABLE `fee`
@@ -583,7 +655,7 @@ ALTER TABLE `fee`
 -- AUTO_INCREMENT cho bảng `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT cho bảng `personal_access_tokens`
@@ -602,6 +674,12 @@ ALTER TABLE `product`
 --
 ALTER TABLE `product_color`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+
+--
+-- AUTO_INCREMENT cho bảng `review`
+--
+ALTER TABLE `review`
+  MODIFY `id_review` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT cho bảng `role`

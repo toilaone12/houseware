@@ -18,7 +18,7 @@
                 @php
                 $account = Account::find($cookie);
                 @endphp
-                <a href=""><i class="fa fa-user-o"></i> {{$account->fullname}}</a>
+                <a href="" class="fullname-login" data-id="{{$cookie}}"><i class="fa fa-user-o"></i> {{$account->fullname}}</a>
                 @else
                 <a href="{{route('home.login')}}"><i class="fa fa-user-o"></i> Đăng nhập</a>
                 @endif
@@ -61,10 +61,12 @@
                     @if(isset($cookie) && $cookie)
                     <!-- Wishlist -->
                     <div>
-                        <a href="#">
+                        <a href="#" class="dropdown-favourite">
                             <i class="fa fa-heart-o"></i>
                             <span>Yêu thích</span>
-                            <div class="qty qty-whitelist">2</div>
+                            @if($countWhiteList)
+                            <div class="qty qty-whitelist">{{$countWhiteList}}</div>
+                            @endif
                         </a>
                     </div>
                     <!-- /Wishlist -->
@@ -95,7 +97,7 @@
                                         <img src="{{asset($cart->image)}}" alt="">
                                     </div>
                                     <div class="product-body">
-                                        <h3 class="product-name"><a href="#">{{$cart->name}}</a></h3>
+                                        <h3 class="product-name"><a href="{{route('product.detail',['product'=>$cart->id_product])}}">{{$cart->name}}</a></h3>
                                         <h4 class="product-price"><span class="qty">{{$cart->quantity}}x</span><span class="qty fw-bolder">{{$color}}</span>{{number_format($subtotal,0,',','.')}} đ</h4>
                                     </div>
                                     <button class="delete delete-cart" data-id="{{$cart->id_cart}}"><i class="fa fa-close"></i></button>
@@ -106,11 +108,10 @@
                             @if ($count)
                             <div class="cart-summary">
                                 <small class="count-cart">Đã có {{$count}} sản phẩm</small>
-                                <h5 class="total-cart">Tổng tiền: {{number_format($total,0,',','.')}} đ</h5>
+                                <h4 class="total-cart">Tổng tiền: {{number_format($total,0,',','.')}} đ</h4>
                             </div>
                             <div class="cart-btns font-lalezar">
                                 <a href="#">Xem giỏ hàng</a>
-                                <a href="#">Mua hàng <i class="fa fa-arrow-circle-right"></i></a>
                             </div>
                             @endif
                         </div>

@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Color;
+use App\Models\Favourite;
 use App\Models\Product;
 use App\Models\ProductColor;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Validator;
@@ -356,29 +358,72 @@ class ProductController extends Controller
     function detail(Request $request){
         $id = $request->get('product');
         $product = Product::find($id);
-        $title = $product->name;
-        $productColor = ProductColor::where('id_product',$id)->first();
-        $listParentCate = Category::where('id_parent',0)->get();
-        //hien thi gio hang
-        $idCustomer = Cookie::get('id_customer');
-        $carts = [];
-        $count = 0;
-        if(isset($idCustomer) && $idCustomer){
-            $carts = Cart::where('id_account',$idCustomer)->get();
-            $count = count($carts->toArray());
+        if($product){
+            $title = $product->name;
+            $productColor = ProductColor::where('id_product',$id)->first();
+            $listParentCate = Category::where('id_parent',0)->get();
+            //hien thi gio hang
+            $idCustomer = Cookie::get('id_customer');
+            $carts = [];
+            $count = 0;
+            if(isset($idCustomer) && $idCustomer){
+                $carts = Cart::where('id_account',$idCustomer)->get();
+                $count = count($carts->toArray());
+            }
+            //hien thi yeu thich
+            $countWhiteList = 0;
+            if(isset($idCustomer) && $idCustomer){
+                $whitelists = Favourite::where('id_account',$idCustomer)->first();
+                if(!empty($whitelists->product_path)){
+                    $countWhiteList = count(explode('|',trim($whitelists->product_path,'|')));
+                }
+            }
+            //hien thi danh sach mau cua san pham dang co
+            $productColor = json_decode($productColor->color_path,true);
+            $arrColor = [];
+            foreach($productColor as $key => $color){
+                $oneItem = Color::find($color['id_color']);
+                $arrColor[] = [
+                    'id' => $color['id_color'],
+                    'name' => $oneItem->name,
+                    'quantity' => $color['quantity'],
+                ];
+            }
+            //hien thi id danh muc
+            $idCate = $product->id_category;
+            //hien thi danh sach san pham lien quan
+            $oneCate = Category::find($idCate);
+            $productRelated = '';
+            if($oneCate->id_parent){
+                $idCate = $oneCate->id_parent;
+                $arrChild = [];
+                $childCate = Category::where('id_parent',$idCate)->get();
+                foreach($childCate as $child){
+                    $arrChild[] = $child->id_category;
+                }
+                $productRelated = Product::whereIn('id_category',$arrChild)->where('id_product','!=',$id)->orderBy('id_product','desc')->limit(4)->get();
+            }else{
+                $productRelated = Product::where('id_category',$idCate)->where('id_product','!=',$id)->orderBy('id_product','desc')->limit(4)->get();
+            }
+            //phan danh gia
+            $reviews = Review::where('id_product',$id)->orderBy('id_review','desc')->get();
+            $countRating = count($reviews);
+            $total = 0;
+            $avg = 0;
+            $arrRating = [5 => 0, 4 => 0, 3 => 0, 2 => 0, 1 => 0];
+            foreach($reviews as $review){
+                $rating = intval($review->rating);
+                $total += $rating;
+                if(array_key_exists($rating,$arrRating)){
+                    $arrRating[$rating]++;
+                }
+            }
+            if($countRating){
+                $avg = intval(round($total / $countRating));
+            }
+            return view('product.detail',compact('product','productColor','title','count','carts','listParentCate','arrColor','idCate','productRelated','reviews','avg','countRating','arrRating','countWhiteList'));
+        }else{
+            return redirect()->route('home.dashboard');
         }
-        //hien thi danh sach mau cua san pham dang co
-        $productColor = json_decode($productColor->color_path,true);
-        $arrColor = [];
-        foreach($productColor as $key => $color){
-            $oneItem = Color::find($color['id_color']);
-            $arrColor[] = [
-                'id' => $color['id_color'],
-                'name' => $oneItem->name,
-                'quantity' => $color['quantity'],
-            ];
-        }
-        $idCate = $product->id_category;
-        return view('product.detail',compact('product','productColor','title','count','carts','listParentCate','arrColor','idCate'));
     }
 }

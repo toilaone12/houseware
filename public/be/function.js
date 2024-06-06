@@ -64,4 +64,46 @@ function formatCurrency(number) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " đ";
 }
 
+function formCart(data){
+    let html = ``;
+    let total = 0;
+    data.carts.forEach(function(cart){
+        let subtotal = cart.price * cart.quantity;
+        total += subtotal;
+        html +=
+        `<div class="product-widget">
+            <div class="product-img">
+                <img src="http://127.0.0.1:8000/${cart.image}" alt="">
+            </div>
+            <div class="product-body">
+                <h3 class="product-name"><a href="http://127.0.0.1:8000/home/product/detail?product=${cart.id_product}">${cart.name}</a></h3>
+                <h4 class="product-price"><span class="qty">${cart.quantity}x</span><span class="qty fw-bolder">${cart.color}</span>${formatCurrency(subtotal)}</h4>
+            </div>
+            <button class="delete delete-cart" data-id="${cart.id_cart}"><i class="fa fa-close"></i></button>
+        </div>`;
+    })
+    $('.cart-list').html(html);
+    $('#modal_all_box').modal('hide');
+    if(data.count == 1){
+        if(!data.isUpdate) { // them lan dau
+            $('.dropdown-cart').append(`<div class="qty qty-cart">${data.count}</div>`)
+            $('.cart-dropdown').append(`<div class="cart-summary">
+                <small class="count-cart">Đã có ${data.count} sản phẩm</small>
+                <h4 class="total-cart">Tổng tiền: ${formatCurrency(total)}</h4>
+            </div>
+            <div class="cart-btns font-lalezar">
+                <a href="#">Xem giỏ hàng</a>
+            </div>`)
+        }else{ //cap nhat so luong
+            $('.qty-cart').text(data.count);
+            $('.count-cart').text(`Đã có ${data.count} sản phẩm`)
+            $('.total-cart').text(`Tổng tiền: ${formatCurrency(total)}`)
+        }
+    }else{ //cap nhat so luong
+        $('.qty-cart').text(data.count);
+        $('.count-cart').text(`Đã có ${data.count} sản phẩm`)
+        $('.total-cart').text(`Tổng tiền: ${formatCurrency(total)}`)
+    }
+}
+
 

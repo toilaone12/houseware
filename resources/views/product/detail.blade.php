@@ -1,6 +1,6 @@
 @extends('home')
 @section('content')
-<div class="section">
+<div class="section font-lalezar">
     <!-- container -->
     <div class="container">
         <!-- row -->
@@ -9,7 +9,8 @@
             <div class="col-md-5 col-md-push-2">
                 <div id="product-main-img">
                     @php
-                        $thumbnails = explode('|',trim($product->thumbnail_path,'|'))
+                        $thumbnails = explode('|',trim($product->thumbnail_path,'|'));
+                        $thumbnails = array_reverse($thumbnails);
                     @endphp
                     @foreach ($thumbnails as $thumbnail)
                     <div class="product-preview">
@@ -24,7 +25,8 @@
             <div class="col-md-2  col-md-pull-5">
                 <div id="product-imgs">
                     @php
-                        $thumbnails = explode('|',trim($product->thumbnail_path,'|'))
+                        $thumbnails = explode('|',trim($product->thumbnail_path,'|'));
+                        $thumbnails = array_reverse($thumbnails);
                     @endphp
                     @foreach ($thumbnails as $thumbnail)
                     <div class="product-preview">
@@ -41,13 +43,14 @@
                     <h2 class="product-name">{{$product->name}}</h2>
                     <div>
                         <div class="product-rating">
+                            @for ($i = 0; $i < $avg; $i++)
                             <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
+                            @endfor
+                            @for ($i = $avg; $i < 5; $i++)
                             <i class="fa fa-star-o"></i>
+                            @endfor
                         </div>
-                        <a class="review-link" href="#">10 Review(s) | Add your review</a>
+                        <a class="review-link">{{$countRating}} đánh giá</a>
                     </div>
                     <div>
                         @php
@@ -58,35 +61,40 @@
                             <del class="product-old-price">{{number_format($product->price,0,",",".")}} đ</del>
                             @endif
                         </h3>
+                        @if ($product->discount)
                         <span class="product-available">{{$product->discount}}%</span>
+                        @endif
                     </div>
                     <div class="fw-bolder">{!!$product->description!!}</div>
+                    <form class="add-cart-detail">
+                        <input type="hidden" name="id" value="{{$product->id_product}}">
+                        <div class="product-options">
+                            <label>
+                                Màu sắc
+                                <select class="input-select choose-detail-color" name="color">
+                                    @foreach ($arrColor as $color)
+                                    <option value="{{$color['id']}}" data-quantity="{{$color['quantity']}}">{{$color['name']}}</option>
+                                    @endforeach
+                                </select>
+                            </label>
+                            <span class="quantity-product-color">(Còn {{$arrColor[0]['quantity']}} sản phẩm)</span>
+                        </div>
 
-                    <div class="product-options">
-                        <label>
-                            Màu sắc
-                            <select class="input-select" name="id_color">
-                                @foreach ($arrColor as $color)
-                                <option value="{{$color['id']}}" data-quantity="{{$color['quantity']}}">{{$color['name']}}</option>
-                                @endforeach
-                            </select>
-                        </label>
-                    </div>
-
-                    <div class="add-to-cart">
-                        <div class="qty-label">
-                            Số lượng đặt
-                            <div class="input-number ml-5">
-                                <input type="number" value="1" min="0" class="text-center">
-                                <span class="qty-up">+</span>
-                                <span class="qty-down">-</span>
+                        <div class="add-to-cart">
+                            <div class="qty-label">
+                                Số lượng đặt
+                                <div class="input-number ml-5">
+                                    <input type="number" name="quantity" value="1" min="1" max="{{$arrColor[0]['quantity']}}" class="text-center qty-input">
+                                    <span class="qty-detail-up qty-detail" data-type="up">+</span>
+                                    <span class="qty-detail-down qty-detail" data-type="down">-</span>
+                                </div>
+                            </div>
+                            <div class="d-flex mt-15">
+                                <button type="submit" class="add-to-cart-btn mr-10"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</button>
+                                <button class="add-to-cart-btn mt-xs-10 add-favourite" data-id="{{$product->id_product}}"><i class="fa fa-heart-o"></i>Yêu thích</button>
                             </div>
                         </div>
-                        <div class="d-flex mt-15">
-                            <button class="add-to-cart-btn mr-10"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</button>
-                            <button class="add-to-cart-btn"><i class="fa fa-heart-o"></i>Yêu thích</button>
-                        </div>
-                    </div>
+                    </form>
 
                 </div>
             </div>
@@ -98,11 +106,9 @@
                     <!-- product tab nav -->
                     <ul class="tab-nav">
                         <li class="active"><a data-toggle="tab" href="#tab1">Thông số kỹ thuật</a></li>
-                        <li><a data-toggle="tab" href="#tab3">Đánh giá (3)</a></li>
+                        <li><a data-toggle="tab" href="#tab3">Đánh giá ({{$countRating}})</a></li>
                     </ul>
-                    <!-- /product tab nav -->
 
-                    <!-- product tab content -->
                     <div class="tab-content">
                         <!-- tab1  -->
                         <div id="tab1" class="tab-pane fade in active">
@@ -112,203 +118,117 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- /tab1  -->
-
-                        <!-- tab2  -->
-                        <div id="tab2" class="tab-pane fade in">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /tab2  -->
-
-                        <!-- tab3  -->
                         <div id="tab3" class="tab-pane fade in">
                             <div class="row">
                                 <!-- Rating -->
                                 <div class="col-md-3">
                                     <div id="rating">
                                         <div class="rating-avg">
-                                            <span>4.5</span>
+                                            <span>{{$avg}}</span>
                                             <div class="rating-stars">
+                                                @for ($i = 0; $i < $avg; $i++)
                                                 <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
+                                                @endfor
+                                                @for ($i = $avg; $i < 5; $i++)
                                                 <i class="fa fa-star-o"></i>
+                                                @endfor
                                             </div>
                                         </div>
                                         <ul class="rating">
+                                            @foreach($arrRating as $key => $rating)
                                             <li>
                                                 <div class="rating-stars">
+                                                    @for ($i = 0; $i < $key; $i++)
                                                     <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
+                                                    @endfor
+                                                    @for ($i = $key; $i < 5; $i++)
+                                                    <i class="fa fa-star-o"></i>
+                                                    @endfor
                                                 </div>
                                                 <div class="rating-progress">
-                                                    <div style="width: 80%;"></div>
+                                                    <div style="width: {{$countRating ? round($rating / $countRating * 100) : 0}}%;"></div>
                                                 </div>
-                                                <span class="sum">3</span>
+                                                <span class="sum"></span>
                                             </li>
-                                            <li>
-                                                <div class="rating-stars">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                </div>
-                                                <div class="rating-progress">
-                                                    <div style="width: 60%;"></div>
-                                                </div>
-                                                <span class="sum">2</span>
-                                            </li>
-                                            <li>
-                                                <div class="rating-stars">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                </div>
-                                                <div class="rating-progress">
-                                                    <div></div>
-                                                </div>
-                                                <span class="sum">0</span>
-                                            </li>
-                                            <li>
-                                                <div class="rating-stars">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                </div>
-                                                <div class="rating-progress">
-                                                    <div></div>
-                                                </div>
-                                                <span class="sum">0</span>
-                                            </li>
-                                            <li>
-                                                <div class="rating-stars">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                </div>
-                                                <div class="rating-progress">
-                                                    <div></div>
-                                                </div>
-                                                <span class="sum">0</span>
-                                            </li>
+                                            @endforeach
                                         </ul>
                                     </div>
                                 </div>
-                                <!-- /Rating -->
 
-                                <!-- Reviews -->
                                 <div class="col-md-6">
                                     <div id="reviews">
                                         <ul class="reviews">
-                                            <li>
+                                            @foreach ($reviews as $key => $review)
+                                            <li class="review-items" data-id="{{$review->id_review}}">
                                                 <div class="review-heading">
-                                                    <h5 class="name">John</h5>
-                                                    <p class="date">27 DEC 2018, 8:0 PM</p>
+                                                    <h4 class="name">{{$review->fullname}}</h4>
+                                                    <p class="date">{{date('d m Y g:i A',strtotime($review->updated_at))}}</p>
                                                     <div class="review-rating">
+                                                        @for ($i = 0; $i < $review->rating; $i++)
                                                         <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
+                                                        @endfor
+                                                        @for ($i = $review->rating; $i < 5; $i++)
                                                         <i class="fa fa-star-o empty"></i>
+                                                        @endfor
                                                     </div>
                                                 </div>
                                                 <div class="review-body">
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
+                                                    <p>{{$review->review}}</p>
                                                 </div>
                                             </li>
-                                            <li>
-                                                <div class="review-heading">
-                                                    <h5 class="name">John</h5>
-                                                    <p class="date">27 DEC 2018, 8:0 PM</p>
-                                                    <div class="review-rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-o empty"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="review-body">
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="review-heading">
-                                                    <h5 class="name">John</h5>
-                                                    <p class="date">27 DEC 2018, 8:0 PM</p>
-                                                    <div class="review-rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-o empty"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="review-body">
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-                                                </div>
-                                            </li>
+                                            @php
+                                                if($key == 2) break;
+                                            @endphp
+                                            @endforeach
                                         </ul>
-                                        <ul class="reviews-pagination">
-                                            <li class="active">1</li>
-                                            <li><a href="#">2</a></li>
-                                            <li><a href="#">3</a></li>
-                                            <li><a href="#">4</a></li>
-                                            <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+                                        <ul class="reviews-pagination cursor-pointer" data-page="1" data-max="{{ceil($countRating / 3)}}">
+                                            @for ($i = 1; $i <= ceil($countRating / 3); $i++)
+                                                <li class="pagination" data-page="{{$i}}">{{$i}}</li>
+                                            @endfor
                                         </ul>
                                     </div>
                                 </div>
-                                <!-- /Reviews -->
 
-                                <!-- Review Form -->
                                 <div class="col-md-3">
+                                    <h3 class="text-center">Đánh giá</h3>
+                                    @php
+                                        use App\Models\Account;
+                                        $cookie = Cookie::get('id_customer');
+                                    @endphp
+                                    @if(isset($cookie) && $cookie)
+                                    @php
+                                        $account = Account::find($cookie);
+                                    @endphp
                                     <div id="review-form">
                                         <form class="review-form">
-                                            <input class="input" type="text" placeholder="Your Name">
-                                            <input class="input" type="email" placeholder="Your Email">
-                                            <textarea class="input" placeholder="Your Review"></textarea>
-                                            <div class="input-rating">
-                                                <span>Your Rating: </span>
+                                            <input type="hidden" name="id_account" value="{{$account->id_account}}">
+                                            <input type="hidden" name="id_product" value="{{$product->id_product}}">
+                                            <input class="input" required type="text" name="fullname" value="{{$account->fullname}}" placeholder="Họ tên">
+                                            <div class="input-rating" data-rating="">
                                                 <div class="stars">
-                                                    <input id="star5" name="rating" value="5" type="radio"><label for="star5"></label>
-                                                    <input id="star4" name="rating" value="4" type="radio"><label for="star4"></label>
-                                                    <input id="star3" name="rating" value="3" type="radio"><label for="star3"></label>
-                                                    <input id="star2" name="rating" value="2" type="radio"><label for="star2"></label>
-                                                    <input id="star1" name="rating" value="1" type="radio"><label for="star1"></label>
+                                                    <input id="star5" name="rating" class="choose-rating" value="5" type="radio"><label for="star5"></label>
+                                                    <input id="star4" name="rating" class="choose-rating" value="4" type="radio"><label for="star4"></label>
+                                                    <input id="star3" name="rating" class="choose-rating" value="3" type="radio"><label for="star3"></label>
+                                                    <input id="star2" name="rating" class="choose-rating" value="2" type="radio"><label for="star2"></label>
+                                                    <input id="star1" name="rating" class="choose-rating" value="1" type="radio"><label for="star1"></label>
                                                 </div>
                                             </div>
-                                            <button class="primary-btn">Submit</button>
+                                            <textarea class="input" required name="review" placeholder="Đánh giá"></textarea>
+                                            <button class="primary-btn">Gửi</button>
                                         </form>
                                     </div>
+                                    @else
+                                    <a href="{{route('home.login')}}" class="ml-20 primary-btn">Yêu cầu cần đăng nhập</a>
+                                    @endif
                                 </div>
                                 <!-- /Review Form -->
                             </div>
                         </div>
-                        <!-- /tab3  -->
                     </div>
-                    <!-- /product tab content  -->
                 </div>
             </div>
-            <!-- /product tab -->
         </div>
-        <!-- /row -->
     </div>
-    <!-- /container -->
 </div>
 
 <div class="section">
@@ -318,129 +238,44 @@
         <div class="row">
 
             <div class="col-md-12">
-                <div class="section-title text-center">
-                    <h3 class="title">Related Products</h3>
+                <div class="section-title text-center font-lalezar">
+                    <h2 class="title">Sản phẩm liên quan</h2>
                 </div>
             </div>
-
-            <!-- product -->
+            @foreach ($productRelated as $product)
+            @php
+                $priceAfter = intval($product['price']) - (intval($product['price']) * intval($product['discount']) / 100);
+            @endphp
             <div class="col-md-3 col-xs-6">
                 <div class="product">
                     <div class="product-img">
-                        <img src="{{asset('fe/img/product01.png')}}" alt="">
+                        <img src="{{asset($product->image)}}" width="262" height="262" class="object-fit-cover" alt="">
                         <div class="product-label">
-                            <span class="sale">-30%</span>
+                            @if ($product->discount)
+                            <span class="sale">-{{$product->discount}}%</span>
+                            @endif
+                            <span class="new">Mới</span>
                         </div>
                     </div>
-                    <div class="product-body">
-                        <p class="product-category">Category</p>
-                        <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                        <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                        <div class="product-rating">
-                        </div>
+                    <div class="product-body font-lalezar">
+                        <h3 class="product-name h-50px"><a href="{{route('product.detail',['product' => $product->id_product])}}">{{$product->name}}</a></h3>
+                        <h4 class="product-price">{{number_format($priceAfter,0,',','.')}} đ
+                            @if ($product->discount)
+                            <del class="product-old-price">{{number_format($product->price,0,",",".")}} đ</del>
+                            @endif
+                        </h4>
                         <div class="product-btns">
-                            <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-                            <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                            <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+                            <button class="add-to-wishlist add-favourite" data-id="{{$product->id_product}}"><i class="fa fa-heart-o"></i><span class="tooltipp">yêu thích</span></button>
+                            <button class="quick-view" data-id="{{$product->id_product}}"><i class="fa fa-eye"></i><span class="tooltipp">Xem chi tiết</span></button>
                         </div>
                     </div>
                     <div class="add-to-cart">
-                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                        <button class="add-to-cart-btn btn-open-modal" data-href="{{route('modal.color',['id' => $product->id_product])}}"
+                            data-bs-toggle="modal" data-bs-target="#modal_all_box"><i class="fa fa-shopping-cart"></i>Thêm giỏ hàng</button>
                     </div>
                 </div>
             </div>
-            <!-- /product -->
-
-            <!-- product -->
-            <div class="col-md-3 col-xs-6">
-                <div class="product">
-                    <div class="product-img">
-                        <img src="{{asset('fe/img/product02.png')}}" alt="">
-                        <div class="product-label">
-                            <span class="new">NEW</span>
-                        </div>
-                    </div>
-                    <div class="product-body">
-                        <p class="product-category">Category</p>
-                        <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                        <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                        <div class="product-rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                        </div>
-                        <div class="product-btns">
-                            <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-                            <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                            <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-                        </div>
-                    </div>
-                    <div class="add-to-cart">
-                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-                    </div>
-                </div>
-            </div>
-            <!-- /product -->
-
-            <div class="clearfix visible-sm visible-xs"></div>
-
-            <!-- product -->
-            <div class="col-md-3 col-xs-6">
-                <div class="product">
-                    <div class="product-img">
-                        <img src="{{asset('fe/img/product03.png')}}" alt="">
-                    </div>
-                    <div class="product-body">
-                        <p class="product-category">Category</p>
-                        <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                        <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                        <div class="product-rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star-o"></i>
-                        </div>
-                        <div class="product-btns">
-                            <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-                            <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                            <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-                        </div>
-                    </div>
-                    <div class="add-to-cart">
-                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-                    </div>
-                </div>
-            </div>
-            <!-- /product -->
-
-            <!-- product -->
-            <div class="col-md-3 col-xs-6">
-                <div class="product">
-                    <div class="product-img">
-                        <img src="./img/product04.png')}}" alt="">
-                    </div>
-                    <div class="product-body">
-                        <p class="product-category">Category</p>
-                        <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                        <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                        <div class="product-rating">
-                        </div>
-                        <div class="product-btns">
-                            <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-                            <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                            <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-                        </div>
-                    </div>
-                    <div class="add-to-cart">
-                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-                    </div>
-                </div>
-            </div>
-            <!-- /product -->
-
+            @endforeach
         </div>
         <!-- /row -->
     </div>
