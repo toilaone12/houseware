@@ -163,6 +163,57 @@
                 notyf.error({message: "Bạn chưa đánh giá số sao"});
             }
         })
+        //them so luong vao gio hang
+        $('.qty-cart').on('click', function(e){
+            e.preventDefault();
+            let id = $(this).attr('data-id');
+            let cartItems = $(`.cart-items[data-id="${id}"]`);
+            let type = $(this).attr('data-type');
+            let qty = parseInt(cartItems.find('.qty-input-cart').val());
+            let max = parseInt(cartItems.find('.qty-input-cart').attr('max'));
+            let price = cartItems.find('.price-cart').text().replace(/\./g, '');
+            let qtyUpdate = 0;
+            if(type == 'up'){
+                if(qty >= max){
+                    cartItems.find('.qty-input-cart').val(max);
+                    qtyUpdate = max;
+                }else{
+                    qtyUpdate = qty + 1;
+                    cartItems.find('.qty-input-cart').val(qty + 1);
+                }
+            }else if(type == 'down'){
+                if(qty <= 1){
+                    qtyUpdate = 1;
+                    cartItems.find('.qty-input-cart').val(1);
+                }else{
+                    qtyUpdate = qty - 1;
+                    cartItems.find('.qty-input-cart').val(qty - 1);
+                }
+            }
+            let totalUpdate = parseInt(price) * qtyUpdate;
+            cartItems.find('.total-cart').text(formatCurrency2(totalUpdate));
+        })
+        //dien so luong san pham trong gio hang
+        $('.qty-input-cart').on('change', function(e){
+            e.preventDefault();
+            let id = $(this).attr('data-id');
+            let qty = $(this).val();
+            let cartItems = $(`.cart-items[data-id="${id}"]`);
+            let max = parseInt($(this).attr('max'));
+            let price = cartItems.find('.price-cart').text().replace(/\./g, '');
+            let qtyUpdate = 0;
+            if(qty > max){
+                cartItems.find('.qty-input-cart').val(max);
+                qtyUpdate = max;
+            }else if(qty < 1){
+                qtyUpdate = 1;
+                cartItems.find('.qty-input-cart').val(1);
+            }else{
+                qtyUpdate = qty;
+            }
+            let totalUpdate = parseInt(price) * qtyUpdate;
+            cartItems.find('.total-cart').text(formatCurrency2(totalUpdate));
+        })
     })
 </script>
 {{-- xu ly script cua trang san pham --}}

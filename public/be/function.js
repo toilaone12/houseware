@@ -64,6 +64,10 @@ function formatCurrency(number) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " đ";
 }
 
+function formatCurrency2(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
 function formCart(data){
     let html = ``;
     let total = 0;

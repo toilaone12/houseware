@@ -243,4 +243,9 @@ class HomeController extends Controller
             return redirect()->route('home.login')->with('signUp','<p class="text-danger small">Tài khoản đã tồn tại</p>');
         }
     }
+    //dang xuat
+    function logout(){
+        Cookie::queue(Cookie::forget('id_customer'));
+        return redirect()->route('home.dashboard');
+    }
 }

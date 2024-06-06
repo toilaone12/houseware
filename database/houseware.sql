@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 06, 2024 lúc 12:27 PM
--- Phiên bản máy phục vụ: 10.4.25-MariaDB
--- Phiên bản PHP: 7.4.30
+-- Thời gian đã tạo: Th6 06, 2024 lúc 06:01 PM
+-- Phiên bản máy phục vụ: 10.4.22-MariaDB
+-- Phiên bản PHP: 7.3.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -213,7 +213,7 @@ CREATE TABLE `favourite` (
 --
 
 INSERT INTO `favourite` (`id_favourite`, `id_account`, `product_path`, `created_at`, `updated_at`) VALUES
-(2, 4, '|1|16|15|12|', '2024-06-06 10:23:30', '2024-06-06 10:26:59');
+(2, 4, '|4|1|16|15|12|', '2024-06-06 10:23:30', '2024-06-06 14:32:30');
 
 -- --------------------------------------------------------
 

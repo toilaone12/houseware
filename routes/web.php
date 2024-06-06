@@ -119,6 +119,7 @@ Route::prefix('admin')->group(function(){
 Route::prefix('home')->group(function(){
     Route::get('/', [HomeController::class,'dashboard'])->name('home.dashboard');
     Route::get('/login', [HomeController::class,'login'])->name('home.login');
+    Route::get('/logout', [HomeController::class,'logout'])->name('home.logout');
     Route::post('/signUp', [HomeController::class,'signUp'])->name('home.signUp');
     Route::post('/signIn', [HomeController::class,'signIn'])->name('home.signIn');
     // danh muc
@@ -127,7 +128,8 @@ Route::prefix('home')->group(function(){
     });
     // gio hang
     Route::prefix('cart')->group(function(){
-        Route::post('/',[CartController::class,'add'])->name('cart.add');
+        Route::post('/add',[CartController::class,'add'])->name('cart.add');
+        Route::get('/',[CartController::class,'home'])->name('cart.home');
     });
     // modal
     Route::prefix('modal')->group(function(){

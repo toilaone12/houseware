@@ -2228,6 +2228,18 @@ textarea.input {
     margin-top: 15px;
 }
 
+.mt-20 {
+    margin-top: 20px;
+}
+
+.mt-30 {
+    margin-top: 30px;
+}
+
+.mt-50 {
+    margin-top: 50px;
+}
+
 .ml-20 {
     margin-left: 20px;
 }
@@ -2246,6 +2258,20 @@ textarea.input {
 
 .reviews {
     height: 300px;
+}
+
+.fullname-logout {
+    text-decoration: underline;
+    margin-left: 10px;
+}
+
+.thead-primary {
+    background-color: #D10024;
+}
+
+.thead-primary tr th {
+    text-align: center;
+    color: #fff;
 }
 
 /*=========================================================

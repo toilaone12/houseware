@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Category;
 use App\Models\Color;
+use App\Models\Favourite;
 use App\Models\Product;
 use App\Models\ProductColor;
 use Illuminate\Http\Request;
@@ -12,6 +14,7 @@ use Illuminate\Support\Facades\Cookie;
 class CartController extends Controller
 {
     //trang chu
+    //them gio hang
     function add(Request $request){
         $data = $request->all();
         $id = $request->get('id');
@@ -70,5 +73,44 @@ class CartController extends Controller
         }else{
             return json_encode(['res' => 'error', 'title' => 'Thêm sản phẩm giỏ hàng', 'text' => 'Sản phẩm đã có trong giỏ hàng', 'carts' => '', 'count' => '']);
         }
+    }
+    //trang gio hang
+    function home(){
+        $title = 'Giỏ hàng';
+        //danh muc cha
+        $listParentCate = Category::where('id_parent',0)->get();
+        //hien thi gio hang
+        $idCustomer = Cookie::get('id_customer');
+        $carts = [];
+        $count = 0;
+        if(isset($idCustomer) && $idCustomer){
+            $carts = Cart::where('id_account',$idCustomer)->get();
+            $count = count($carts->toArray());
+        }
+        //hien thi yeu thich
+        $countWhiteList = 0;
+        if(isset($idCustomer) && $idCustomer){
+            $whitelists = Favourite::where('id_account',$idCustomer)->first();
+            if(!empty($whitelists->product_path)){
+                $countWhiteList = count(explode('|',trim($whitelists->product_path,'|')));
+            }
+        }
+        //lay thong tin gio hang
+        foreach($carts as &$cart){
+            $chooseColor = $cart->id_color;
+            $color = Color::find($cart->id_color);
+            $productColor = ProductColor::where('id_product',$cart->id_product)->first();
+            $colorPath = json_decode($productColor->color_path,true);
+            //tao mang moi co id color bang mau dang chon
+            $array = array_filter($colorPath, function ($item) use ($chooseColor) {
+                return $item['id_color'] == $chooseColor;
+            });
+            $array = array_values($array); //reset key cua mang
+            $quantityProduct = $array[0]['quantity'];
+            $cart['color'] = $color->name;
+            $cart['limit'] = $array[0]['quantity'];
+            unset($cart);
+        }
+        return view('cart.home',compact('title','carts','count','countWhiteList','listParentCate'));
     }
 }

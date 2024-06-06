@@ -19,6 +19,7 @@
                 $account = Account::find($cookie);
                 @endphp
                 <a href="" class="fullname-login" data-id="{{$cookie}}"><i class="fa fa-user-o"></i> {{$account->fullname}}</a>
+                <a href="{{route('home.logout')}}" class="small fullname-logout">Đăng xuất</a>
                 @else
                 <a href="{{route('home.login')}}"><i class="fa fa-user-o"></i> Đăng nhập</a>
                 @endif
@@ -111,7 +112,7 @@
                                 <h4 class="total-cart">Tổng tiền: {{number_format($total,0,',','.')}} đ</h4>
                             </div>
                             <div class="cart-btns font-lalezar">
-                                <a href="#">Xem giỏ hàng</a>
+                                <a href="{{route('cart.home')}}">Xem giỏ hàng</a>
                             </div>
                             @endif
                         </div>
