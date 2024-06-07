@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 06, 2024 lúc 06:01 PM
--- Phiên bản máy phục vụ: 10.4.22-MariaDB
--- Phiên bản PHP: 7.3.33
+-- Thời gian đã tạo: Th6 07, 2024 lúc 12:25 PM
+-- Phiên bản máy phục vụ: 10.4.25-MariaDB
+-- Phiên bản PHP: 7.4.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -95,9 +95,9 @@ CREATE TABLE `cart` (
 --
 
 INSERT INTO `cart` (`id_cart`, `id_account`, `id_product`, `image`, `name`, `id_color`, `quantity`, `price`, `created_at`, `updated_at`) VALUES
-(20, 4, 5, 'be/img/product/PKF645E14E-1717403453.jpg', 'Bếp Điện Bosch PKF645E14E', 1, 9, 17143000, '2024-06-06 08:54:30', '2024-06-06 08:55:15'),
-(21, 4, 8, 'be/img/product/sp125-1717404245.jpg', 'Bếp điện từ Chefs EH-MIX2000A', 1, 1, 7362300, '2024-06-06 08:55:07', '2024-06-06 08:55:07'),
-(22, 4, 12, 'be/img/product/sp94-1-1717409258.jpg', 'Hút mùi Canzy CZ 3470', 2, 2, 4000000, '2024-06-06 09:20:29', '2024-06-06 09:21:28'),
+(20, 4, 5, 'be/img/product/PKF645E14E-1717403453.jpg', 'Bếp Điện Bosch PKF645E14E', 1, 3, 17143000, '2024-06-06 08:54:30', '2024-06-07 06:58:23'),
+(21, 4, 8, 'be/img/product/sp125-1717404245.jpg', 'Bếp điện từ Chefs EH-MIX2000A', 1, 2, 7362300, '2024-06-06 08:55:07', '2024-06-07 06:51:25'),
+(22, 4, 12, 'be/img/product/sp94-1-1717409258.jpg', 'Hút mùi Canzy CZ 3470', 2, 1, 4000000, '2024-06-06 09:20:29', '2024-06-07 06:31:31'),
 (23, 4, 12, 'be/img/product/sp94-1-1717409258.jpg', 'Hút mùi Canzy CZ 3470', 1, 1, 4000000, '2024-06-06 09:21:46', '2024-06-06 09:21:46');
 
 -- --------------------------------------------------------
@@ -177,6 +177,28 @@ CREATE TABLE `coupon` (
 INSERT INTO `coupon` (`id_coupon`, `name`, `code`, `quantity`, `type`, `discount`, `expiration`, `created_at`, `updated_at`) VALUES
 (1, 'Coupon 1/6', 'COUPONCHILDREN', 100, 0, 100000, '2024-06-01', '2024-06-01 03:08:19', '2024-06-01 03:19:20'),
 (2, 'Coupon tháng 6', 'COUPONT6', 100, 1, 10, '2024-06-30', '2024-06-01 03:09:59', '2024-06-01 03:09:59');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `coupon_user`
+--
+
+CREATE TABLE `coupon_user` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `id_account` int(11) NOT NULL,
+  `id_coupon` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `coupon_user`
+--
+
+INSERT INTO `coupon_user` (`id`, `id_account`, `id_coupon`, `created_at`, `updated_at`) VALUES
+(1, 4, 1, NULL, NULL),
+(2, 4, 2, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -276,7 +298,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (13, '2024_06_02_091149_create_product_color', 8),
 (14, '2024_06_05_084637_create_cart', 9),
 (15, '2024_06_06_025437_create_review', 10),
-(16, '2024_06_06_164300_create_favourite', 11);
+(16, '2024_06_06_164300_create_favourite', 11),
+(17, '2024_06_07_114132_create_coupon_user', 12);
 
 -- --------------------------------------------------------
 
@@ -524,6 +547,12 @@ ALTER TABLE `coupon`
   ADD PRIMARY KEY (`id_coupon`);
 
 --
+-- Chỉ mục cho bảng `coupon_user`
+--
+ALTER TABLE `coupon_user`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Chỉ mục cho bảng `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
@@ -634,6 +663,12 @@ ALTER TABLE `coupon`
   MODIFY `id_coupon` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT cho bảng `coupon_user`
+--
+ALTER TABLE `coupon_user`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT cho bảng `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
@@ -655,7 +690,7 @@ ALTER TABLE `fee`
 -- AUTO_INCREMENT cho bảng `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT cho bảng `personal_access_tokens`

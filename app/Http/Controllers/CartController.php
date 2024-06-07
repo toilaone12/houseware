@@ -113,4 +113,22 @@ class CartController extends Controller
         }
         return view('cart.home',compact('title','carts','count','countWhiteList','listParentCate'));
     }
+    //cap nhat so luong
+    function update(Request $request){
+        $data = $request->all();
+        $quantity = $data['quantity'];
+        $cart = Cart::find($data['id']);
+        $cart->quantity = $quantity;
+        $update = $cart->save();
+        if($update){
+            $carts = Cart::where('id_account',$data['id_customer'])->get();
+            $subtotal = 0;
+            foreach($carts as $cart){
+                $subtotal += ($cart->quantity * $cart->price);
+            }
+            return response()->json(['res' => 'success', 'text' => 'Cập nhật số lượng thành công', 'subtotal' => $subtotal]);
+        }else{
+            return response()->json(['res' => 'success', 'text' => 'Cập nhật số lượng thất bại']);
+        }
+    }
 }

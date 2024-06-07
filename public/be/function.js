@@ -110,4 +110,16 @@ function formCart(data){
     }
 }
 
+function formListSearchAddress(data){
+    let html = ``;
+    let length = data.length > 10 ? 10 : data.length;
+    for (let i = 0; i < length; i++) {
+        html +=
+        `<div class="d-flex address-items" data-lat="${data[i].position.lat}" data-lng="${data[i].position.lng}">
+            <i class="fa-solid fa-location-dot"></i>
+            <span>${data[i].address.label}</span>
+        </div>`
+    }
+    $('.list-search-address').removeClass('d-none').html(html);
+}
 

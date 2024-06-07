@@ -11,6 +11,7 @@ use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\FeeController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ModalController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\RoleController;
@@ -126,26 +127,43 @@ Route::prefix('home')->group(function(){
     Route::prefix('category')->group(function(){
         Route::get('/',[CategoryController::class,'home'])->name('category.home');
     });
-    // gio hang
-    Route::prefix('cart')->group(function(){
-        Route::post('/add',[CartController::class,'add'])->name('cart.add');
-        Route::get('/',[CartController::class,'home'])->name('cart.home');
-    });
     // modal
     Route::prefix('modal')->group(function(){
         Route::get('/color',[ModalController::class,'modalColorProduct'])->name('modal.color');
+        Route::get('/address',[ModalController::class,'modalFindAddress'])->name('modal.address');
     });
     // san pham
     Route::prefix('product')->group(function(){
         Route::get('/detail',[ProductController::class,'detail'])->name('product.detail');
     });
-    //danh gia
-    Route::prefix('review')->group(function(){
-        Route::post('/add',[ReviewController::class,'add'])->name('review.add');
-        Route::get('/pagination',[ReviewController::class,'pagination'])->name('review.pagination');
-    });
-    //yeu thich
-    Route::prefix('favourite')->group(function(){
-        Route::post('/add',[FavouriteController::class,'add'])->name('favourite.add');
+    Route::middleware(['loginUserCheck'])->group(function () {
+        // gio hang
+        Route::prefix('cart')->group(function(){
+            Route::post('/add',[CartController::class,'add'])->name('cart.add');
+            Route::post('/update',[CartController::class,'update'])->name('cart.update');
+            Route::get('/',[CartController::class,'home'])->name('cart.home');
+        });
+        //danh gia
+        Route::prefix('review')->group(function(){
+            Route::post('/add',[ReviewController::class,'add'])->name('review.add');
+            Route::get('/pagination',[ReviewController::class,'pagination'])->name('review.pagination');
+        });
+        //yeu thich
+        Route::prefix('favourite')->group(function(){
+            Route::post('/add',[FavouriteController::class,'add'])->name('favourite.add');
+        });
+        //ma giam gia
+        Route::prefix('coupon')->group(function(){
+            Route::get('/apply',[CouponController::class,'apply'])->name('coupon.apply');
+        });
+        //dat hang
+        Route::prefix('order')->group(function(){
+            Route::post('/apply',[OrderController::class,'apply'])->name('order.apply');
+            Route::get('/checkout',[OrderController::class,'checkout'])->name('order.checkout');
+        });
+        //phi van chuyen
+        Route::prefix('fee')->group(function(){
+            Route::post('/apply',[FeeController::class,'apply'])->name('fee.apply');
+        });
     });
 });

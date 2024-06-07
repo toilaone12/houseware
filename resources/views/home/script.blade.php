@@ -67,7 +67,7 @@
                             }
                         },
                         function(err){
-                            console.log(err);
+                            notyf.error({message: err});
                         }
                     )
                 }else{
@@ -95,7 +95,7 @@
                         }
                     },
                     function(err){
-                        console.log(err);
+                        notyf.error({message: err});
                     }
                 ,'json',1)
             }else{
@@ -124,7 +124,7 @@
                         }
                     },
                     function(err){
-                        console.log(err);
+                        notyf.error({message: err});
                     }
                 )
             }else{
@@ -156,63 +156,168 @@
                         }
                     },
                     function(err){
-                        console.log(err);
+                        notyf.error({message: err});
                     }
                 ,'json',1)
             }else{
                 notyf.error({message: "Bạn chưa đánh giá số sao"});
             }
         })
-        //them so luong vao gio hang
+        //them so luong sp trong gio hang
         $('.qty-cart').on('click', function(e){
             e.preventDefault();
             let id = $(this).attr('data-id');
+            let idCustomer = $('.fullname-login').attr('data-id');
             let cartItems = $(`.cart-items[data-id="${id}"]`);
             let type = $(this).attr('data-type');
             let qty = parseInt(cartItems.find('.qty-input-cart').val());
             let max = parseInt(cartItems.find('.qty-input-cart').attr('max'));
             let price = cartItems.find('.price-cart').text().replace(/\./g, '');
+            let discount = parseInt($('.discount-cart').text().replace(/\./g, ''));
             let qtyUpdate = 0;
+            let url = "{{route('cart.update')}}";
             if(type == 'up'){
                 if(qty >= max){
-                    cartItems.find('.qty-input-cart').val(max);
                     qtyUpdate = max;
                 }else{
                     qtyUpdate = qty + 1;
-                    cartItems.find('.qty-input-cart').val(qty + 1);
                 }
             }else if(type == 'down'){
                 if(qty <= 1){
                     qtyUpdate = 1;
-                    cartItems.find('.qty-input-cart').val(1);
                 }else{
                     qtyUpdate = qty - 1;
-                    cartItems.find('.qty-input-cart').val(qty - 1);
                 }
             }
-            let totalUpdate = parseInt(price) * qtyUpdate;
-            cartItems.find('.total-cart').text(formatCurrency2(totalUpdate));
+            postAjax(url, {id: id, id_customer: idCustomer, quantity: qtyUpdate, price: price},
+                function(data){
+                    if(data.res == 'success'){
+                        let totalUpdate = parseInt(price) * qtyUpdate;
+                        cartItems.find('.qty-input-cart').val(qtyUpdate);
+                        cartItems.find('.total-cart').text(formatCurrency2(totalUpdate));
+                        $('.subtotal-cart').text(formatCurrency2(data.subtotal));
+                        $('.total-all-cart').text(formatCurrency2(data.subtotal - discount));
+                        notyf.success({message: data.text});
+                    }else{
+                        notyf.error({message: data.text});
+                    }
+                },
+                function(err){
+                    notyf.error({message: err});
+                }
+            )
         })
         //dien so luong san pham trong gio hang
         $('.qty-input-cart').on('change', function(e){
             e.preventDefault();
             let id = $(this).attr('data-id');
+            let idCustomer = $('.fullname-login').attr('data-id');
             let qty = $(this).val();
             let cartItems = $(`.cart-items[data-id="${id}"]`);
             let max = parseInt($(this).attr('max'));
             let price = cartItems.find('.price-cart').text().replace(/\./g, '');
+            let discount = parseInt($('.discount-cart').text().replace(/\./g, ''));
             let qtyUpdate = 0;
+            let url = "{{route('cart.update')}}";
             if(qty > max){
-                cartItems.find('.qty-input-cart').val(max);
                 qtyUpdate = max;
             }else if(qty < 1){
                 qtyUpdate = 1;
-                cartItems.find('.qty-input-cart').val(1);
             }else{
                 qtyUpdate = qty;
             }
+            postAjax(url, {id: id, id_customer: idCustomer, quantity: qtyUpdate, price: price},
+                function(data){
+                    if(data.res == 'success'){
+                        let totalUpdate = parseInt(price) * qtyUpdate;
+                        cartItems.find('.total-cart').text(formatCurrency2(totalUpdate));
+                        cartItems.find('.qty-input-cart').val(qtyUpdate);
+                        $('.subtotal-cart').text(formatCurrency2(data.subtotal));
+                        $('.total-all-cart').text(formatCurrency2(data.subtotal - discount));
+                        notyf.success({message: data.text});
+                    }else{
+                        notyf.error({message: data.text});
+                    }
+                },
+                function(err){
+                    notyf.error({message: err});
+                }
+            )
             let totalUpdate = parseInt(price) * qtyUpdate;
+            let totalAllUpdate = totalUpdate - discount;
+            $('.total-all-cart').text(formatCurrency(totalAllUpdate));
             cartItems.find('.total-cart').text(formatCurrency2(totalUpdate));
+        })
+        //ap ma giam gia
+        $('.use-discount').on('click', function(e){
+            e.preventDefault();
+            let code = $('.form-control-cart[name="discount"]').val();
+            let idCustomer = $('.fullname-login').attr('data-id');
+            let subtotal = parseInt($('.subtotal-cart').text().replace(/\./g, ''));
+            let url = "{{route('coupon.apply')}}";
+            getAjax(url,{id_account: idCustomer, code: code},
+                function(data){
+                    if(data.res == 'success'){
+                        notyf.success({message: data.text});
+                        let discount = data.type ? subtotal * data.fee / 100 : data.fee;
+                        let totalAll = subtotal - discount;
+                        $('.discount-cart').text(formatCurrency2(discount)).attr('data-code',data.id);
+                        $('.total-all-cart').text(formatCurrency2(totalAll));
+                    }else{
+                        notyf.error({message: data.text});
+                    }
+                    $('.form-control-cart[name="discount"]').val('');
+                },
+                function(err){
+                    notyf.error({message: err});
+                }
+            );
+        })
+        //mua hang
+        $('.checkout').on('click', function(e){
+            e.preventDefault();
+            let code = $('.discount-cart').attr('data-code');
+            let discount = parseInt($('.discount-cart').text().replace(/\./g, ''));
+            let idCustomer = $('.fullname-login').attr('data-id');
+            let url = "{{route('order.apply')}}";
+            postAjax(url,{code: code, discount: discount},
+                function(data){
+                    if(data.res == 'success') location.href = "{{route('order.checkout')}}";
+                },
+                function(err){
+                    notyf.error({message: err});
+                }
+            )
+        })
+        //xac nhan dia chi dat hang
+        $(document).on('click','.apply-address', function(e){
+            e.preventDefault();
+            let keyword = $('.find-address').val();
+            let lat = $('.find-address').attr('lat');
+            let lng = $('.find-address').attr('lng');
+            let discount = parseInt($('.order-coupon').text().replace(/\./g, ''));
+            let subtotal = parseInt($('.order-subtotal').text().replace(/\./g, ''));
+            if(keyword && lat && lng){
+                let url = "{{route('fee.apply')}}";
+                postAjax(url,{lat: lat, lng: lng, keyword: keyword},
+                    function(data){
+                        if(data.res == 'success'){
+                            $('.order-address').val(keyword.replace(', Việt Nam',''));
+                            $('.order-feeship').text(formatCurrency2(data.fee));
+                            $('.order-total').text(formatCurrency(data.fee + subtotal - discount));
+                            notyf.success({message: data.text});
+                            $('#modal_all_box').modal('hide');
+                        }else{
+                            notyf.error({message: data.text});
+                        }
+                    },
+                    function(err){
+                        notyf.error({message: err});
+                    }
+                )
+            }else{
+                notyf.error({message: 'Bạn chưa chọn địa chỉ đặt hàng vui lòng đặt lại'});
+            }
         })
     })
 </script>
@@ -265,7 +370,7 @@
                             }
                         },
                         function(err){
-                            console.log(err);
+                            notyf.error({message: err});
                         }
                     )
                 }

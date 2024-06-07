@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Coupon;
+use App\Models\CouponUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -78,6 +79,25 @@ class CouponController extends Controller
             return json_encode(['res' => 'success', 'title' => 'Xoá mã giảm giá', 'text' => 'Xóa mã giảm giá thành công', 'icon' => 'success']);
         }else{
             return json_encode(['res' => 'error', 'title' => 'Xoá mã giảm giá', 'text' => 'Lỗi truy vấn', 'icon' => 'error']);
+        }
+    }
+    //trang chu
+    //ap dung ma
+    function apply(Request $request){
+        $data = $request->all();
+        $coupon = Coupon::where('code',$data['code'])->where('expiration','>=',date('Y-m-d'))->first();
+        if($coupon){
+            $id = $coupon->id_coupon;
+            $check = CouponUser::where('id_account',$data['id_account'])
+            ->where('id_coupon',$id)->first();
+            if($check){
+                $type = $coupon->type;
+                return response()->json(['res' => 'success', 'text' => 'Áp dụng mã giảm giá thành công', 'fee' => $coupon->discount, 'type' => $type, 'id' => $id]);
+            }else{
+                return response()->json(['res' => 'warning', 'text' => 'Bạn không có mã khuyến mãi này']);
+            }
+        }else{
+            return response()->json(['res' => 'warning', 'text' => 'Mã khuyến mãi này không tồn tại hoặc đã hết hạn']);
         }
     }
 }

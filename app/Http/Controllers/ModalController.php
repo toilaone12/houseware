@@ -16,4 +16,8 @@ class ModalController extends Controller
         $colorPath = json_decode($productColor['color_path'],true);
         return view('modal.color',compact('colorPath','id'));
     }
+    //modal tim dia chi giao hang
+    function modalFindAddress(){
+        return view('modal.address');
+    }
 }
