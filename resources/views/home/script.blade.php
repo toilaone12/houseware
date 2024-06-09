@@ -19,6 +19,11 @@
             },
             dismissible: true,
         });
+        @if(session('errorOrder'))
+            notyf.error({message: '{{session("errorOrder")}}'})
+        @elseif(session('successOrder'))
+            notyf.success({message: '{{session("successOrder")}}'});
+        @endif
         //mo modal
         let modalAllBox = $('#modal_all_box');;
 		$('.btn-open-modal').click(function () {
@@ -179,6 +184,8 @@
             if(type == 'up'){
                 if(qty >= max){
                     qtyUpdate = max;
+                    notyf.error({message: 'Đã quá số lượng sản phẩm trong kho'});
+                    return false;
                 }else{
                     qtyUpdate = qty + 1;
                 }
@@ -189,7 +196,7 @@
                     qtyUpdate = qty - 1;
                 }
             }
-            postAjax(url, {id: id, id_customer: idCustomer, quantity: qtyUpdate, price: price},
+            postAjax(url, {id: id, id_customer: idCustomer, quantity: qtyUpdate, type: type, price: price},
                 function(data){
                     if(data.res == 'success'){
                         let totalUpdate = parseInt(price) * qtyUpdate;
@@ -226,27 +233,43 @@
             }else{
                 qtyUpdate = qty;
             }
-            postAjax(url, {id: id, id_customer: idCustomer, quantity: qtyUpdate, price: price},
+            postAjax(url, {id: id, id_customer: idCustomer, quantity: qty, price: price},
                 function(data){
                     if(data.res == 'success'){
-                        let totalUpdate = parseInt(price) * qtyUpdate;
-                        cartItems.find('.total-cart').text(formatCurrency2(totalUpdate));
-                        cartItems.find('.qty-input-cart').val(qtyUpdate);
-                        $('.subtotal-cart').text(formatCurrency2(data.subtotal));
-                        $('.total-all-cart').text(formatCurrency2(data.subtotal - discount));
                         notyf.success({message: data.text});
+
                     }else{
                         notyf.error({message: data.text});
                     }
+                    let totalUpdate = parseInt(price) * qtyUpdate;
+                    cartItems.find('.total-cart').text(formatCurrency2(totalUpdate));
+                    cartItems.find('.qty-input-cart').val(qtyUpdate);
+                    $('.subtotal-cart').text(formatCurrency2(data.subtotal));
+                    $('.total-all-cart').text(formatCurrency2(data.subtotal - discount));
                 },
                 function(err){
                     notyf.error({message: err});
                 }
             )
-            let totalUpdate = parseInt(price) * qtyUpdate;
-            let totalAllUpdate = totalUpdate - discount;
-            $('.total-all-cart').text(formatCurrency(totalAllUpdate));
-            cartItems.find('.total-cart').text(formatCurrency2(totalUpdate));
+        })
+        //xoa don hang
+        $('.product-remove').on('click', function(e){
+            let id = $(this).attr('data-id');
+            let url = "{{route('cart.remove')}}";
+            postAjax(url, {id: id},
+                function(data){
+                    if(data.res == 'success'){
+                        notyf.success({message: data.text});
+                        $(`.cart-items[data-id="${id}"]`).remove();
+                        if(!$(`.cart-items`).length) location.href = "{{route('home.dashboard')}}"
+                    }else{
+                        notyf.error({message: data.text});
+                    }
+                },
+                function(err){
+                    console.log(err);
+                }
+            )
         })
         //ap ma giam gia
         $('.use-discount').on('click', function(e){
@@ -261,7 +284,7 @@
                         notyf.success({message: data.text});
                         let discount = data.type ? subtotal * data.fee / 100 : data.fee;
                         let totalAll = subtotal - discount;
-                        $('.discount-cart').text(formatCurrency2(discount)).attr('data-code',data.id);
+                        $('.discount-cart').text('-'+formatCurrency2(discount)).attr('data-code',data.id);
                         $('.total-all-cart').text(formatCurrency2(totalAll));
                     }else{
                         notyf.error({message: data.text});
@@ -317,6 +340,60 @@
                 )
             }else{
                 notyf.error({message: 'Bạn chưa chọn địa chỉ đặt hàng vui lòng đặt lại'});
+            }
+        })
+        //dat hang
+        $('#order').on('submit', function(e){
+            e.preventDefault();
+            let formData = new FormData($(this)[0]);
+            let terms = $('.order-terms').is(':checked');
+            let checkPayment = $('input[name="payment"]').is(':checked');
+            let typePayment = parseInt($('.choose-payment:checked').attr('data-type'));
+            let paymentOnline = $('.choose-payment[data-type="2"]').is(':checked');
+            let chooseCard = $('.choose-card-payment').attr('data-type');
+            let errors = {};
+            let addressOrder = $('.order-address').val();
+            if(!checkPayment){ //check chua chon phuong thuc giao hang
+                notyf.error({message: 'Bạn chưa chọn phương thức giao hàng'});
+                errors = {'payment': 1};
+            }
+            if(typePayment == 2 || typePayment == 3){ //chua co dia chi nhan hang
+                if(!addressOrder){
+                    notyf.error({message: 'Bạn chưa chọn địa chỉ nhận hàng'});
+                    errors = {'address': 1};
+                }
+            }
+            if(!terms) {  //chua co dieu khoan
+                notyf.error({message: 'Bạn chưa đồng ý với điều khoản mua hàng'});
+                errors = {'terms': 1};
+            }
+            if(paymentOnline){ //check vi dien tu
+                if(!chooseCard){
+                    notyf.error({message: 'Bạn chưa chọn ví điện tử'});
+                    errors = {'card': 1};
+                }
+            }
+            if ($.isEmptyObject(errors)){ //khi khong con loi
+                let url = "{{route('order.order')}}";
+                formData.append('choose-payment',typePayment);
+                if(paymentOnline) formData.append('card',chooseCard);
+                if(typePayment == 2 || typePayment == 3) formData.append('address',addressOrder);
+                formData.append('feeship',$('.order-feeship').text());
+                formData.append('feecoupon',$('.order-coupon').text());
+                postAjax(url,formData,
+                    function(data){
+                        if(data.res == 'warning'){
+                            notyf.error({message: data.text.phone});
+                        }else if(data.res == 'success'){
+                            location.href = data.url;
+                        }else{
+                            notyf.error({message: data.text});
+                        }
+                    },
+                    function(err){
+                        console.log(err);
+                    }
+                ,'json',1);
             }
         })
     })
@@ -378,3 +455,4 @@
         })
     </script>
 @endif
+

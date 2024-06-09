@@ -24,7 +24,7 @@
 <div class="section">
     <!-- container -->
     <div class="container">
-        <form action="">
+        <form action="" id="order">
             @csrf
             <!-- row -->
             <div class="row">
@@ -39,7 +39,7 @@
                             <input class="input" type="text" required name="fullname" placeholder="Họ tên">
                         </div>
                         <div class="form-group">
-                            <input class="input" type="phone" min="0" required name="phone" placeholder="Số điện thoại">
+                            <input class="input" type="number" min="0" required name="phone" placeholder="Số điện thoại">
                         </div>
                         <div class="form-group">
                             <input class="input" type="email" required name="email" placeholder="Email">
@@ -65,7 +65,7 @@
                             <h3 class="title">Lưu ý khi giao hàng</h3>
                         </div>
                         <div class="order-notes">
-                            <textarea class="input" placeholder="Ghi chú"></textarea>
+                            <textarea class="input" name="note" placeholder="Ghi chú"></textarea>
                         </div>
                     </div>
                 </div>
@@ -104,15 +104,15 @@
                         </div>
                         <div class="order-col">
                             <div>Phí vận chuyển</div>
-                            <div><strong class="order-feeship">0</strong> đ</div>
+                            <div>+  <strong class="order-feeship">0</strong> đ</div>
                         </div>
                         <div class="order-col">
                             <div>Mã giảm giá</div>
-                            <div><strong class="order-coupon">{{$discount;}}</strong> đ</div>
+                            <div>-<strong class="order-coupon">{{number_format($discount,'0',',','.');}}</strong> đ</div>
                         </div>
                         <div class="order-col">
                             <div class="text-uppercase"><strong>Tổng tiền</strong></div>
-                            <div><strong class="order-total">{{number_format($total + $discount,'0',',','.')}} đ</strong></div>
+                            <div><strong class="order-total">{{number_format($total - $discount,'0',',','.')}} đ</strong></div>
                         </div>
                     </div>
                     <div class="payment-method">
@@ -132,9 +132,19 @@
                                 <span></span>
                                 Thanh toán bằng thẻ ngân hàng sau khi nhận hàng
                             </label>
-                            <div class="caption">
-                                <p class="fs-18">Thanh toán bằng Momo</p>
-                                <p class="fs-18">Thanh toán bằng VNPAY</p>
+                            <div class="caption row mb-15 choose-card-payment" data-type="">
+                                <div class="col-lg-6 col-xs-12">
+                                    <div class="card-payment d-flex align-items-center" data-type="momo">
+                                        <img src="https://developers.momo.vn/v3/vi/img/logo.svg" width="50" height="50" alt="">
+                                        <span>Momo</span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-xs-12">
+                                    <div class="card-payment d-flex align-items-center" data-type="vnpay">
+                                        <img src="{{asset('fe/img/logo-primary.svg')}}" width="50" height="50" alt="">
+                                        <span>VNPAY</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="input-radio">

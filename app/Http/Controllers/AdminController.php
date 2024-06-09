@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Models\Order;
+use App\Models\ProductColor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Validator;
@@ -61,6 +63,13 @@ class AdminController extends Controller
     //trang chu
     function dashboard(){
         $title = 'Trang chủ';
-        return view('admin.content',compact('title'));
+        $totalProduct = ProductColor::all();
+        $totalOrder = Order::where('date_updated',date('Y-m-d'))->get();
+        $orderComplete = Order::where('date_updated',date('Y-m-d'))->where('status',3)->get();
+        $totalOrderComplete = 0;
+        foreach($orderComplete as $complete){
+            $totalOrderComplete += $complete->total;
+        }
+        return view('admin.content',compact('title','totalProduct','totalOrder','totalOrderComplete'));
     }
 }

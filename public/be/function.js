@@ -96,7 +96,7 @@ function formCart(data){
                 <h4 class="total-cart">Tổng tiền: ${formatCurrency(total)}</h4>
             </div>
             <div class="cart-btns font-lalezar">
-                <a href="#">Xem giỏ hàng</a>
+                <a href="http://127.0.0.1:8000/home/cart">Xem giỏ hàng</a>
             </div>`)
         }else{ //cap nhat so luong
             $('.qty-cart').text(data.count);

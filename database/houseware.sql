@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 07, 2024 lúc 12:25 PM
--- Phiên bản máy phục vụ: 10.4.25-MariaDB
--- Phiên bản PHP: 7.4.30
+-- Thời gian đã tạo: Th6 09, 2024 lúc 05:29 PM
+-- Phiên bản máy phục vụ: 10.4.22-MariaDB
+-- Phiên bản PHP: 7.3.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -90,16 +90,6 @@ CREATE TABLE `cart` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Đang đổ dữ liệu cho bảng `cart`
---
-
-INSERT INTO `cart` (`id_cart`, `id_account`, `id_product`, `image`, `name`, `id_color`, `quantity`, `price`, `created_at`, `updated_at`) VALUES
-(20, 4, 5, 'be/img/product/PKF645E14E-1717403453.jpg', 'Bếp Điện Bosch PKF645E14E', 1, 3, 17143000, '2024-06-06 08:54:30', '2024-06-07 06:58:23'),
-(21, 4, 8, 'be/img/product/sp125-1717404245.jpg', 'Bếp điện từ Chefs EH-MIX2000A', 1, 2, 7362300, '2024-06-06 08:55:07', '2024-06-07 06:51:25'),
-(22, 4, 12, 'be/img/product/sp94-1-1717409258.jpg', 'Hút mùi Canzy CZ 3470', 2, 1, 4000000, '2024-06-06 09:20:29', '2024-06-07 06:31:31'),
-(23, 4, 12, 'be/img/product/sp94-1-1717409258.jpg', 'Hút mùi Canzy CZ 3470', 1, 1, 4000000, '2024-06-06 09:21:46', '2024-06-06 09:21:46');
-
 -- --------------------------------------------------------
 
 --
@@ -176,7 +166,7 @@ CREATE TABLE `coupon` (
 
 INSERT INTO `coupon` (`id_coupon`, `name`, `code`, `quantity`, `type`, `discount`, `expiration`, `created_at`, `updated_at`) VALUES
 (1, 'Coupon 1/6', 'COUPONCHILDREN', 100, 0, 100000, '2024-06-01', '2024-06-01 03:08:19', '2024-06-01 03:19:20'),
-(2, 'Coupon tháng 6', 'COUPONT6', 100, 1, 10, '2024-06-30', '2024-06-01 03:09:59', '2024-06-01 03:09:59');
+(2, 'Coupon tháng 6', 'COUPONT6', 99, 1, 10, '2024-06-30', '2024-06-01 03:09:59', '2024-06-09 14:59:56');
 
 -- --------------------------------------------------------
 
@@ -197,8 +187,38 @@ CREATE TABLE `coupon_user` (
 --
 
 INSERT INTO `coupon_user` (`id`, `id_account`, `id_coupon`, `created_at`, `updated_at`) VALUES
-(1, 4, 1, NULL, NULL),
-(2, 4, 2, NULL, NULL);
+(1, 4, 1, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `detail_order`
+--
+
+CREATE TABLE `detail_order` (
+  `id_detail` int(10) UNSIGNED NOT NULL,
+  `id_order` int(11) NOT NULL,
+  `id_product` int(11) NOT NULL,
+  `code` varchar(11) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id_color` int(11) NOT NULL,
+  `quantity` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `price` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `detail_order`
+--
+
+INSERT INTO `detail_order` (`id_detail`, `id_order`, `id_product`, `code`, `image`, `name`, `id_color`, `quantity`, `price`, `created_at`, `updated_at`) VALUES
+(6, 26, 12, '935C7', 'be/img/product/sp94-1-1717409258.jpg', 'Hút mùi Canzy CZ 3470', 2, '2', 4000000, '2024-06-09 09:58:15', '2024-06-09 09:58:15'),
+(7, 26, 1, '935C7', 'be/img/product/sp8-1-1717264168.png', 'Bếp ba từ BOSCH PUJ631BB2E', 1, '1', 14820000, '2024-06-09 09:58:15', '2024-06-09 09:58:15'),
+(8, 29, 3, '47C0D', 'be/img/product/EH-IH566-anh-chinh-1717402950.png', 'Bếp ba từ Chefs EH-IH566', 1, '1', 22015000, '2024-06-09 14:59:29', '2024-06-09 14:59:29'),
+(9, 29, 25, '47C0D', 'be/img/product/may-rua-chen-sm_main_307_1020.png-1717485764.webp', 'Máy rửa chén Bosch SMS63L08EA 12 bộ Series 6 - Châu Âu', 6, '1', 14030000, '2024-06-09 14:59:29', '2024-06-09 14:59:29'),
+(10, 31, 23, '3FF9F', 'be/img/product/may-rua-chen-es_main_175_1020.png-1717485395.webp', 'Máy rửa chén Electrolux ESF6010BW 8 bộ', 2, '1', 8415000, '2024-06-09 15:14:20', '2024-06-09 15:14:20');
 
 -- --------------------------------------------------------
 
@@ -299,7 +319,44 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (14, '2024_06_05_084637_create_cart', 9),
 (15, '2024_06_06_025437_create_review', 10),
 (16, '2024_06_06_164300_create_favourite', 11),
-(17, '2024_06_07_114132_create_coupon_user', 12);
+(17, '2024_06_07_114132_create_coupon_user', 12),
+(18, '2024_06_08_162048_create_order', 13),
+(19, '2024_06_08_162714_create_detail_order', 13);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `order`
+--
+
+CREATE TABLE `order` (
+  `id_order` int(10) UNSIGNED NOT NULL,
+  `id_account` int(11) NOT NULL,
+  `code` varchar(11) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `fullname` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(11) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `note` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `subtotal` int(11) NOT NULL,
+  `feeship` int(11) NOT NULL,
+  `discount` int(11) NOT NULL,
+  `total` int(11) NOT NULL,
+  `payment` tinyint(4) NOT NULL,
+  `status` tinyint(4) NOT NULL,
+  `date_updated` date NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `order`
+--
+
+INSERT INTO `order` (`id_order`, `id_account`, `code`, `fullname`, `phone`, `address`, `email`, `note`, `subtotal`, `feeship`, `discount`, `total`, `payment`, `status`, `date_updated`, `created_at`, `updated_at`) VALUES
+(26, 4, '935C7', 'Nguyễn Thế Anh', '0399112333', 'Phố Vũ Tông Phan, Phường Khương Đình, Quận Thanh Xuân, Hà Nội', 'theanh@gmail.com', 'a', 22820000, 10000, 2282000, 20548000, 3, 0, '2024-06-09', '2024-06-09 09:58:15', '2024-06-09 09:58:15'),
+(29, 4, '47C0D', 'Tuấn', '0331112333', 'Phố Trường Chinh, Phường Khương Thượng, Quận Đống Đa, Hà Nội', 'tuan@gmail.com', '', 36045000, 12000, 3604500, 32452500, 2, 0, '2024-06-09', '2024-06-09 14:59:56', '2024-06-09 14:59:56'),
+(31, 4, '3FF9F', 'Nguyễn Thái Nhân', '0331123312', 'Phố Ngô Quyền, Quận Hà Đông, Hà Nội', 'ntn@gmail.com', '', 8415000, 5000, 0, 8420000, 2, 0, '2024-06-09', '2024-06-09 15:14:20', '2024-06-09 15:14:20');
 
 -- --------------------------------------------------------
 
@@ -405,8 +462,8 @@ CREATE TABLE `product_color` (
 --
 
 INSERT INTO `product_color` (`id`, `id_product`, `color_path`, `created_at`, `updated_at`) VALUES
-(12, 1, '[{\"id_color\":1,\"quantity\":\"50\"}]', '2024-06-02 04:12:46', '2024-06-02 04:15:05'),
-(13, 3, '[{\"id_color\":1,\"quantity\":\"75\"}]', '2024-06-03 01:26:20', '2024-06-03 01:26:20'),
+(12, 1, '[{\"id_color\":1,\"quantity\":50}]', '2024-06-02 04:12:46', '2024-06-09 09:58:15'),
+(13, 3, '[{\"id_color\":1,\"quantity\":74}]', '2024-06-03 01:26:20', '2024-06-09 14:59:29'),
 (14, 4, '[{\"id_color\":1,\"quantity\":\"30\"}]', '2024-06-03 01:28:59', '2024-06-03 01:28:59'),
 (15, 5, '[{\"id_color\":1,\"quantity\":\"15\"}]', '2024-06-03 01:37:14', '2024-06-03 01:37:14'),
 (16, 7, '[{\"id_color\":1,\"quantity\":\"10\"}]', '2024-06-03 01:41:34', '2024-06-03 01:41:34'),
@@ -415,7 +472,7 @@ INSERT INTO `product_color` (`id`, `id_product`, `color_path`, `created_at`, `up
 (19, 10, '[{\"id_color\":1,\"quantity\":\"5\"}]', '2024-06-03 03:01:36', '2024-06-03 03:01:36'),
 (20, 11, '[{\"id_color\":1,\"quantity\":\"7\"}]', '2024-06-03 03:03:53', '2024-06-03 03:03:53'),
 (21, 6, '[{\"id_color\":1,\"quantity\":\"5\"}]', '2024-06-03 03:05:14', '2024-06-03 03:05:14'),
-(22, 12, '[{\"id_color\":2,\"quantity\":\"2\"},{\"id_color\":1,\"quantity\":\"3\"}]', '2024-06-03 03:07:53', '2024-06-03 03:08:07'),
+(22, 12, '[{\"id_color\":2,\"quantity\":2},{\"id_color\":1,\"quantity\":\"3\"}]', '2024-06-03 03:07:53', '2024-06-09 09:58:15'),
 (23, 13, '[{\"id_color\":2,\"quantity\":\"10\"}]', '2024-06-03 21:58:43', '2024-06-03 21:58:43'),
 (24, 14, '[{\"id_color\":2,\"quantity\":\"5\"}]', '2024-06-03 22:00:15', '2024-06-03 22:00:15'),
 (25, 15, '[{\"id_color\":2,\"quantity\":\"5\"}]', '2024-06-03 22:01:35', '2024-06-03 22:01:35'),
@@ -426,9 +483,9 @@ INSERT INTO `product_color` (`id`, `id_product`, `color_path`, `created_at`, `up
 (30, 20, '[{\"id_color\":2,\"quantity\":\"30\"}]', '2024-06-04 00:06:20', '2024-06-04 00:06:20'),
 (31, 21, '[{\"id_color\":2,\"quantity\":\"11\"}]', '2024-06-04 00:09:07', '2024-06-04 00:09:07'),
 (32, 22, '[{\"id_color\":1,\"quantity\":\"15\"},{\"id_color\":2,\"quantity\":\"15\"}]', '2024-06-04 00:13:55', '2024-06-04 00:13:55'),
-(33, 23, '[{\"id_color\":2,\"quantity\":\"15\"}]', '2024-06-04 00:16:43', '2024-06-04 00:16:43'),
+(33, 23, '[{\"id_color\":2,\"quantity\":14}]', '2024-06-04 00:16:43', '2024-06-09 15:14:20'),
 (34, 24, '[{\"id_color\":2,\"quantity\":\"6\"}]', '2024-06-04 00:18:20', '2024-06-04 00:18:20'),
-(35, 25, '[{\"id_color\":6,\"quantity\":\"8\"}]', '2024-06-04 00:22:53', '2024-06-04 00:22:53'),
+(35, 25, '[{\"id_color\":6,\"quantity\":8}]', '2024-06-04 00:22:53', '2024-06-09 14:59:29'),
 (36, 26, '[{\"id_color\":6,\"quantity\":\"13\"}]', '2024-06-04 00:25:31', '2024-06-04 00:25:38'),
 (37, 27, '[{\"id_color\":1,\"quantity\":\"5\"}]', '2024-06-04 00:28:26', '2024-06-04 00:28:26'),
 (38, 28, '[{\"id_color\":2,\"quantity\":\"15\"}]', '2024-06-04 00:30:33', '2024-06-04 00:30:33');
@@ -553,6 +610,12 @@ ALTER TABLE `coupon_user`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Chỉ mục cho bảng `detail_order`
+--
+ALTER TABLE `detail_order`
+  ADD PRIMARY KEY (`id_detail`);
+
+--
 -- Chỉ mục cho bảng `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
@@ -576,6 +639,12 @@ ALTER TABLE `fee`
 --
 ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `order`
+--
+ALTER TABLE `order`
+  ADD PRIMARY KEY (`id_order`);
 
 --
 -- Chỉ mục cho bảng `password_resets`
@@ -642,7 +711,7 @@ ALTER TABLE `banner`
 -- AUTO_INCREMENT cho bảng `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id_cart` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id_cart` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT cho bảng `category`
@@ -669,6 +738,12 @@ ALTER TABLE `coupon_user`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT cho bảng `detail_order`
+--
+ALTER TABLE `detail_order`
+  MODIFY `id_detail` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
 -- AUTO_INCREMENT cho bảng `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
@@ -690,7 +765,13 @@ ALTER TABLE `fee`
 -- AUTO_INCREMENT cho bảng `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT cho bảng `order`
+--
+ALTER TABLE `order`
+  MODIFY `id_order` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT cho bảng `personal_access_tokens`

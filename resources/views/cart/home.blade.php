@@ -2,7 +2,7 @@
 @section('content')
 <div class="section">
     <!-- container -->
-    <div class="container">
+    <div class="container cart-container">
         <h2 class="text-center">Giỏ hàng của tôi</h2>
         <div class="row mt-50">
             <div class="col-md-12">
@@ -29,7 +29,7 @@
                                 $total += $subtotal;
                             @endphp
                             <tr class="text-center cart-items" data-id="{{$cart['id_cart']}}">
-                                <td class="product-remove">
+                                <td class="product-remove" data-id="{{$cart['id_cart']}}">
                                     <a href="#" class="btn btn-danger" style="margin-top: 20px;">
                                         <i class="fa-solid fa-xmark" style="padding-top: 4px;"></i>
                                     </a>
@@ -89,7 +89,7 @@
                     <hr>
                     <p class="d-flex total-price">
                         <span>Tổng tiền</span>
-                        <span class="total-all-cart">{{number_format($total + 10000 + 20000,0,',','.')}}</span>đ
+                        <span class="total-all-cart">{{number_format($total,0,',','.')}}</span>đ
                     </p>
                 </div>
                 <div class="cart-btns">

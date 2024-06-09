@@ -116,19 +116,44 @@ class CartController extends Controller
     //cap nhat so luong
     function update(Request $request){
         $data = $request->all();
-        $quantity = $data['quantity'];
+        $quantity = intval($data['quantity']);
         $cart = Cart::find($data['id']);
-        $cart->quantity = $quantity;
-        $update = $cart->save();
-        if($update){
-            $carts = Cart::where('id_account',$data['id_customer'])->get();
-            $subtotal = 0;
-            foreach($carts as $cart){
-                $subtotal += ($cart->quantity * $cart->price);
+        $productColor = ProductColor::where('id_product',$cart->id_product)->first();
+        $colorPath = json_decode($productColor->color_path,true);
+        $color = $cart->id_color;
+        //tao mang moi co id color bang mau dang chon
+        $array = array_filter($colorPath, function ($item) use ($color) {
+            return $item['id_color'] == $color;
+        });
+        $array = array_values($array); //reset key cua mang
+        $quantityProduct = $array[0]['quantity'];
+        $quantityCart = $quantity;
+        if($quantityCart <= $quantityProduct){
+            $cart->quantity = $quantity;
+            $update = $cart->save();
+            if($update){
+                $carts = Cart::where('id_account',$data['id_customer'])->get();
+                $subtotal = 0;
+                foreach($carts as $cart){
+                    $subtotal += ($cart->quantity * $cart->price);
+                }
+                return response()->json(['res' => 'success', 'text' => 'Cập nhật số lượng thành công', 'subtotal' => $subtotal]);
+            }else{
+                return response()->json(['res' => 'error', 'text' => 'Cập nhật số lượng thất bại']);
             }
-            return response()->json(['res' => 'success', 'text' => 'Cập nhật số lượng thành công', 'subtotal' => $subtotal]);
         }else{
-            return response()->json(['res' => 'success', 'text' => 'Cập nhật số lượng thất bại']);
+            return response()->json(['res' => 'error', 'text' => 'Quá số lượng trong kho (Trong kho chỉ còn '.$quantityProduct.' sản phẩm)']);
+        }
+    }
+    //xoa san pham trong gio hang
+    function remove(Request $request){
+        $id = $request->get('id');
+        $cart = Cart::find($id);
+        $delete = $cart->delete();
+        if($delete){
+            return response()->json(['res' => 'success', 'text' => 'Xóa sản phẩm trong giỏ hàng thành công']);
+        }else{
+            return response()->json(['res' => 'error', 'text' => 'Xóa sản phẩm trong giỏ hàng thất bại']);
         }
     }
 }

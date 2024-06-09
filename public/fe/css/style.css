@@ -2253,6 +2253,10 @@ textarea.input {
     margin-right: 5px;
 }
 
+.mb-15 {
+    margin-bottom: 15px;
+}
+
 .mb-100 {
     margin-bottom: 100px;
 }
@@ -2456,6 +2460,23 @@ hr {
 
 .fs-18 {
     font-size: 18px;
+}
+
+.card-payment {
+    width: 100%;
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.card-payment img {
+    margin-right: 5px;
+}
+
+.border-choose-card {
+    border: 1px solid #D10024;
 }
 
 @keyframes spin {

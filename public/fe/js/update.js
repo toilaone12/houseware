@@ -78,7 +78,7 @@ $(function(){
                 });
                 $('.icon-address[data-type="loading"]').addClass('d-none');
                 $('.icon-address[data-type="delete"]').removeClass('d-none');
-            },1500);
+            },2000);
         } else {
             $('.list-search-address').addClass('d-none');
         }
@@ -102,7 +102,7 @@ $(function(){
         $('.find-address').attr('lat',lat).attr('lng',lng).val(keyword);
         $('.list-search-address').addClass('d-none');
     })
-    //chon phuong thuc thanh toan
+    //chon phuong thuc thanh toan de hien thi dia chi van chuyen
     $('.choose-payment').on('change',function(e){
         e.preventDefault();
         $(this).prop('checked');
@@ -111,5 +111,20 @@ $(function(){
         if(type == 2 || type == 3){
             $('.shiping-details').removeClass('d-none');
         }
+        if(type == 1 || type == 3){
+            $('.card-payment').removeClass('border-choose-card');
+            $('.choose-card-payment').attr('data-type','');
+        }
+        if(type == 1){
+            $('.order-address').val('');
+        }
+    })
+    //chon the thanh toan truc tuyen
+    $('.card-payment').on('click', function(e){
+        e.preventDefault();
+        let type = $(this).attr('data-type');
+        $('.card-payment').removeClass('border-choose-card');
+        $(this).addClass('border-choose-card');
+        $('.choose-card-payment').attr('data-type',type);
     })
 })

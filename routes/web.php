@@ -141,6 +141,7 @@ Route::prefix('home')->group(function(){
         Route::prefix('cart')->group(function(){
             Route::post('/add',[CartController::class,'add'])->name('cart.add');
             Route::post('/update',[CartController::class,'update'])->name('cart.update');
+            Route::post('/remove',[CartController::class,'remove'])->name('cart.remove');
             Route::get('/',[CartController::class,'home'])->name('cart.home');
         });
         //danh gia
@@ -160,6 +161,8 @@ Route::prefix('home')->group(function(){
         Route::prefix('order')->group(function(){
             Route::post('/apply',[OrderController::class,'apply'])->name('order.apply');
             Route::get('/checkout',[OrderController::class,'checkout'])->name('order.checkout');
+            Route::post('/order',[OrderController::class,'order'])->name('order.order');
+            Route::get('/handle',[OrderController::class,'handle'])->name('order.handle');
         });
         //phi van chuyen
         Route::prefix('fee')->group(function(){
