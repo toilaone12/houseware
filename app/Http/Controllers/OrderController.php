@@ -19,6 +19,51 @@ use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
+    //admin
+    function list(){
+        $title = 'Danh sách đơn hàng';
+        $orders = Order::all();
+        return view('order.list',compact('title','orders'));
+    }
+
+    function detail(Request $request){
+        $title = 'Chi tiết đơn hàng';
+        $id = $request->get('id');
+        $order = Order::find($id);
+        $details = DetailOrder::where('id_order',$id)->get();
+        $colors = Color::all();
+        $listStatus = [
+            1 => 'Nhận đơn hàng',
+            2 => 'Giao cho vận chuyển',
+            3 => 'Giao thành công',
+        ];
+        return view('order.detail',compact('title','details','colors','order','listStatus'));
+    }
+
+    function change(Request $request){
+        $data = $request->all();
+        $status = intval($data['status']);
+        $id = $data['id'];
+        $order = Order::find($id);
+        if ($order->status + 1 == $status || $status == 4) {
+            $order->status = $status;
+            $order->date_updated = date('Y-m-d');
+            $update = $order->save();
+            if ($update) {
+                if ($status == 4) {
+                    return redirect()->route('order.detail', ['id' => $order->id_order]);
+                } else {
+                    return redirect()->route('order.detail', ['id' => $order->id_order]);
+                }
+            }
+        } else {
+            if ($status == 4) {
+                return redirect()->route('order.detail', ['id' => $order->id_order]);
+            } else {
+                return redirect()->route('order.detail', ['id' => $order->id_order]);
+            }
+        }
+    }
     //trang chu
     //gui gio hang sang dat hang
     function apply(Request $request){

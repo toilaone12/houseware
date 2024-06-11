@@ -114,6 +114,12 @@ Route::prefix('admin')->group(function(){
             Route::post('/updateThumbnails',[ProductController::class,'updateThumbnails'])->name('product.updateThumbnails');
             Route::get('/deleteThumbnails',[ProductController::class,'deleteThumbnails'])->name('product.deleteThumbnails');
         });
+        //hoa don
+        Route::prefix('order')->group(function(){
+            Route::get('/list',[OrderController::class,'list'])->name('order.list');
+            Route::get('/detail',[OrderController::class,'detail'])->name('order.detail');
+            Route::get('/change',[OrderController::class,'change'])->name('order.change');
+        });
     });
 });
 //nguoi dung

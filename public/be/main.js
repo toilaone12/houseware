@@ -106,4 +106,13 @@ $(function(){
             $(this).val(100);
         }
     })
+    //goi dien cho khach hang
+    $('.call-customer').on('click', function(){
+        let phone = $('.phone-customer').text();
+        location.href = 'tel:'+phone;
+    })
+    //in hoa don
+    $('.print-invoice').on('click',function(){
+        $('.form-invoice').print();
+    })
 })

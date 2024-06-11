@@ -11,6 +11,7 @@
 <script src="//cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
 <!-- CKEditor -->
 <script src="https://cdn.jsdelivr.net/npm/autonumeric@4.5.1"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery.print/1.6.2/jQuery.print.min.js" integrity="sha512-t3XNbzH2GEXeT9juLjifw/5ejswnjWWMMDxsdCg4+MmvrM+MwqGhxlWeFJ53xN/SBHPDnW0gXYvBx/afZZfGMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 @if(request()->is('admin/fee/update') || request()->is('admin/fee/insert') || request()->is('admin/coupon/insert') || request()->is('admin/coupon/update') || request()->is('admin/product/insert') || request()->is('admin/product/update'))
     <script>
         //dinh dang so
