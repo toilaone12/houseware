@@ -96,6 +96,7 @@ Route::prefix('admin')->group(function(){
             Route::get('/update',[CouponController::class,'formUpdate'])->name('coupon.formUpdate');
             Route::post('/edit',[CouponController::class,'edit'])->name('coupon.edit');
             Route::get('/delete',[CouponController::class,'delete'])->name('coupon.delete');
+            Route::post('/addCouponUser',[CouponController::class,'addCouponUser'])->name('coupon.addCouponUser');
         });
         //san pham
         Route::prefix('product')->group(function(){
@@ -119,6 +120,10 @@ Route::prefix('admin')->group(function(){
             Route::get('/list',[OrderController::class,'list'])->name('order.list');
             Route::get('/detail',[OrderController::class,'detail'])->name('order.detail');
             Route::get('/change',[OrderController::class,'change'])->name('order.change');
+        });
+        // modal
+        Route::prefix('modal')->group(function(){
+            Route::get('/coupon',[ModalController::class,'modalCoupon'])->name('modal.coupon');
         });
     });
 });
@@ -173,6 +178,12 @@ Route::prefix('home')->group(function(){
         //phi van chuyen
         Route::prefix('fee')->group(function(){
             Route::post('/apply',[FeeController::class,'apply'])->name('fee.apply');
+        });
+        //tai khoan
+        Route::prefix('account')->group(function(){
+            Route::get('/home',[AccountController::class,'home'])->name('account.home');
+            Route::post('/updateProfile',[AccountController::class,'updateProfile'])->name('account.updateProfile');
+            Route::post('/updatePassword',[AccountController::class,'updatePassword'])->name('account.updatePassword');
         });
     });
 });

@@ -57,15 +57,10 @@
                                     <div class="text-xs font-weight-bold text-info text-uppercase mb-2">Số tiền đơn hàng</div>
                                     <div class="h5 mb-0 font-weight-bold text-gray-800">{{number_format($totalOrderComplete,0,',','.')}} đ</div>
                                 </div>
-                                <div class="col">
-                                    <div class="progress progress-sm mr-2">
-                                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>

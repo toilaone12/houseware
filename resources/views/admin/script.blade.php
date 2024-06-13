@@ -54,6 +54,16 @@
 <script src="js/demo/chart-pie-demo.js"></script> -->
 <script>
     $(function(){
+        let modalAllBox = $('#modal_all_box');;
+		$('.btn-open-modal').click(function () {
+			var href = $(this).attr('data-href');
+			modalAllBox.load(href, '', function () {
+				modalAllBox.modal().on("hidden.bs.modal", function () {
+					$('#modal_all_box').children().remove();
+				});
+			});
+			return false;
+		});
         //xoa danh muc
         $('#myTable').on('click','.delete-category',function(e){
             e.preventDefault();
@@ -276,6 +286,19 @@
                     )
                 }
             })
+        })
+        $(document).on('submit','.add-coupon-user',function(e){
+            e.preventDefault();
+            let formData = new FormData($(this)[0]);
+            let url = "{{route('coupon.addCouponUser')}}";
+            postAjax(url, formData,
+                function(data){
+                    swalNoti(data.title,data.text,data.icon,'Tải lại trang',function(noti){ if(noti) location.reload()})
+                },
+                function(err){
+
+                }
+            ,'json',1)
         })
     })
 </script>

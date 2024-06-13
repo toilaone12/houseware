@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Coupon;
 use App\Models\Product;
 use App\Models\ProductColor;
 use Illuminate\Http\Request;
@@ -19,5 +20,11 @@ class ModalController extends Controller
     //modal tim dia chi giao hang
     function modalFindAddress(){
         return view('modal.address');
+    }
+
+    function modalCoupon(Request $request){
+        $id = $request->get('id');
+        $coupons = Coupon::where('expiration','>=',date('Y-m-d'))->get();
+        return view('modal.coupon',compact('coupons','id'));
     }
 }

@@ -22,7 +22,7 @@ class OrderController extends Controller
     //admin
     function list(){
         $title = 'Danh sách đơn hàng';
-        $orders = Order::all();
+        $orders = Order::orderBy('id_order','desc')->get();
         return view('order.list',compact('title','orders'));
     }
 
@@ -163,7 +163,7 @@ class OrderController extends Controller
                 'feeship' => $feeship,
                 'discount' => $discountCoupon,
                 'total' => $total,
-                'payment' => $data['choose-payment'],
+                'payment' => $data['choose-payment'] == 3 ? 'Thanh toán bằng tiền mặt khi nhận hàng' : ($data['choose-payment'] == 2 ? ($data['card'] == 'momo' ? 'Thanh toán bằng ví điện tử (Momo)' : 'Thanh toán bằng ví điện tử (VNPAY)') : 'Thanh toán khi đến cửa hàng'),
                 'status' => 0,
                 'date_updated' => date('Y-m-d'),
             ];

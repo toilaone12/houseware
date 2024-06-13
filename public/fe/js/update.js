@@ -127,4 +127,21 @@ $(function(){
         $(this).addClass('border-choose-card');
         $('.choose-card-payment').attr('data-type',type);
     })
+    //luu ma khuyen mai
+    $('.copy-coupon').on('click', function(){
+        let code = $(this).parents('.coupon').find('.code-coupon').text(); // siblings: chon phan tu ngang hang voi phan tu chon ban dau
+        var blob = new Blob([code], { type: "text/plain" });
+
+        // Tạo một thực thể ClipboardItem từ blob
+        var clipboardItem = new ClipboardItem({ "text/plain": blob });
+
+        // Sao chép clipboardItem vào clipboard
+        navigator.clipboard.write([clipboardItem])
+            .then(function() {
+                alert("Đã sao chép vào clipboard");
+            })
+            .catch(function(error) {
+                console.error("Lỗi khi sao chép vào clipboard: " + error);
+            });
+    })
 })

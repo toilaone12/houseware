@@ -81,6 +81,23 @@ class CouponController extends Controller
             return json_encode(['res' => 'error', 'title' => 'Xoá mã giảm giá', 'text' => 'Lỗi truy vấn', 'icon' => 'error']);
         }
     }
+    function addCouponUser(Request $request){
+        $data = $request->all();
+        $check = CouponUser::where('id_account', $data['id'])->where('id_coupon', $data['coupon'])->first();
+        if(!$check){
+            $insert = CouponUser::create([
+                'id_account' => $data['id'],
+                'id_coupon' => $data['coupon']
+            ]);
+            if($insert){
+                return json_encode(['res' => 'success', 'title' => 'Cấp mã giảm giá', 'text' => 'Cấp mã giảm giá cho khách thành công', 'icon' => 'success']);
+            }else{
+                return json_encode(['res' => 'error', 'title' => 'Cấp mã giảm giá', 'text' => 'Lỗi truy vấn', 'icon' => 'error']);
+            }
+        }else{
+            return json_encode(['res' => 'warning', 'title' => 'Cấp mã giảm giá', 'text' => 'Khách hàng này đã có mã giảm giá này', 'icon' => 'warning']);
+        }
+    }
     //trang chu
     //ap dung ma
     function apply(Request $request){

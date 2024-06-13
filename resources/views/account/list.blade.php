@@ -74,9 +74,14 @@
                                     <td>{{$oneUser->username}}</td>
                                     <td>{{$oneUser->fullname}}</td>
                                     <td>{{$oneUser->email}}</td>
+                                    <td>{{$oneUser->phone}}</td>
+                                    <td>{{$oneUser->address}}</td>
                                     <td align="center">
-                                        <a title="Cấp lại mật khẩu" data-id="{{$oneUser->id_account}}" data-name="{{$oneUser->username}}" class="assign-password btn btn-primary d-md-block d-lg-inline-block d-xl-inline-block mb-md-2 mb-lg-0 mb-xl-0"><i class="fa-solid fa-pen-to-square"></i></a>
-                                        <a class="btn btn-danger delete-category" data-id="{{$oneUser->id_account}}" data-name="{{$oneUser->username}}"><i class="fa-solid fa-trash-can"></i></a>
+                                        <a title="Tặng mã khuyến mãi"
+                                        class="assign-password btn btn-primary d-md-block d-lg-inline-block d-xl-inline-block btn-open-modal"
+                                        data-href="{{route('modal.coupon',['id' => $oneUser->id_account])}}"
+                                        data-bs-toggle="modal" data-bs-target="#modal_all_box"
+                                        ><i class="fa-solid fa-gift"></i></a>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -89,4 +94,5 @@
         </div>
     </div>
 </div>
+
 @endsection

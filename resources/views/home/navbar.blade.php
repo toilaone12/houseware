@@ -18,7 +18,7 @@
                 @php
                 $account = Account::find($cookie);
                 @endphp
-                <a href="" class="fullname-login" data-id="{{$cookie}}"><i class="fa fa-user-o"></i> {{$account->fullname}}</a>
+                <a href="{{route('account.home',['type' => 'info'])}}" class="fullname-login" data-id="{{$cookie}}"><i class="fa fa-user-o"></i> {{$account->fullname}}</a>
                 <a href="{{route('home.logout')}}" class="small fullname-logout">Đăng xuất</a>
                 @else
                 <a href="{{route('home.login')}}"><i class="fa fa-user-o"></i> Đăng nhập</a>

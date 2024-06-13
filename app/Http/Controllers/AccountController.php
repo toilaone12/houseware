@@ -3,8 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Models\Cart;
+use App\Models\Category;
+use App\Models\Coupon;
+use App\Models\CouponUser;
+use App\Models\Favourite;
 use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
@@ -124,6 +130,77 @@ class AccountController extends Controller
             return json_encode(['res' => 'success', 'title' => 'Cấp mật khẩu tài khoản', 'text' => 'Cấp mật khẩu thành công, vui lòng kiểm tra lại email!', 'icon' => 'success']);
         }else{
             return json_encode(['res' => 'error', 'title' => 'Cấp mật khẩu tài khoản', 'text' => 'Lỗi truy vấn', 'icon' => 'error']);
+        }
+    }
+    //trang chu
+    function home(Request $request){
+        $type = request()->get('type');
+        if(!$type) return redirect()->route('account.home',['type' => 'info']);
+        $title = 'Thông tin cá nhân';
+        $listParentCate = Category::where('id_parent',0)->get();
+        //hien thi gio hang
+        $idCustomer = Cookie::get('id_customer');
+        $carts = [];
+        $count = 0;
+        if(isset($idCustomer) && $idCustomer){
+            $carts = Cart::where('id_account',$idCustomer)->get();
+            $count = count($carts->toArray());
+        }
+        //hien thi yeu thich
+        $countWhiteList = 0;
+        if(isset($idCustomer) && $idCustomer){
+            $whitelists = Favourite::where('id_account',$idCustomer)->first();
+            if(!empty($whitelists->product_path)){
+                $countWhiteList = count(explode('|',trim($whitelists->product_path,'|')));
+            }
+        }
+        $account = Account::find($idCustomer);
+        $coupons = Coupon::all();
+        $couponUser = CouponUser::where('id_account',$idCustomer)->get();
+        return view('account.home',compact('listParentCate','countWhiteList','carts','title','count','type','account','couponUser','coupons'));
+    }
+
+    function updateProfile(Request $request){
+        $data = $request->all();
+
+        Validator::make($data,[
+            'phone' => ['min:10','max:10'],
+        ],[
+            'phone.*' => 'Số điện thoại đặt hàng phải trong phạm vi lãnh thổ Việt Nam'
+        ])->validate();
+        $idCustomer = Cookie::get('id_customer');
+        $account = Account::find($idCustomer);
+        $account->fullname = $data['fullname'];
+        $account->phone = $data['phone'];
+        $account->email = $data['email'];
+        $account->address = $data['address'];
+        $update = $account->save();
+        if($update){
+            return redirect()->route('account.home',['type' => 'info'])->with('successOrder','Thay đổi thông tin thành công');
+        }else{
+            return redirect()->route('account.home',['type' => 'info'])->with('errorOrder','Lỗi truy vấn');
+        }
+    }
+
+    function updatePassword(Request $request){
+        $data = $request->all();
+        Validator::make($data,[
+            'password' => ['min:6','max:32'],
+            'repassword' => ['same:password', 'min:6', 'max:32'],
+        ],
+        [
+            'password.min' => 'Mật khẩu phải từ 6 đến 32 ký tự',
+            'repassword.min' => 'Mật khẩu phải từ 6 đến 32 ký tự',
+            'repassword.same' => 'Mật khẩu không trùng khớp',
+        ])->validate();
+        $idCustomer = Cookie::get('id_customer');
+        $account = Account::find($idCustomer);
+        $account->password = $data['password'];
+        $update = $account->save();
+        if($update){
+            return redirect()->route('account.home',['type' => 'password'])->with('successOrder','Thay đổi mật khẩu thành công');
+        }else{
+            return redirect()->route('account.home',['type' => 'password'])->with('errorOrder','Lỗi truy vấn');
         }
     }
 }

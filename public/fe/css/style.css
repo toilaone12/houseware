@@ -2225,6 +2225,10 @@ textarea.input {
     margin-left: 15px;
 }
 
+.mt-5 {
+    margin-top: 5px;
+}
+
 .mt-15 {
     margin-top: 15px;
 }
@@ -2253,12 +2257,24 @@ textarea.input {
     margin-right: 5px;
 }
 
+.mb-0 {
+    margin-bottom: 0px;
+}
+
+.mb-10 {
+    margin-bottom: 10px;
+}
+
 .mb-15 {
     margin-bottom: 15px;
 }
 
 .mb-100 {
     margin-bottom: 100px;
+}
+
+.m-3 {
+    margin: 1rem;
 }
 
 .d-none {
@@ -2477,6 +2493,81 @@ hr {
 
 .border-choose-card {
     border: 1px solid #D10024;
+}
+
+.card-body-account {
+    border: 1px solid #ccc;
+    padding: 12px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: hover 0.3s ease-in-out;
+}
+
+.card-body-account:hover {
+    background-color: #ccc;
+    color: #000;
+}
+
+a:hover .card-body-account {
+    color: #fff;
+}
+
+.card-body-account.active {
+    background-color: #D10024;
+    color: #fff;
+    border: #fff
+}
+
+.coupon {
+    background: #efefef;
+    border-radius: 12px;
+    padding: 15px 20px;
+}
+
+.justify-content-between {
+    justify-content: space-between;
+}
+
+.card-body-account.active a {
+    color: #fff;
+}
+
+.coupon .kanan {
+    border-left: 1px dashed #ddd;
+    width: 60% !important;
+    position:relative;
+}
+
+.coupon .tengah {
+    width: 100%;
+    justify-content: flex-start;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+}
+
+.coupon .kanan .info::after, .coupon .kanan .info::before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #dedede;
+    border-radius: 100%;
+}
+.coupon .kanan .info::before {
+    top: -10px;
+    left: -10px;
+}
+
+.coupon .kanan .info::after {
+    bottom: -10px;
+    left: -10px;
+}
+.coupon .time {
+    font-size: 1.6rem;
+}
+
+.badge-success {
+    background-color: #1cc88a;
 }
 
 @keyframes spin {

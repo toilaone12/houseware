@@ -27,7 +27,6 @@
                                     <th>Tổng tiền</th>
                                     <th>Phương thức thanh toán</th>
                                     <th>Tình trạng đơn hàng</th>
-                                    <th>Ngày cập nhật đơn</th>
                                     <th>Chức năng</th>
                                 </tr>
                             </thead>
@@ -41,16 +40,15 @@
                                     <td>{{$one->code}}</td>
                                     <td>{{$one->fullname}}</td>
                                     <td>{{$one->phone}}</td>
-                                    <td>{{$one->address}}</td>
+                                    <td width="500">{{$one->address}}</td>
                                     <td>{{$one->email}}</td>
                                     <td>{{$one->note}}</td>
                                     <td>{{number_format($one->subtotal,0,',','.')}}đ</td>
                                     <td>{{number_format($one->feeship,0,',','.')}}đ</td>
                                     <td>{{number_format($one->discount,0,',','.')}}đ</td>
                                     <td>{{number_format($one->total,0,',','.')}}đ</td>
-                                    <td>{{$one->payment == 3 ? 'Thanh toán bằng tiền mặt sau khi nhận hàng' : ($one->payment == 2 ? 'Thanh toán bằng thẻ ngân hàng' : 'Thanh toán khi đến cửa hàng')}}</td>
-                                    <td>{{$one->status == 1 ? 'Đã nhận đơn hàng' : ($one->status == 2 ? 'Đang đưa cho bên vận chuyển' : ($one->status == 3 ? 'Giao hàng thành công' : 'Đang chờ nhận đơn'))}}</td>
-                                    <td>{{date('d-m-Y',strtotime($one->date_updated))}}</td>
+                                    <td width="300">{{$one->payment}}</td>
+                                    <td width="300" class="text-white {{$one->status == 1 || $one->status == 2 ? 'bg-warning' : ($one->status == 3 ? 'bg-success' : ($one->status == 4 ? 'bg-danger' : 'bg-warning'))}}">{{$one->status == 1 ? 'Đã nhận đơn hàng' : ($one->status == 2 ? 'Đang đưa cho bên vận chuyển' : ($one->status == 3 ? 'Giao hàng thành công' : ($one->status == 4 ? 'Khách đã hủy đơn' : 'Đang chờ nhận đơn')))}}</td>
                                     <td align="center" width="130">
                                         <a href="{{route('order.detail',['id' => $one->id_order])}}" class="btn btn-primary d-md-block d-lg-inline-block d-xl-inline-block"><i class="fa-solid fa-file-invoice"></i></a>
                                     </td>
