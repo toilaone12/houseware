@@ -134,6 +134,7 @@ Route::prefix('home')->group(function(){
     Route::get('/logout', [HomeController::class,'logout'])->name('home.logout');
     Route::post('/signUp', [HomeController::class,'signUp'])->name('home.signUp');
     Route::post('/signIn', [HomeController::class,'signIn'])->name('home.signIn');
+    Route::get('/search', [HomeController::class,'search'])->name('home.search');
     // danh muc
     Route::prefix('category')->group(function(){
         Route::get('/',[CategoryController::class,'home'])->name('category.home');
@@ -174,6 +175,7 @@ Route::prefix('home')->group(function(){
             Route::get('/checkout',[OrderController::class,'checkout'])->name('order.checkout');
             Route::post('/order',[OrderController::class,'order'])->name('order.order');
             Route::get('/handle',[OrderController::class,'handle'])->name('order.handle');
+            Route::get('/detail',[OrderController::class,'orderDetail'])->name('order.orderDetail');
         });
         //phi van chuyen
         Route::prefix('fee')->group(function(){
@@ -184,6 +186,7 @@ Route::prefix('home')->group(function(){
             Route::get('/home',[AccountController::class,'home'])->name('account.home');
             Route::post('/updateProfile',[AccountController::class,'updateProfile'])->name('account.updateProfile');
             Route::post('/updatePassword',[AccountController::class,'updatePassword'])->name('account.updatePassword');
+            Route::get('/whitelist',[AccountController::class,'whitelist'])->name('account.whitelist');
         });
     });
 });

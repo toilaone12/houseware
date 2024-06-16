@@ -13,7 +13,7 @@
 		@yield('content')
 
 		<!-- FOOTER -->
-		@include('home.footer');
+		@include('home.footer')
 		<!-- /FOOTER -->
         <div class="modal fade" tabindex="-1" style="margin-top: 150px" id="modal_all_box">
             <div class="modal-dialog"></div>

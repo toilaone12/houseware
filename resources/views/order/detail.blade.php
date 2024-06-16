@@ -10,7 +10,7 @@
                         <div class="card">
                             <h5 class="card-header">Cài đặt</h5>
                             <div class="card-body">
-                                <a href="#" data-toggle="modal" data-target="#invoice" class="btn btn-primary w-100 invoice mt-3 {{$order->status == 0 || $order->status == 4 ? 'disabled' : ''}}">In hóa đơn</a>
+                                <a href="#" data-toggle="modal" data-target="#invoice" class="btn btn-primary w-100 invoice {{$order->status == 0 || $order->status == 4 ? 'disabled' : ''}}">In hóa đơn</a>
                             </div>
                         </div>
                     </div>
@@ -18,10 +18,14 @@
                         <div class="card">
                             <h5 class="card-header">Thay đổi trạng thái đơn hàng</h5>
                             <div class="card-body status-order">
-                                <!-- <button data-id="{{$order->id_order}}" class="w-100 btn btn-primary d-block check-order {{$order->status == 1 ? 'disabled' : ''}}">Kiểm tra đơn hàng</button> -->
+                                @if ($order->payment != 'Thanh toán khi đến cửa hàng')
                                 @foreach($listStatus as $key => $status)
                                 <a href="{{route('order.change',['id' => $order->id_order,'status' => $key])}}" class="w-100 btn btn-primary d-block {{$key > 1 ? 'mt-3': ''}} {{$key == $order->status || $key != intval($order->status) + 1 ? 'disabled' : ''}}">{{$status}}</a>
                                 @endforeach
+                                @else
+                                <a href="{{route('order.change',['id' => $order->id_order,'status' => 1])}}" class="w-100 btn btn-primary d-block {{$order->status + 1 == 1 ? '' : 'disabled'}}">Nhận đơn hàng</a>
+                                <a href="{{route('order.change',['id' => $order->id_order,'status' => 3])}}" class="w-100 btn btn-primary d-block mt-3 {{$order->status == 1 ? '' : 'disabled'}}">Giao thành công</a>
+                                @endif
                             </div>
                         </div>
                     </div>

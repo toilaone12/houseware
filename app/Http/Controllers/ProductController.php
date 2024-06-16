@@ -362,6 +362,7 @@ class ProductController extends Controller
             $title = $product->name;
             $productColor = ProductColor::where('id_product',$id)->first();
             $listParentCate = Category::where('id_parent',0)->get();
+            $listChildrenCate = Category::where('id_parent','!=',0)->get();
             //hien thi gio hang
             $idCustomer = Cookie::get('id_customer');
             $carts = [];
@@ -421,7 +422,7 @@ class ProductController extends Controller
             if($countRating){
                 $avg = intval(round($total / $countRating));
             }
-            return view('product.detail',compact('product','productColor','title','count','carts','listParentCate','arrColor','idCate','productRelated','reviews','avg','countRating','arrRating','countWhiteList'));
+            return view('product.detail',compact('product','productColor','title','count','carts','listParentCate','listChildrenCate','arrColor','idCate','productRelated','reviews','avg','countRating','arrRating','countWhiteList'));
         }else{
             return redirect()->route('home.dashboard');
         }

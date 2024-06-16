@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Account;
 use App\Models\Order;
 use App\Models\ProductColor;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Validator;
@@ -64,12 +65,16 @@ class AdminController extends Controller
     function dashboard(){
         $title = 'Trang chủ';
         $totalProduct = ProductColor::all();
+        $totalReview = Review::all();
+        $totalPending = Order::where('status',0)->get();
+        $totalComplete = Order::where('status',3)->get();
+        $totalCancel = Order::where('status',4)->get();
         $totalOrder = Order::where('date_updated',date('Y-m-d'))->get();
         $orderComplete = Order::where('date_updated',date('Y-m-d'))->where('status',3)->get();
         $totalOrderComplete = 0;
         foreach($orderComplete as $complete){
             $totalOrderComplete += $complete->total;
         }
-        return view('admin.content',compact('title','totalProduct','totalOrder','totalOrderComplete'));
+        return view('admin.content',compact('title','totalProduct','totalOrder','totalOrderComplete','totalReview','totalPending','totalCancel','totalComplete'));
     }
 }

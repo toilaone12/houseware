@@ -48,8 +48,8 @@
                                 <td class="quantity" width="125">
                                     <div class="input-number mt-20">
                                         <input type="number" name="quantity" value="{{$cart['quantity']}}" min="1" max="{{$cart['limit']}}" data-id="{{$cart['id_cart']}}" class="text-center qty-input-cart">
-                                        <span class="qty-detail-up qty-cart" data-id="{{$cart['id_cart']}}" data-type="up">+</span>
-                                        <span class="qty-detail-down qty-cart" data-id="{{$cart['id_cart']}}" data-type="down">-</span>
+                                        <span class="qty-detail-up qty-click-cart" data-id="{{$cart['id_cart']}}" data-type="up">+</span>
+                                        <span class="qty-detail-down qty-click-cart" data-id="{{$cart['id_cart']}}" data-type="down">-</span>
                                     </div>
                                 </td>
 

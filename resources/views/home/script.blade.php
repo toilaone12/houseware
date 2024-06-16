@@ -53,6 +53,14 @@
             if(max) url += '&max='+max;
             location.href = url;
         })
+        //chon loc san pham trong tim kiem
+        $('.choose-filter-search').on('change', function (e){
+            e.preventDefault();
+            let filter = $(this).val();
+            let keyword = $(this).attr('data-keyword');
+            let url = "{{route('home.search')}}"+'?keyword='+keyword+'&'+filter+'=1';
+            location.href = url;
+        })
         //them nhanh gio hang
         $(document).on('click', '.add-cart', function(e){
             e.preventDefault();
@@ -169,7 +177,7 @@
             }
         })
         //them so luong sp trong gio hang
-        $('.qty-cart').on('click', function(e){
+        $('.qty-click-cart').on('click', function(e){
             e.preventDefault();
             let id = $(this).attr('data-id');
             let idCustomer = $('.fullname-login').attr('data-id');

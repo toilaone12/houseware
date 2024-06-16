@@ -21,6 +21,7 @@ class HomeController extends Controller
     function dashboard(){
         $title = 'Trang chủ';
         $listParentCate = Category::where('id_parent',0)->get();
+        $listChildrenCate = Category::where('id_parent','!=',0)->get();
         //hien thi gio hang
         $idCustomer = Cookie::get('id_customer');
         $carts = [];
@@ -156,8 +157,7 @@ class HomeController extends Controller
             $listsCategory[] = $parentData;
             if($key == 2) break;
         }
-        // dd($listsCategory);
-        return view('home.content',compact('title','listParentCate','listsHot','listsCategory','listProduct','count','carts','countWhiteList'));
+        return view('home.content',compact('title','listParentCate','listChildrenCate','listsHot','listsCategory','listProduct','count','carts','countWhiteList'));
     }
     //form dang nhap & dang ky
     function login(){
@@ -247,5 +247,41 @@ class HomeController extends Controller
     function logout(){
         Cookie::queue(Cookie::forget('id_customer'));
         return redirect()->route('home.dashboard');
+    }
+
+    //tim kiem san pham
+    function search(Request $request){
+        $data = $request->all();
+        $keyword = $request->get('keyword');
+        $desc = intval($request->get('desc'));
+        $asc = intval($request->get('asc'));
+        $title = 'Tìm kiếm sản phẩm';
+        $countSearch = Product::where('name','like','%'.mb_strtolower($data['keyword'],'UTF-8').'%')->get();
+        $products = Product::where('name','like','%'.mb_strtolower($data['keyword'],'UTF-8').'%');
+        if($asc){
+            $products = $products->orderBy('id_product','asc');
+        }else if($desc){
+            $products = $products->orderBy('id_product','desc');
+        }
+        $products = $products->paginate(9);
+        $listParentCate = Category::where('id_parent',0)->get();
+        $listChildrenCate = Category::where('id_parent','!=',0)->get();
+        //hien thi gio hang
+        $idCustomer = Cookie::get('id_customer');
+        $carts = [];
+        $count = 0;
+        if(isset($idCustomer) && $idCustomer){
+            $carts = Cart::where('id_account',$idCustomer)->get();
+            $count = count($carts->toArray());
+        }
+        //hien thi yeu thich
+        $countWhiteList = 0;
+        if(isset($idCustomer) && $idCustomer){
+            $whitelists = Favourite::where('id_account',$idCustomer)->first();
+            if(!empty($whitelists->product_path)){
+                $countWhiteList = count(explode('|',trim($whitelists->product_path,'|')));
+            }
+        }
+        return view('home.search',compact('products','title','keyword','listParentCate','listChildrenCate','count','carts','countWhiteList','countSearch'));
     }
 }

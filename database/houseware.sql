@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 13, 2024 lúc 05:33 PM
+-- Thời gian đã tạo: Th6 16, 2024 lúc 11:52 AM
 -- Phiên bản máy phục vụ: 10.4.22-MariaDB
 -- Phiên bản PHP: 7.3.33
 
@@ -49,7 +49,8 @@ INSERT INTO `account` (`id_account`, `id_role`, `username`, `fullname`, `email`,
 (1, 1, 'quan', 'Quân', 'bokazem69@gmail.com', NULL, NULL, 'e10adc3949ba59abbe56e057f20f883e', 1, '2024-05-30 01:34:06', '2024-05-30 09:15:20'),
 (2, 3, 'dung', 'Dung', 'toilaone12@gmail.com', NULL, NULL, 'd0fda0cf702231b3963aedb610256146', 0, '2024-05-30 01:40:04', '2024-05-30 02:51:49'),
 (3, 1, 'dung123', 'ChinChin', 'toilaone12@gmail.com', NULL, NULL, 'e10adc3949ba59abbe56e057f20f883e', 0, '2024-05-30 01:41:38', '2024-05-30 01:41:38'),
-(4, 2, 'quan', 'Nguyễn Đình Minh Quân', 'bokazem69@gmail.com', '0399112333', 'Thái Nguyên', '123456', 1, '2024-06-04 10:30:15', '2024-06-13 11:53:33');
+(4, 2, 'quan', 'Nguyễn Đình Minh Quân', 'bokazem69@gmail.com', '0399112333', 'Thái Nguyên', '123456', 1, '2024-06-04 10:30:15', '2024-06-13 11:53:33'),
+(5, 2, 'tuan', 'Mai Anh Tuấn', 'tuan@gmail.com', NULL, NULL, 'e10adc3949ba59abbe56e057f20f883e', 1, '2024-06-15 16:47:37', '2024-06-15 16:47:48');
 
 -- --------------------------------------------------------
 
@@ -95,7 +96,9 @@ CREATE TABLE `cart` (
 --
 
 INSERT INTO `cart` (`id_cart`, `id_account`, `id_product`, `image`, `name`, `id_color`, `quantity`, `price`, `created_at`, `updated_at`) VALUES
-(34, 4, 1, 'be/img/product/sp8-1-1717264168.png', 'Bếp ba từ BOSCH PUJ631BB2E', 1, 1, 14820000, '2024-06-13 11:32:58', '2024-06-13 11:32:58');
+(34, 4, 1, 'be/img/product/sp8-1-1717264168.png', 'Bếp ba từ BOSCH PUJ631BB2E', 1, 2, 14820000, '2024-06-13 11:32:58', '2024-06-15 16:47:04'),
+(35, 4, 16, 'be/img/product/sp95-1717477362.png', 'Máy hút mùi Apex APB6680-70C', 1, 1, 6890000, '2024-06-15 10:34:02', '2024-06-15 10:34:02'),
+(36, 4, 25, 'be/img/product/may-rua-chen-sm_main_307_1020.png-1717485764.webp', 'Máy rửa chén Bosch SMS63L08EA 12 bộ Series 6 - Châu Âu', 6, 2, 14030000, '2024-06-15 14:54:02', '2024-06-15 14:55:33');
 
 -- --------------------------------------------------------
 
@@ -232,7 +235,8 @@ INSERT INTO `detail_order` (`id_detail`, `id_order`, `id_product`, `code`, `imag
 (11, 43, 25, '3EC3D', 'be/img/product/may-rua-chen-sm_main_307_1020.png-1717485764.webp', 'Máy rửa chén Bosch SMS63L08EA 12 bộ Series 6 - Châu Âu', 6, '1', 14030000, '2024-06-13 08:32:29', '2024-06-13 08:32:29'),
 (12, 44, 26, '33F63', 'be/img/product/may-rua-chen-53_main_178_1020.png-1717485901.webp', 'Máy rửa chén Hafele 538.21.190 6 bộ', 6, '2', 3955500, '2024-06-13 09:01:21', '2024-06-13 09:01:21'),
 (13, 44, 13, '33F63', 'be/img/product/DWB07W651-anh-chinh-1717476313.jpg', 'Hút Mùi Treo Tường BOSCH DWB07W651', 2, '1', 13166500, '2024-06-13 09:01:21', '2024-06-13 09:01:21'),
-(14, 45, 1, '653C7', 'be/img/product/sp8-1-1717264168.png', 'Bếp ba từ BOSCH PUJ631BB2E', 1, '1', 14820000, '2024-06-13 09:07:21', '2024-06-13 09:07:21');
+(14, 45, 1, '653C7', 'be/img/product/sp8-1-1717264168.png', 'Bếp ba từ BOSCH PUJ631BB2E', 1, '1', 14820000, '2024-06-13 09:07:21', '2024-06-13 09:07:21'),
+(15, 46, 23, '8F809', 'be/img/product/may-rua-chen-es_main_175_1020.png-1717485395.webp', 'Máy rửa chén Electrolux ESF6010BW 8 bộ', 2, '1', 8415000, '2024-06-16 09:51:18', '2024-06-16 09:51:18');
 
 -- --------------------------------------------------------
 
@@ -269,7 +273,7 @@ CREATE TABLE `favourite` (
 --
 
 INSERT INTO `favourite` (`id_favourite`, `id_account`, `product_path`, `created_at`, `updated_at`) VALUES
-(2, 4, '|4|1|16|15|12|', '2024-06-06 10:23:30', '2024-06-06 14:32:30');
+(2, 4, '|13|4|1|16|15|12|', '2024-06-06 10:23:30', '2024-06-15 15:04:13');
 
 -- --------------------------------------------------------
 
@@ -368,12 +372,13 @@ CREATE TABLE `order` (
 --
 
 INSERT INTO `order` (`id_order`, `id_account`, `code`, `fullname`, `phone`, `address`, `email`, `note`, `subtotal`, `feeship`, `discount`, `total`, `payment`, `status`, `date_updated`, `created_at`, `updated_at`) VALUES
-(26, 4, '935C7', 'Nguyễn Thế Anh', '0399112333', 'Phố Vũ Tông Phan, Phường Khương Đình, Quận Thanh Xuân, Hà Nội', 'theanh@gmail.com', 'a', 22820000, 10000, 2282000, 20548000, 'Thanh toán bằng tiền mặt khi nhận hàng', 0, '2024-06-09', '2024-06-09 09:58:15', '2024-06-09 09:58:15'),
-(29, 4, '47C0D', 'Tuấn', '0331112333', 'Phố Trường Chinh, Phường Khương Thượng, Quận Đống Đa, Hà Nội', 'tuan@gmail.com', '', 36045000, 12000, 3604500, 32452500, 'Thanh toán bằng ví điện tử (Momo)', 0, '2024-06-09', '2024-06-09 14:59:56', '2024-06-09 14:59:56'),
-(31, 4, '3FF9F', 'Nguyễn Thái Nhân', '0331123312', 'Phố Ngô Quyền, Quận Hà Đông, Hà Nội', 'ntn@gmail.com', '', 8415000, 5000, 0, 8420000, 'Thanh toán bằng ví điện tử (VNPAY)', 0, '2024-06-09', '2024-06-09 15:14:20', '2024-06-09 15:14:20'),
-(43, 4, '3EC3D', 'Quân', '0331123333', '', 'quan@gmail.com', '', 14030000, 0, 0, 14030000, 'Thanh toán khi đến cửa hàng', 0, '2024-06-13', '2024-06-13 08:32:29', '2024-06-13 08:32:29'),
+(26, 4, '935C7', 'Nguyễn Thế Anh', '0399112333', 'Phố Vũ Tông Phan, Phường Khương Đình, Quận Thanh Xuân, Hà Nội', 'theanh@gmail.com', 'a', 22820000, 10000, 2282000, 20548000, 'Thanh toán bằng tiền mặt khi nhận hàng', 4, '2024-06-15', '2024-06-09 09:58:15', '2024-06-15 15:02:33'),
+(29, 4, '47C0D', 'Tuấn', '0331112333', 'Phố Trường Chinh, Phường Khương Thượng, Quận Đống Đa, Hà Nội', 'tuan@gmail.com', '', 36045000, 12000, 3604500, 32452500, 'Thanh toán bằng ví điện tử (Momo)', 3, '2024-06-15', '2024-06-09 14:59:56', '2024-06-15 03:55:22'),
+(31, 4, '3FF9F', 'Nguyễn Thái Nhân', '0331123312', 'Phố Ngô Quyền, Quận Hà Đông, Hà Nội', 'ntn@gmail.com', '', 8415000, 5000, 0, 8420000, 'Thanh toán bằng ví điện tử (VNPAY)', 3, '2024-06-15', '2024-06-09 15:14:20', '2024-06-15 04:11:58'),
+(43, 4, '3EC3D', 'Quân', '0331123333', '', 'quan@gmail.com', '', 14030000, 0, 0, 14030000, 'Thanh toán khi đến cửa hàng', 3, '2024-06-15', '2024-06-13 08:32:29', '2024-06-15 04:11:39'),
 (44, 4, '33F63', 'Tân', '0331123333', 'Phố Vũ Tông Phan, Phường Khương Đình, Quận Thanh Xuân, Hà Nội', 'tan@gmail', '', 21077500, 5000, 0, 21082500, 'Thanh toán bằng ví điện tử (Momo)', 0, '2024-06-13', '2024-06-13 09:01:21', '2024-06-13 09:01:21'),
-(45, 4, '653C7', 'Thái', '0331112223', 'Phố Lê Hữu Trác, Phường Phúc La, Quận Hà Đông, Hà Nội', 'thai@gmail.com', '', 14820000, 5000, 0, 14825000, 'Thanh toán bằng ví điện tử (VNPAY)', 3, '2024-06-13', '2024-06-13 09:07:21', '2024-06-13 09:07:35');
+(45, 4, '653C7', 'Thái', '0331112223', 'Phố Lê Hữu Trác, Phường Phúc La, Quận Hà Đông, Hà Nội', 'thai@gmail.com', '', 14820000, 5000, 0, 14825000, 'Thanh toán bằng ví điện tử (VNPAY)', 3, '2024-06-13', '2024-06-13 09:07:21', '2024-06-13 09:07:35'),
+(46, 5, '8F809', 'Mai Anh Tuấn', '0311234113', '', 'mat@gmail.com', '', 8415000, 0, 0, 8415000, 'Thanh toán khi đến cửa hàng', 0, '2024-06-16', '2024-06-16 09:51:18', '2024-06-16 09:51:18');
 
 -- --------------------------------------------------------
 
@@ -500,7 +505,7 @@ INSERT INTO `product_color` (`id`, `id_product`, `color_path`, `created_at`, `up
 (30, 20, '[{\"id_color\":2,\"quantity\":\"30\"}]', '2024-06-04 00:06:20', '2024-06-04 00:06:20'),
 (31, 21, '[{\"id_color\":2,\"quantity\":\"11\"}]', '2024-06-04 00:09:07', '2024-06-04 00:09:07'),
 (32, 22, '[{\"id_color\":1,\"quantity\":\"15\"},{\"id_color\":2,\"quantity\":\"15\"}]', '2024-06-04 00:13:55', '2024-06-04 00:13:55'),
-(33, 23, '[{\"id_color\":2,\"quantity\":14}]', '2024-06-04 00:16:43', '2024-06-09 15:14:20'),
+(33, 23, '[{\"id_color\":2,\"quantity\":13}]', '2024-06-04 00:16:43', '2024-06-16 09:51:18'),
 (34, 24, '[{\"id_color\":2,\"quantity\":\"6\"}]', '2024-06-04 00:18:20', '2024-06-04 00:18:20'),
 (35, 25, '[{\"id_color\":6,\"quantity\":7}]', '2024-06-04 00:22:53', '2024-06-13 08:32:29'),
 (36, 26, '[{\"id_color\":6,\"quantity\":11}]', '2024-06-04 00:25:31', '2024-06-13 09:01:21'),
@@ -716,7 +721,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT cho bảng `account`
 --
 ALTER TABLE `account`
-  MODIFY `id_account` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_account` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT cho bảng `banner`
@@ -728,7 +733,7 @@ ALTER TABLE `banner`
 -- AUTO_INCREMENT cho bảng `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id_cart` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id_cart` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT cho bảng `category`
@@ -758,7 +763,7 @@ ALTER TABLE `coupon_user`
 -- AUTO_INCREMENT cho bảng `detail_order`
 --
 ALTER TABLE `detail_order`
-  MODIFY `id_detail` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_detail` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT cho bảng `failed_jobs`
@@ -788,7 +793,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT cho bảng `order`
 --
 ALTER TABLE `order`
-  MODIFY `id_order` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id_order` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT cho bảng `personal_access_tokens`

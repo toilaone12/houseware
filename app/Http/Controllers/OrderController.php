@@ -34,7 +34,7 @@ class OrderController extends Controller
         $colors = Color::all();
         $listStatus = [
             1 => 'Nhận đơn hàng',
-            2 => 'Giao cho vận chuyển',
+            2 => $order->payment != 'Thanh toán khi đến cửa hàng' ? 'Giao cho vận chuyển' : '',
             3 => 'Giao thành công',
         ];
         return view('order.detail',compact('title','details','colors','order','listStatus'));
@@ -45,26 +45,53 @@ class OrderController extends Controller
         $status = intval($data['status']);
         $id = $data['id'];
         $order = Order::find($id);
-        if ($order->status + 1 == $status || $status == 4) {
+        if ($order->status + 2 == $status || $order->status + 1 == $status || $status == 4) {
             $order->status = $status;
             $order->date_updated = date('Y-m-d');
             $update = $order->save();
             if ($update) {
                 if ($status == 4) {
-                    return redirect()->route('order.detail', ['id' => $order->id_order]);
+                    return redirect()->route('order.orderDetail', ['id' => $order->id_order]);
                 } else {
                     return redirect()->route('order.detail', ['id' => $order->id_order]);
                 }
             }
         } else {
             if ($status == 4) {
-                return redirect()->route('order.detail', ['id' => $order->id_order]);
+                return redirect()->route('order.orderDetail', ['id' => $order->id_order]);
             } else {
                 return redirect()->route('order.detail', ['id' => $order->id_order]);
             }
         }
     }
     //trang chu
+    //lich su don hang
+    function orderDetail(Request $request){
+        $id = $request->get('id');
+        $order = Order::find($id);
+        $details = DetailOrder::where('id_order',$id)->get();
+        $colors = Color::all();
+        $title = 'Chi tiết đơn hàng #'.$order->code;
+        $listParentCate = Category::where('id_parent',0)->get();
+        $listChildrenCate = Category::where('id_parent','!=',0)->get();
+        //hien thi gio hang
+        $idCustomer = Cookie::get('id_customer');
+        $carts = [];
+        $count = 0;
+        if(isset($idCustomer) && $idCustomer){
+            $carts = Cart::where('id_account',$idCustomer)->get();
+            $count = count($carts->toArray());
+        }
+        //hien thi yeu thich
+        $countWhiteList = 0;
+        if(isset($idCustomer) && $idCustomer){
+            $whitelists = Favourite::where('id_account',$idCustomer)->first();
+            if(!empty($whitelists->product_path)){
+                $countWhiteList = count(explode('|',trim($whitelists->product_path,'|')));
+            }
+        }
+        return view('order.homeDetail',compact('order','details','colors','listParentCate','listChildrenCate','countWhiteList','carts','title','count'));
+    }
     //gui gio hang sang dat hang
     function apply(Request $request){
         $data = $request->all();
@@ -88,6 +115,7 @@ class OrderController extends Controller
         $title = 'Thông tin đơn hàng';
         //danh muc cha
         $listParentCate = Category::where('id_parent',0)->get();
+        $listChildrenCate = Category::where('id_parent','!=',0)->get();
         //hien thi gio hang
         $idCustomer = Cookie::get('id_customer');
         $carts = [];
@@ -125,7 +153,7 @@ class OrderController extends Controller
         if(!isset($coupon) && !$coupon){
             $coupon = [];
         }
-        return view('order.checkout',compact('listParentCate','carts','count','countWhiteList','title','coupon'));
+        return view('order.checkout',compact('listParentCate','listChildrenCate','carts','count','countWhiteList','title','coupon'));
     }
     //dat hang
     function order(Request $request){

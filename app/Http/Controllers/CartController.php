@@ -79,6 +79,7 @@ class CartController extends Controller
         $title = 'Giỏ hàng';
         //danh muc cha
         $listParentCate = Category::where('id_parent',0)->get();
+        $listChildrenCate = Category::where('id_parent','!=',0)->get();
         //hien thi gio hang
         $idCustomer = Cookie::get('id_customer');
         $carts = [];
@@ -111,7 +112,7 @@ class CartController extends Controller
             $cart['limit'] = $array[0]['quantity'];
             unset($cart);
         }
-        return view('cart.home',compact('title','carts','count','countWhiteList','listParentCate'));
+        return view('cart.home',compact('title','carts','count','countWhiteList','listParentCate','listChildrenCate'));
     }
     //cap nhat so luong
     function update(Request $request){

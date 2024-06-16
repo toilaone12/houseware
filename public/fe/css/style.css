@@ -2269,6 +2269,10 @@ textarea.input {
     margin-bottom: 15px;
 }
 
+.mb-30 {
+    margin-bottom: 30px;
+}
+
 .mb-100 {
     margin-bottom: 100px;
 }
@@ -2424,6 +2428,10 @@ hr {
     align-items: center;
 }
 
+.align-items-baseline {
+    align-items: baseline;
+}
+
 .address-items {
     padding: 9px 15px;
     font-size: 17px;
@@ -2568,6 +2576,74 @@ a:hover .card-body-account {
 
 .badge-success {
     background-color: #1cc88a;
+}
+
+.badge-danger {
+    background-color: #D10024;
+}
+
+.badge-warning {
+    background-color: #ffc700;
+}
+
+.order-btn {
+    display: inline-block;
+    width: 25%;
+    padding: 8px;
+    background-color: #1e1f29;
+    color: #FFF;
+    text-align: center;
+    font-weight: 700;
+    -webkit-transition: 0.2s all;
+    transition: 0.2s all;
+}
+
+.order-btn:hover,
+.cancel-btn:hover {
+    opacity: 0.8;
+    color: #fff;
+}
+
+.cancel-btn {
+    display: inline-block;
+    width: 25%;
+    padding: 8px;
+    background-color: #D10024;
+    color: #FFF;
+    text-align: center;
+    font-weight: 700;
+    -webkit-transition: 0.2s all;
+    transition: 0.2s all;
+}
+
+.fs-17 {
+    font-size: 17px;
+}
+
+.order-detail-item {
+    display: flex;
+    align-items: flex-start;
+}
+
+.order-detail-image img {
+    object-fit: cover;
+    aspect-ratio: 16 / 9;
+}
+
+.nav-parent:hover .nav-child {
+    display: block;
+}
+
+.nav-child {
+    background: #ccc;
+    width: 150px;
+    position: absolute;
+    content: '';
+    top: 72%;
+    display: none;
+    left: -20%;
+    padding: 10px;
+    z-index: 2;
 }
 
 @keyframes spin {

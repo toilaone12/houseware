@@ -90,6 +90,7 @@ class CategoryController extends Controller
         if($one){
             $title = $one->name;
             $listParentCate = Category::where('id_parent',0)->get();
+            $listChildrenCate = Category::where('id_parent','!=',0)->get();
             $listChild = Category::where('id_parent',$one->id_category)->get();
             $listChildAll = Category::where('id_parent','!=',0)->get();
             $arrChild = [];
@@ -115,6 +116,9 @@ class CategoryController extends Controller
                     $listProduct = $listProduct->orderBy('id_product','asc');
                 }else if($desc){
                     $listProduct = $listProduct->orderBy('id_product','desc');
+                }
+                if($min && $max){
+                    $listProduct = $listProduct->whereBetween('price',[$min,$max]);
                 }
                 $listProduct = $listProduct->paginate(9);
                 $countProduct = Product::where('id_category',$one->id_category)->get();
@@ -163,7 +167,7 @@ class CategoryController extends Controller
                 }
             }
             $idCate = $_GET['id'];
-            return view('category.home',compact('one','title','listProduct','listParentCate','countProduct','arrChild','count','carts','idCate','countWhiteList'));
+            return view('category.home',compact('one','title','listProduct','listParentCate','listChildrenCate','countProduct','arrChild','count','carts','idCate','countWhiteList'));
         }else{
             return redirect()->route('home.dashboard');
         }

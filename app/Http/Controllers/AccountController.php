@@ -5,9 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Account;
 use App\Models\Cart;
 use App\Models\Category;
+use App\Models\Color;
 use App\Models\Coupon;
 use App\Models\CouponUser;
+use App\Models\DetailOrder;
 use App\Models\Favourite;
+use App\Models\Order;
+use App\Models\Product;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
@@ -138,6 +142,7 @@ class AccountController extends Controller
         if(!$type) return redirect()->route('account.home',['type' => 'info']);
         $title = 'Thông tin cá nhân';
         $listParentCate = Category::where('id_parent',0)->get();
+        $listChildrenCate = Category::where('id_parent','!=',0)->get();
         //hien thi gio hang
         $idCustomer = Cookie::get('id_customer');
         $carts = [];
@@ -157,7 +162,38 @@ class AccountController extends Controller
         $account = Account::find($idCustomer);
         $coupons = Coupon::all();
         $couponUser = CouponUser::where('id_account',$idCustomer)->get();
-        return view('account.home',compact('listParentCate','countWhiteList','carts','title','count','type','account','couponUser','coupons'));
+        $orders = Order::where('id_account',$idCustomer)->get();
+        return view('account.home',compact('listParentCate','listChildrenCate','countWhiteList','carts','title','count','type','account','couponUser','coupons','orders'));
+    }
+
+    //san pham yeu thich
+    function whitelist(Request $request){
+        $title = 'Yêu thích';
+        $listParentCate = Category::where('id_parent',0)->get();
+        $listChildrenCate = Category::where('id_parent','!=',0)->get();
+        //hien thi gio hang
+        $idCustomer = Cookie::get('id_customer');
+        $carts = [];
+        $count = 0;
+        if(isset($idCustomer) && $idCustomer){
+            $carts = Cart::where('id_account',$idCustomer)->get();
+            $count = count($carts->toArray());
+        }
+        //hien thi yeu thich
+        $countWhiteList = 0;
+        $arrWhitelist = [];
+        if(isset($idCustomer) && $idCustomer){
+            $whitelists = Favourite::where('id_account',$idCustomer)->first();
+            if(!empty($whitelists->product_path)){
+                $countWhiteList = count(explode('|',trim($whitelists->product_path,'|')));
+                $products = explode('|',trim($whitelists->product_path,'|'));
+                foreach($products as $id){
+                    $one = Product::find($id);
+                    $arrWhitelist[] = $one;
+                }
+            }
+        }
+        return view('account.whitelist',compact('listParentCate','listChildrenCate','countWhiteList','carts','title','count','arrWhitelist'));
     }
 
     function updateProfile(Request $request){

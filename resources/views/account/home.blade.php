@@ -159,6 +159,36 @@
                         @endif
                     </div>
                 </div>
+                @elseif ($type == 'order')
+                <div class="col-md-9 col-xs-12" style="height: 800px; overflow:auto">
+                    <div class="row">
+                        @foreach ($orders as $order)
+                        <div class="col-md-12 mb-15">
+                            <div class="coupon">
+                                <div class="d-flex align-items-baseline justify-content-between">
+                                    <h3>Đơn hàng #{{$order->code}}</h3>
+                                    @if ($order->status == 0 || $order->status == 1 || $order->status == 2)
+                                        <div class="badge fs-17 badge-warning">{{$order->status == 0 ? 'Đang chờ nhận đơn' : ($order->status == 1 ? 'Đã nhận đơn' : 'Đang giao đơn')}}</div>
+                                    @elseif ($order->status == 3)
+                                        <div class="badge fs-17 badge-success">Giao thành công</div>
+                                    @else
+                                        <div class="badge fs-17 badge-danger">Đã hủy đơn</div>
+                                    @endif
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <p>Người đặt: {{$order->fullname}}</p>
+                                    <p>Tổng tiền: {{number_format($order->total,0,',','.')}} đ (Đã bao gồm phụ phí)</p>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <p>Ngày mua: {{date('d/m/Y',strtotime($order->created_at))}}</p>
+                                    <p>Phương thức thanh toán: {{$order->payment}}</p>
+                                </div>
+                                <a href="{{route('order.orderDetail',['id' => $order->id_order])}}" class="order-btn">Xem chi tiết</a>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
                 @endif
             </div>
         </div>

@@ -48,9 +48,9 @@
             <!-- SEARCH BAR -->
             <div class="col-md-6">
                 <div class="header-search">
-                    <form>
-                        <input class="input" placeholder="Tìm kiếm">
-                        <button class="search-btn">Tìm kiếm</button>
+                    <form action="{{route('home.search')}}" method="GET">
+                        <input class="input" name="keyword" placeholder="Tìm kiếm">
+                        <button type="submit" class="search-btn">Tìm kiếm</button>
                     </form>
                 </div>
             </div>
@@ -62,7 +62,7 @@
                     @if(isset($cookie) && $cookie)
                     <!-- Wishlist -->
                     <div>
-                        <a href="#" class="dropdown-favourite">
+                        <a href="{{route('account.whitelist')}}" class="dropdown-favourite">
                             <i class="fa fa-heart-o"></i>
                             <span>Yêu thích</span>
                             @if($countWhiteList)
