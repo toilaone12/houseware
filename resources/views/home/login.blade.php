@@ -46,7 +46,7 @@
                                                     <i class="input-icon uil uil-lock-alt"></i>
                                                 </div>
                                                 <button type="submit" class="btn mt-4">Đăng nhập</button>
-                                                <p class="mb-0 mt-4 text-center"><a href="#0" class="link">Quên mật khẩu?</a></p>
+                                                <p class="mb-0 mt-4 text-center"><a href="{{route('home.forgot')}}" class="link">Quên mật khẩu?</a></p>
                                             </div>
                                         </div>
                                     </form>

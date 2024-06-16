@@ -284,4 +284,46 @@ class HomeController extends Controller
         }
         return view('home.search',compact('products','title','keyword','listParentCate','listChildrenCate','count','carts','countWhiteList','countSearch'));
     }
+
+    function forgot(){
+        $title = "Quên mật khẩu";
+        return view('home.forgot',compact('title'));
+    }
+
+    function checkEmail(Request $request){
+        $data = $request->all();
+        $idRoleCustomer = Role::where('is_admin',0)->select('id_role')->first();
+        $check = Account::where('id_role',$idRoleCustomer->id_role)->where('username',$data['username'])->where('email',$data['email'])->first();
+        if($check){
+            return redirect()->route('home.change',['id' => $check->id_account]);
+        }else{
+            return redirect()->route('home.forgot')->with('message','<p class="text-danger small">Tài khoản sai hoặc không tồn tại</p>');
+        }
+    }
+
+    function change(Request $request){
+        $id = $request->get('id');
+        return view('home.change',compact('id'));
+    }
+
+    function updatePassword(Request $request){
+        $data = $request->all();
+        Validator::make($data,[
+            'password' => ['min:6','max:32'],
+            'repassword' => ['same:password', 'min:6', 'max:32'],
+        ],
+        [
+            'password.min' => 'Mật khẩu phải từ 6 đến 32 ký tự',
+            'repassword.min' => 'Mật khẩu phải từ 6 đến 32 ký tự',
+            'repassword.same' => 'Mật khẩu không trùng khớp',
+        ])->validate();
+        $account = Account::find($data['id']);
+        $account->password = md5($data['password']);
+        $update = $account->save();
+        if($update){
+            return redirect()->route('home.login')->with('message','<p class="text-success small">Thay đổi mật khẩu thành công</p>');
+        }else{
+            return redirect()->route('home.login')->with('message','<p class="text-danger small">Lỗi truy vấn</p>');
+        }
+    }
 }

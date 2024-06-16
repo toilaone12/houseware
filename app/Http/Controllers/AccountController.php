@@ -231,7 +231,7 @@ class AccountController extends Controller
         ])->validate();
         $idCustomer = Cookie::get('id_customer');
         $account = Account::find($idCustomer);
-        $account->password = $data['password'];
+        $account->password = md5($data['password']);
         $update = $account->save();
         if($update){
             return redirect()->route('account.home',['type' => 'password'])->with('successOrder','Thay đổi mật khẩu thành công');

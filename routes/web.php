@@ -132,7 +132,11 @@ Route::prefix('home')->group(function(){
     Route::get('/', [HomeController::class,'dashboard'])->name('home.dashboard');
     Route::get('/login', [HomeController::class,'login'])->name('home.login');
     Route::get('/logout', [HomeController::class,'logout'])->name('home.logout');
+    Route::get('/forgot', [HomeController::class,'forgot'])->name('home.forgot');
     Route::post('/signUp', [HomeController::class,'signUp'])->name('home.signUp');
+    Route::post('/checkEmail', [HomeController::class,'checkEmail'])->name('home.checkEmail');
+    Route::get('/change', [HomeController::class,'change'])->name('home.change');
+    Route::post('/updatePassword', [HomeController::class,'updatePassword'])->name('home.updatePassword');
     Route::post('/signIn', [HomeController::class,'signIn'])->name('home.signIn');
     Route::get('/search', [HomeController::class,'search'])->name('home.search');
     // danh muc

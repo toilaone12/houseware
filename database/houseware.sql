@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 16, 2024 lúc 11:52 AM
+-- Thời gian đã tạo: Th6 16, 2024 lúc 04:22 PM
 -- Phiên bản máy phục vụ: 10.4.22-MariaDB
 -- Phiên bản PHP: 7.3.33
 
@@ -49,8 +49,8 @@ INSERT INTO `account` (`id_account`, `id_role`, `username`, `fullname`, `email`,
 (1, 1, 'quan', 'Quân', 'bokazem69@gmail.com', NULL, NULL, 'e10adc3949ba59abbe56e057f20f883e', 1, '2024-05-30 01:34:06', '2024-05-30 09:15:20'),
 (2, 3, 'dung', 'Dung', 'toilaone12@gmail.com', NULL, NULL, 'd0fda0cf702231b3963aedb610256146', 0, '2024-05-30 01:40:04', '2024-05-30 02:51:49'),
 (3, 1, 'dung123', 'ChinChin', 'toilaone12@gmail.com', NULL, NULL, 'e10adc3949ba59abbe56e057f20f883e', 0, '2024-05-30 01:41:38', '2024-05-30 01:41:38'),
-(4, 2, 'quan', 'Nguyễn Đình Minh Quân', 'bokazem69@gmail.com', '0399112333', 'Thái Nguyên', '123456', 1, '2024-06-04 10:30:15', '2024-06-13 11:53:33'),
-(5, 2, 'tuan', 'Mai Anh Tuấn', 'tuan@gmail.com', NULL, NULL, 'e10adc3949ba59abbe56e057f20f883e', 1, '2024-06-15 16:47:37', '2024-06-15 16:47:48');
+(4, 2, 'quan', 'Nguyễn Đình Minh Quân', 'bokazem69@gmail.com', '0399112333', 'Thái Nguyên', 'e10adc3949ba59abbe56e057f20f883e', 1, '2024-06-04 10:30:15', '2024-06-16 14:21:47'),
+(5, 2, 'tuan', 'Mai Anh Tuấn', 'tuan@gmail.com', NULL, NULL, 'e10adc3949ba59abbe56e057f20f883e', 1, '2024-06-15 16:47:37', '2024-06-16 14:20:29');
 
 -- --------------------------------------------------------
 
