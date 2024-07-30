@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('admin')->group(function(){
     Route::get('/', [AdminController::class,'login'])->name('admin.login');
     Route::get('/signIn', [AdminController::class,'signIn'])->name('admin.signIn');
+    Route::get('/logout', [AdminController::class,'logout'])->name('admin.logout');
     Route::middleware(['loginCheck'])->group(function () {
         Route::get('/dashboard', [AdminController::class,'dashboard'])->name('admin.dashboard');
         //danh muc
@@ -60,24 +61,36 @@ Route::prefix('admin')->group(function(){
             Route::post('/edit',[RoleController::class,'edit'])->name('role.edit');
             Route::get('/delete',[RoleController::class,'delete'])->name('role.delete');
         });
-        //tai khoan
-        Route::prefix('account')->group(function(){
-            Route::get('/',[AccountController::class,'list'])->name('account.list');
-            Route::get('/insert',[AccountController::class,'formInsert'])->name('account.formInsert');
-            Route::post('/add',[AccountController::class,'add'])->name('account.add');
-            Route::get('/update',[AccountController::class,'formUpdate'])->name('account.formUpdate');
-            Route::post('/edit',[AccountController::class,'edit'])->name('account.edit');
-            Route::get('/delete',[AccountController::class,'delete'])->name('account.delete');
-            Route::get('/assign',[AccountController::class,'assign'])->name('account.assign');
-        });
-        //phi van chuyen
-        Route::prefix('fee')->group(function(){
-            Route::get('/',[FeeController::class,'list'])->name('fee.list');
-            Route::get('/insert',[FeeController::class,'formInsert'])->name('fee.formInsert');
-            Route::post('/add',[FeeController::class,'add'])->name('fee.add');
-            Route::get('/update',[FeeController::class,'formUpdate'])->name('fee.formUpdate');
-            Route::post('/edit',[FeeController::class,'edit'])->name('fee.edit');
-            Route::get('/delete',[FeeController::class,'delete'])->name('fee.delete');
+        Route::middleware(['permissionCheck'])->group(function() {
+            //tai khoan
+            Route::prefix('account')->group(function(){
+                Route::get('/',[AccountController::class,'list'])->name('account.list');
+                Route::get('/insert',[AccountController::class,'formInsert'])->name('account.formInsert');
+                Route::post('/add',[AccountController::class,'add'])->name('account.add');
+                Route::get('/update',[AccountController::class,'formUpdate'])->name('account.formUpdate');
+                Route::post('/edit',[AccountController::class,'edit'])->name('account.edit');
+                Route::get('/delete',[AccountController::class,'delete'])->name('account.delete');
+                Route::get('/assign',[AccountController::class,'assign'])->name('account.assign');
+            });
+            //ma khuyen mai
+            Route::prefix('coupon')->group(function(){
+                Route::get('/',[CouponController::class,'list'])->name('coupon.list');
+                Route::get('/insert',[CouponController::class,'formInsert'])->name('coupon.formInsert');
+                Route::post('/add',[CouponController::class,'add'])->name('coupon.add');
+                Route::get('/update',[CouponController::class,'formUpdate'])->name('coupon.formUpdate');
+                Route::post('/edit',[CouponController::class,'edit'])->name('coupon.edit');
+                Route::get('/delete',[CouponController::class,'delete'])->name('coupon.delete');
+                Route::post('/addCouponUser',[CouponController::class,'addCouponUser'])->name('coupon.addCouponUser');
+            });
+            //phi van chuyen
+            Route::prefix('fee')->group(function(){
+                Route::get('/',[FeeController::class,'list'])->name('fee.list');
+                Route::get('/insert',[FeeController::class,'formInsert'])->name('fee.formInsert');
+                Route::post('/add',[FeeController::class,'add'])->name('fee.add');
+                Route::get('/update',[FeeController::class,'formUpdate'])->name('fee.formUpdate');
+                Route::post('/edit',[FeeController::class,'edit'])->name('fee.edit');
+                Route::get('/delete',[FeeController::class,'delete'])->name('fee.delete');
+            });
         });
         //quang cao
         Route::prefix('banner')->group(function(){
@@ -88,16 +101,7 @@ Route::prefix('admin')->group(function(){
             Route::post('/edit',[BannerController::class,'edit'])->name('banner.edit');
             Route::get('/delete',[BannerController::class,'delete'])->name('banner.delete');
         });
-        //ma khuyen mai
-        Route::prefix('coupon')->group(function(){
-            Route::get('/',[CouponController::class,'list'])->name('coupon.list');
-            Route::get('/insert',[CouponController::class,'formInsert'])->name('coupon.formInsert');
-            Route::post('/add',[CouponController::class,'add'])->name('coupon.add');
-            Route::get('/update',[CouponController::class,'formUpdate'])->name('coupon.formUpdate');
-            Route::post('/edit',[CouponController::class,'edit'])->name('coupon.edit');
-            Route::get('/delete',[CouponController::class,'delete'])->name('coupon.delete');
-            Route::post('/addCouponUser',[CouponController::class,'addCouponUser'])->name('coupon.addCouponUser');
-        });
+        
         //san pham
         Route::prefix('product')->group(function(){
             Route::get('/',[ProductController::class,'list'])->name('product.list');

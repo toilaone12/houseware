@@ -77,4 +77,9 @@ class AdminController extends Controller
         }
         return view('admin.content',compact('title','totalProduct','totalOrder','totalOrderComplete','totalReview','totalPending','totalCancel','totalComplete'));
     }
+    //dang xuat
+    function logout(){
+        Cookie::queue(Cookie::forget('id_account'));
+        return redirect()->route('admin.login');
+    }
 }
