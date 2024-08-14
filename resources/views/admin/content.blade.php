@@ -75,24 +75,6 @@
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Số lượt đánh giá sản phẩm</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{count($totalReview)}}</div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-comments fa-2x text-gray-300"></i>
-                        </div>
-                    </div>
-                </div>
-                <a href="{{route('product.list')}}" class="btn btn-warning mt-2 small w-50 mx-3">Xem chi tiết</a>
-            </div>
-        </div>
-
-        <!-- Pending Requests Card Example -->
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-warning shadow h-100 py-2">
-                <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                        <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Số đơn đang chờ</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{count($totalPending)}}</div>
                         </div>
