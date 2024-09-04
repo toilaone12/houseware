@@ -48,7 +48,7 @@
                                     <td>{{number_format($one->discount,0,',','.')}}đ</td>
                                     <td>{{number_format($one->total,0,',','.')}}đ</td>
                                     <td width="300">{{$one->payment}}</td>
-                                    <td width="300" class="text-white {{$one->status == 1 || $one->status == 2 ? 'bg-warning' : ($one->status == 3 ? 'bg-success' : ($one->status == 4 ? 'bg-danger' : 'bg-warning'))}}">{{$one->status == 1 ? 'Đã nhận đơn hàng' : ($one->status == 2 ? 'Đang đưa cho bên vận chuyển' : ($one->status == 3 ? 'Giao hàng thành công' : ($one->status == 4 ? 'Khách đã hủy đơn' : 'Đang chờ nhận đơn')))}}</td>
+                                    <td width="300" class="text-white {{$one->status == 1 || $one->status == 2 ? 'bg-warning' : ($one->status == 3 ? 'bg-success' : ($one->status == 4 ? 'bg-danger' : 'bg-warning'))}}">{{$one->status == 1 ? 'Đã nhận đơn hàng' : ($one->status == 2 ? 'Đang đưa cho bên vận chuyển' : ($one->status == 3 ? 'Giao hàng thành công' : ($one->status == 4 ? ($one->is_cancel ? 'Cửa hàng đã hủy đơn của bạn' : 'Khách đã hủy đơn') : 'Đang chờ nhận đơn')))}}</td>
                                     <td align="center" width="130">
                                         <a href="{{route('order.detail',['id' => $one->id_order])}}" class="btn btn-primary d-md-block d-lg-inline-block d-xl-inline-block"><i class="fa-solid fa-file-invoice"></i></a>
                                     </td>

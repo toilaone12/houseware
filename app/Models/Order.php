@@ -24,6 +24,7 @@ class Order extends Model
         'total',
         'payment',
         'status',
+        'is_cancel',
         'date_updated',
     ];
     public $timestamp = true;

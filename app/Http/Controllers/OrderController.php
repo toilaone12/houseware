@@ -49,6 +49,7 @@ class OrderController extends Controller
         if ($order->status + 2 == $status || $order->status + 1 == $status || $status == 4) {
             $order->status = $status;
             $order->date_updated = date('Y-m-d');
+            $order->is_cancel = $admin;
             $update = $order->save();
             if ($update) {
                 if ($status == 4) {
@@ -202,6 +203,7 @@ class OrderController extends Controller
                 'total' => $total,
                 'payment' => $data['choose-payment'] == 3 ? 'Thanh toán bằng tiền mặt khi nhận hàng' : ($data['choose-payment'] == 2 ? ($data['card'] == 'momo' ? 'Thanh toán bằng ví điện tử (Momo)' : 'Thanh toán bằng ví điện tử (VNPAY)') : 'Thanh toán khi đến cửa hàng'),
                 'status' => 0,
+                'is_cancel' => 0,
                 'date_updated' => date('Y-m-d'),
             ];
             Session::put('order',$order);
