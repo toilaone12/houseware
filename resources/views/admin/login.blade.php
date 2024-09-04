@@ -20,7 +20,7 @@
                             <div class="col-lg-7">
                                 <div class="p-5">
                                     <div class="text-center mb-3">
-                                        <h1 class="h4 text-gray-900">Đăng nhập với <span class="text-warning">Home</span> & <span class="text-secondary">Ease</span>!</h1>
+                                        <h1 class="h4 text-gray-900">Đăng nhập với <span class="fs-30 font-bungee">HQN Store</span></h1>
                                         <span class="text-danger small">
                                             @php
                                                 use Illuminate\Support\Facades\Cookie;

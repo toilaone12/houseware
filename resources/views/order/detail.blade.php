@@ -21,11 +21,12 @@
                                 @if ($order->payment != 'Thanh toán khi đến cửa hàng')
                                 @foreach($listStatus as $key => $status)
                                 <a href="{{route('order.change',['id' => $order->id_order,'status' => $key])}}" class="w-100 btn btn-primary d-block {{$key > 1 ? 'mt-3': ''}} {{$key == $order->status || $key != intval($order->status) + 1 ? 'disabled' : ''}}">{{$status}}</a>
-                                @endforeach
+                                @endforeach  
                                 @else
                                 <a href="{{route('order.change',['id' => $order->id_order,'status' => 1])}}" class="w-100 btn btn-primary d-block {{$order->status + 1 == 1 ? '' : 'disabled'}}">Nhận đơn hàng</a>
                                 <a href="{{route('order.change',['id' => $order->id_order,'status' => 3])}}" class="w-100 btn btn-primary d-block mt-3 {{$order->status == 1 ? '' : 'disabled'}}">Giao thành công</a>
                                 @endif
+                                <a href="{{route('order.change',['id' => $order->id_order,'status' => 4,'admin' => 1])}}" class="w-100 btn btn-primary d-block mt-3 {{$order->status !== 4 ? '' : 'disabled'}}">Hủy đơn hàng</a>
                             </div>
                         </div>
                     </div>
@@ -52,6 +53,9 @@
                             </div>
                             <div class="fs-15 text-dark mb-2">
                                 Địa chỉ giao hàng: {{ucwords($order->address)}}
+                            </div>
+                            <div class="fs-15 text-dark mb-2">
+                                Phương thức giao hàng: {{ucwords($order->payment)}}
                             </div>
                         </div>
                         <hr class="mb-4">
@@ -110,13 +114,7 @@
             </div>
             <div class="modal-body">
                 <div class="card">
-                    <div class="card-body form-invoice">
-
-                        <div class="row">
-                            <div class="col-xl-12 fs-30">
-                                HQN Store
-                            </div>
-                        </div>
+                    <div class="card-body form-invoice">    
                         <div class="row">
                             <div class="col-xl-7">
                                 <ul class="list-unstyled float-start">

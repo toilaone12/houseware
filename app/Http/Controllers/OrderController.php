@@ -43,6 +43,7 @@ class OrderController extends Controller
     function change(Request $request){
         $data = $request->all();
         $status = intval($data['status']);
+        $admin = isset($data['admin']) ? intval($data['admin']) : 0;
         $id = $data['id'];
         $order = Order::find($id);
         if ($order->status + 2 == $status || $order->status + 1 == $status || $status == 4) {
@@ -51,14 +52,22 @@ class OrderController extends Controller
             $update = $order->save();
             if ($update) {
                 if ($status == 4) {
-                    return redirect()->route('order.orderDetail', ['id' => $order->id_order]);
+                    if($admin){
+                        return redirect()->route('order.detail', ['id' => $order->id_order]);
+                    }else{
+                        return redirect()->route('order.orderDetail', ['id' => $order->id_order]);
+                    }
                 } else {
                     return redirect()->route('order.detail', ['id' => $order->id_order]);
                 }
             }
         } else {
             if ($status == 4) {
-                return redirect()->route('order.orderDetail', ['id' => $order->id_order]);
+                if($admin){
+                    return redirect()->route('order.detail', ['id' => $order->id_order]);
+                }else{
+                    return redirect()->route('order.orderDetail', ['id' => $order->id_order]);
+                }
             } else {
                 return redirect()->route('order.detail', ['id' => $order->id_order]);
             }
