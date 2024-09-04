@@ -55,3 +55,13 @@
 .object-fit-cover {
     object-fit: cover;
 }
+
+.font-bungee {
+    font-family: "Bungee Tint", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.fs-25 {
+    font-size: 25px;
+}

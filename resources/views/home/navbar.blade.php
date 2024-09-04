@@ -37,9 +37,9 @@
         <div class="row">
             <!-- LOGO -->
             <div class="col-md-3">
-                <div class="header-logo">
-                    <a href="#" class="logo">
-                        <img src="{{asset('fe/img/logo.png')}}" alt="">
+                <div class="header-logo mt-15">
+                    <a href="{{route('home.dashboard')}}" class="logo">
+                        <span class="fs-30 font-bungee">HQN Store</span>
                     </a>
                 </div>
             </div>

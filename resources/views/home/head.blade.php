@@ -13,6 +13,7 @@
     <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lalezar&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Tint&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;1,100;1,200;1,300;1,400;1,500;1,600&display=swap" rel="stylesheet">
     <link rel="icon" href="{{asset('favicon/favicon.ico')}}" type="image/x-icon">
     <!-- Bootstrap -->
     <link type="text/css" rel="stylesheet" href="{{asset('fe/css/bootstrap.min.css')}}"/>

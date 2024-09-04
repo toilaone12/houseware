@@ -2,7 +2,7 @@
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        <div class="sidebar-brand-text mx-3"><span class="text-warning">Home</span> & <span class="text-secondary">Ease</span></div>
+        <div class="sidebar-brand-text mx-3"><span class="font-bungee fs-25">HQN Store</span></div>
     </a>
 
     <!-- Divider -->

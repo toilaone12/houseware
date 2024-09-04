@@ -114,7 +114,7 @@
 
                         <div class="row">
                             <div class="col-xl-12 fs-30">
-                                Harper 7 Coffee
+                                HQN Store
                             </div>
                         </div>
                         <div class="row">
